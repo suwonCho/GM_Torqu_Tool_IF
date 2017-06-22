@@ -7,13 +7,20 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
+using Function;
+using Function.form;
+
 namespace GM_Torqu_Tool_IF
 {
-	public partial class frmMain : Form
+	public partial class frmMain : Function.form.frmWorkBase
 	{
 		public frmMain()
 		{
 			InitializeComponent();
+
+			vari.Init();
+
+			SavePosition_Setting = vari.Pgm_Setting;
 		}
 	}
 }

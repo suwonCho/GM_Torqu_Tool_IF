@@ -32,12 +32,16 @@
 			// 
 			// frmMain
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(746, 493);
+			this.ClientSize = new System.Drawing.Size(639, 493);
 			this.Name = "frmMain";
-			this.Text = "Form1";
+			this.SaveConfigFileType = Function.form.enConfigFileType.ConfigXml;
+			this.SavePosition = true;
+			this.Text = "TorquTool";
+			this.Title_Label = "Torqu Tool";
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
