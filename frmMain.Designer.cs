@@ -30,16 +30,22 @@
 		{
 			this.SuspendLayout();
 			// 
+			// Notifyicon
+			// 
+			this.Notifyicon.Visible = true;
+			// 
 			// frmMain
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(639, 493);
 			this.Name = "frmMain";
+			this.Notifyicon_Visible = true;
+			this.PromptQuitPgm = true;
 			this.SaveConfigFileType = Function.form.enConfigFileType.ConfigXml;
 			this.SavePosition = true;
-			this.Text = "TorquTool";
-			this.Title_Label = "Torqu Tool";
+			this.Text = "TorqueTool";
+			this.Title_Label = "Torque Tool";
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
