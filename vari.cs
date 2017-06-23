@@ -26,13 +26,16 @@ namespace GM_Torqu_Tool_IF
 		/// </summary>
 		public static string Pgm_Setting_FileName = "TorquTool_Setting.xml";
 
-
-
-
 		/// <summary>
 		/// 프로그램 설정 파일
 		/// </summary>
 		public static Function.Setting Pgm_Setting;
+
+
+		/// <summary>
+		/// SQL Connection Info
+		/// </summary>
+		public static Function.Db.MsSQL.strConnect conn;
 
 
 
@@ -49,7 +52,31 @@ namespace GM_Torqu_Tool_IF
 			Pgm_Setting = new Setting(Pgm_Setting_FileName);
 
 
+			Pgm_Setting.Group_Select("MsSql");
 
+			conn.strIP = Pgm_Setting.Value_Get("IP", string.Empty);
+			conn.strDataBase = Pgm_Setting.Value_Get("DataBase", string.Empty);
+			conn.strID = Pgm_Setting.Value_Get("ID", string.Empty);
+			conn.strPass = Pgm_Setting.Value_Get("PassWords", string.Empty);
 		}
+
+		/// <summary>
+		/// 변경된 DB 연결 정보를 저장한다.
+		/// </summary>
+		public static void DB_Setting_Save()
+		{
+			Pgm_Setting.Group_Select("MsSql");
+
+
+			Pgm_Setting.Value_Set("IP", conn.strIP);
+			Pgm_Setting.Value_Set("DataBase", conn.strDataBase);
+			Pgm_Setting.Value_Set("ID", conn.strID);
+			Pgm_Setting.Value_Set("PassWords", conn.strPass);
+
+			Pgm_Setting.Setting_Save();
+		}
+		
+
+
 	}
 }

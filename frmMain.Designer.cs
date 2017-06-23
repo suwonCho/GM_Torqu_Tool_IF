@@ -28,17 +28,30 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.btnSetting = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// Notifyicon
 			// 
 			this.Notifyicon.Visible = true;
 			// 
+			// btnSetting
+			// 
+			this.btnSetting.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnSetting.Location = new System.Drawing.Point(658, 60);
+			this.btnSetting.Name = "btnSetting";
+			this.btnSetting.Size = new System.Drawing.Size(75, 23);
+			this.btnSetting.TabIndex = 2;
+			this.btnSetting.Text = "환경설정";
+			this.btnSetting.UseVisualStyleBackColor = true;
+			this.btnSetting.Click += new System.EventHandler(this.btnSetting_Click);
+			// 
 			// frmMain
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(639, 493);
+			this.ClientSize = new System.Drawing.Size(745, 440);
+			this.Controls.Add(this.btnSetting);
 			this.Name = "frmMain";
 			this.Notifyicon_Visible = true;
 			this.PromptQuitPgm = true;
@@ -46,12 +59,15 @@
 			this.SavePosition = true;
 			this.Text = "TorqueTool";
 			this.Title_Label = "Torque Tool";
+			this.Controls.SetChildIndex(this.btnSetting, 0);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
 		}
 
 		#endregion
+
+		private System.Windows.Forms.Button btnSetting;
 	}
 }
 

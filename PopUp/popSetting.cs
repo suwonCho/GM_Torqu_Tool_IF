@@ -7,31 +7,26 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-using Function;
-using Function.form;
-
 namespace GM_Torqu_Tool_IF
 {
-	public partial class frmMain : Function.form.frmWorkBase
+	public partial class popSetting : Form
 	{
-		public frmMain()
+		public popSetting()
 		{
 			InitializeComponent();
-
-			vari.Init();
-
-			SavePosition_Setting = vari.Pgm_Setting;
 		}
 
 		/// <summary>
-		/// 환경 설정
+		/// DB 설정
 		/// </summary>
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
-		private void btnSetting_Click(object sender, EventArgs e)
+		private void txtSQL_Setting_Click(object sender, Function.form.usrEventArgs e)
 		{
-			popSetting frm = new popSetting();
-			frm.ShowDialog(this);
+			Function.form.Db.DBSetting con = new Function.form.Db.DBSetting(vari.conn);
+
+			con.ShowDialog(this);
+
 		}
 	}
 }
