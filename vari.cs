@@ -158,11 +158,7 @@ namespace GM_Torqu_Tool_IF
 			//프로그램 설정
 			Pgm_Setting.Group_Select("PGM");
 			OpMode = (enOpMode)Fnc.obj2int(vari.Pgm_Setting.Value_Get("OPMODE", "0"));
-
-
-			//코드 정보 로드
-			DB_CodeDetail_Load();
-
+			
 		}
 
 		public static void PLC_Setting_Save()
@@ -207,10 +203,17 @@ namespace GM_Torqu_Tool_IF
 		/// </summary>
 		public static void DB_CodeDetail_Load()
 		{
-			dba.code_chk();
+			try
+			{
+				dba.code_chk();
 
-			dt_tool_name = dba.codedetail_get("TOOL_NAME");
-			dt_rst_name = dba.codedetail_get("RST_NAME");
+				dt_tool_name = dba.codedetail_get("TOOL_NAME");
+				dt_rst_name = dba.codedetail_get("RST_NAME");
+			}
+			catch
+			{
+
+			}
 
 		}
 

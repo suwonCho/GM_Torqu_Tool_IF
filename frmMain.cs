@@ -14,6 +14,12 @@ namespace GM_Torqu_Tool_IF
 {
 	public partial class frmMain : Function.form.frmWorkBase
 	{
+		/// <summary>
+		/// plc 통신 모듈
+		/// </summary>
+		PLCModule.clsPLCModule opc = null;
+
+
 		public frmMain()
 		{
 			InitializeComponent();
@@ -44,9 +50,22 @@ namespace GM_Torqu_Tool_IF
 				}
 				else
 				{   //조화 Only
-					tabControl1.TabPages.Remove(tabMonitoring);
-					
+					tabControl1.TabPages.Remove(tabMonitoring);					
 				}
+
+				//코드 정보 로드
+				vari.DB_CodeDetail_Load();
+
+				//plc 연결 정보 초기화
+				if (opc != null) opc.Dispose();
+
+				Application.DoEvents();
+
+				opc = new PLCModule.clsPLCModule(PLCModule.enPlcType.AB, vari.plc.RSLINX_ID, vari.plc.RSLINX_ID, "Torque", "Torque", 1000, "Torque_PLC");
+				opc.AddAddress(new string[] { vari.plc.Add_Trigger, vari.plc.Add_Ack, vari.plc.Add_Data });
+				opc.OnChConnectionStatus += Opc_OnChConnectionStatus; 
+				opc.
+				
 
 
 
@@ -56,6 +75,15 @@ namespace GM_Torqu_Tool_IF
 				ProcException(ex, "Form_Init");
 			}
 
+		}
+
+		/// <summary>
+		/// plc상태 변경
+		/// </summary>
+		/// <param name="bolSocketStats"></param>
+		private void Opc_OnChConnectionStatus(bool bolSocketStats)
+		{
+			throw new NotImplementedException();
 		}
 
 

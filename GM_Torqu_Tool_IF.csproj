@@ -114,6 +114,10 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <ProjectReference Include="..\..\_Function\NewFunction\Function\AppAuth\AppAuth.csproj">
+      <Project>{78c34a59-0d62-46f6-93c1-ebb0d59af147}</Project>
+      <Name>AppAuth</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\_Function\NewFunction\Function\Function.form\Function.form.csproj">
       <Project>{d92b5672-4f0d-407a-ac14-d97dca94e803}</Project>
       <Name>Function.form</Name>

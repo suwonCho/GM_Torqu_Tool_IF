@@ -45,9 +45,10 @@
 			// 
 			this.btnSetting.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnSetting.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.btnSetting.Location = new System.Drawing.Point(975, 22);
+			this.btnSetting.Location = new System.Drawing.Point(1301, 28);
+			this.btnSetting.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.btnSetting.Name = "btnSetting";
-			this.btnSetting.Size = new System.Drawing.Size(84, 27);
+			this.btnSetting.Size = new System.Drawing.Size(112, 34);
 			this.btnSetting.TabIndex = 2;
 			this.btnSetting.Text = "   환경설정";
 			this.btnSetting.UseVisualStyleBackColor = true;
@@ -59,52 +60,58 @@
 			this.pnlStatus.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.pnlStatus.Controls.Add(this.btnSetting);
 			this.pnlStatus.Dock = System.Windows.Forms.DockStyle.Top;
-			this.pnlStatus.Location = new System.Drawing.Point(0, 54);
+			this.pnlStatus.Location = new System.Drawing.Point(0, 68);
+			this.pnlStatus.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.pnlStatus.Name = "pnlStatus";
-			this.pnlStatus.Size = new System.Drawing.Size(1064, 54);
+			this.pnlStatus.Size = new System.Drawing.Size(1419, 67);
 			this.pnlStatus.TabIndex = 3;
 			// 
 			// tabControl1
 			// 
 			this.tabControl1.Alignment = System.Windows.Forms.TabAlignment.Bottom;
-			this.tabControl1.Appearance = System.Windows.Forms.TabAppearance.Buttons;
 			this.tabControl1.Controls.Add(this.tabMonitoring);
 			this.tabControl1.Controls.Add(this.tabSearching);
 			this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tabControl1.Location = new System.Drawing.Point(0, 108);
+			this.tabControl1.Location = new System.Drawing.Point(0, 135);
+			this.tabControl1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(1064, 565);
+			this.tabControl1.Size = new System.Drawing.Size(1419, 708);
 			this.tabControl1.TabIndex = 4;
 			// 
 			// tabMonitoring
 			// 
+			this.tabMonitoring.BackColor = System.Drawing.SystemColors.Control;
+			this.tabMonitoring.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.tabMonitoring.Location = new System.Drawing.Point(4, 4);
+			this.tabMonitoring.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.tabMonitoring.Name = "tabMonitoring";
-			this.tabMonitoring.Padding = new System.Windows.Forms.Padding(3);
-			this.tabMonitoring.Size = new System.Drawing.Size(1056, 0);
+			this.tabMonitoring.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.tabMonitoring.Size = new System.Drawing.Size(1411, 679);
 			this.tabMonitoring.TabIndex = 0;
 			this.tabMonitoring.Text = "모니터링";
-			this.tabMonitoring.UseVisualStyleBackColor = true;
 			// 
 			// tabSearching
 			// 
+			this.tabSearching.BackColor = System.Drawing.SystemColors.Control;
+			this.tabSearching.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.tabSearching.Location = new System.Drawing.Point(4, 4);
+			this.tabSearching.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
 			this.tabSearching.Name = "tabSearching";
-			this.tabSearching.Padding = new System.Windows.Forms.Padding(3);
-			this.tabSearching.Size = new System.Drawing.Size(1056, 0);
+			this.tabSearching.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+			this.tabSearching.Size = new System.Drawing.Size(1411, 679);
 			this.tabSearching.TabIndex = 1;
 			this.tabSearching.Text = "조 회";
-			this.tabSearching.UseVisualStyleBackColor = true;
 			// 
 			// frmMain
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(1064, 695);
+			this.ClientSize = new System.Drawing.Size(1419, 869);
 			this.Controls.Add(this.tabControl1);
 			this.Controls.Add(this.pnlStatus);
 			this.isUseFormInit = true;
+			this.Margin = new System.Windows.Forms.Padding(5, 5, 5, 5);
 			this.Name = "frmMain";
 			this.Notifyicon_Visible = true;
 			this.PromptQuitPgm = true;
