@@ -109,6 +109,10 @@ namespace GM_Torqu_Tool_IF
 		/// </summary>
 		public static ImageList ImgList = new ImageList();
 
+		/// <summary>
+		/// 최대 로그 유지 숫자
+		/// </summary>
+		public static int iLogMaxCnt = 100;
 
 
 		/// <summary>
