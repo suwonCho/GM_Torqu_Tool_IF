@@ -123,6 +123,121 @@ END;
 		}
 
 
+		public static void Data_Insert(string vin, string trimin, string pono, string cartype, string rst, string data)
+		{
+			MsSQL sql = new MsSQL(vari.conn);
+
+			string fld = string.Empty;
+			string vals = string.Empty;
+			
+			int[] toolLength = new int[] { 4, 4, 2 };
+
+
+			for(int t=1; t <= vari.tool_max_lenth; t++)
+			{
+				for(int n=1; n <= vari.rst_max_lenth; n++)
+				{					
+					fld += $", T{t:D2}_N{n:D2}";
+					vals += $", '{Fnc.StringGet(ref data,toolLength[n-1])}'";					
+				}
+
+				if (data.Length < 1) break;
+			}
+
+			string qry = string.Format(@"
+DECLARE 
+	@dtNow DATETIME
+BEGIN
+
+	SET @dtNow = GETDATE();
+
+	INSERT INTO T_RESULT 
+		(CREATEDATE, PONO, TRIMINSEQ, VIN, CARTYPE, TOTALRESULT
+		{0}	)
+	VALUES
+		(@dtNow, '{1}', '{2}', '{3}', '{4}', '{5}'
+		{6} );
+
+END;
+
+", fld, pono, trimin, vin, cartype, rst, vals );
+
+			sql.Excute_Query(qry, "");
+
+		}
+
+
+		public static DataTable Data_Search(DateTime dtFrom, DateTime dtTo, string cartype, string pono, string vin, string trimin, string rst)
+		{
+			MsSQL sql = new MsSQL(vari.conn);
+
+			string col;
+			string nm = string.Empty;
+			string cols = string.Empty;
+			string where = string.Empty;
+			DataRow[] rows;
+			
+			//조회 컬럼 이름 변경
+			for (int t = 1; t <= vari.tool_max_lenth; t++)
+			{
+				for (int n = 1; n <= vari.rst_max_lenth; n++)
+				{
+					nm = string.Empty;
+
+					col = $"T{t:D2}";
+
+					rows = vari.dt_tool_name.Select($"CODEVALUE = '{col}'");
+
+					if (rows.Length > 0) nm = Fnc.obj2String(rows[0]["CODEVALUENAME"]);
+
+					if (!nm.Equals(string.Empty))
+					{
+						col = $"N{n:D2}";
+
+						rows = vari.dt_rst_name.Select($"CODEVALUE = '{col}'");
+
+						if (rows.Length > 0)
+							nm = $"'{nm}[{rows[0]["CODEVALUENAME"]}]'";
+						else
+							nm = string.Empty;
+					}
+
+					if (nm.Equals(string.Empty)) break;
+
+					cols += $", T{t:D2}_N{n:D2} {nm}";
+				}
+
+				if (nm.Equals(string.Empty)) break;
+			}
+
+
+			//조회 조건 만듦
+			where = string.Format("AND CreateDate between  CONVERT(datetime,'{0}') and CONVERT(datetime,'{1}')", Fnc.Date2String(dtFrom, Fnc.enDateType.DateTime), Fnc.Date2String(dtTo, Fnc.enDateType.DateTime));
+			
+			if (!cartype.Equals(string.Empty)) where += $"\r\n\t AND CARTYPE = '{cartype}' ";
+			if (!pono.Equals(string.Empty)) where += $"\r\n\t AND PONO = '{pono}' ";
+			if (!vin.Equals(string.Empty)) where += $"\r\n\t AND VIN = '{vin}' ";
+			if (!trimin.Equals(string.Empty)) where += $"\r\n\t AND TRIMINSEQ = '{trimin}' ";
+			if (!rst.Equals(string.Empty)) where += $"\r\n\t AND TOTALRESULT = '{cartype}' ";
+
+
+
+
+
+			string qry = string.Format(@"
+SELECT  CreateDate 작업시간, PONO, TrimInSeq, VIN, CarType, TotalResult 'FASTENING FINAL'  
+	{0}
+FROM     T_Result
+WHERE 1=1
+{1}	
+ORDER BY CreateDate
+",cols, where);
+
+			return sql.Excute_Query(qry, "").Tables[0];
+
+		}
+
+
 
 	}
 }

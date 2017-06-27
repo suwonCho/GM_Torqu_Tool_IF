@@ -104,6 +104,7 @@ namespace GM_Torqu_Tool_IF
 		public static enOpMode OpMode;
 
 
+
 		/// <summary>
 		/// 프로그램에서 사용 할 이미지 리스트
 		/// </summary>
