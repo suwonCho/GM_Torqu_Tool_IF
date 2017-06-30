@@ -41,6 +41,7 @@
 			this.btnSave = new System.Windows.Forms.Button();
 			this.chkWinStartUp = new System.Windows.Forms.CheckBox();
 			this.inpOpMode = new Function.form.usrInputBox();
+			this.inpStationID = new Function.form.usrInputBox();
 			this.panel1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -72,16 +73,16 @@
 			this.txtSQL_Setting.Label_TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.txtSQL_Setting.Label_Visable = true;
 			this.txtSQL_Setting.LabelWidth = 120;
-			this.txtSQL_Setting.Location = new System.Drawing.Point(5, 37);
+			this.txtSQL_Setting.Location = new System.Drawing.Point(5, 59);
 			this.txtSQL_Setting.Multiline = false;
 			this.txtSQL_Setting.Name = "txtSQL_Setting";
 			this.txtSQL_Setting.Orientation = System.Windows.Forms.Orientation.Vertical;
-			this.txtSQL_Setting.Size = new System.Drawing.Size(248, 24);
+			this.txtSQL_Setting.Size = new System.Drawing.Size(313, 24);
 			this.txtSQL_Setting.TabIndex = 0;
-			this.txtSQL_Setting.TEXT = "환 경 설 정";
 			this.txtSQL_Setting.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.txtSQL_Setting.TextBox_AcceptsTab = false;
-			this.txtSQL_Setting.TEXTBOX_PasswordChar = '\0';
+			this.txtSQL_Setting.TextBox_MaxLength = 32767;
+			this.txtSQL_Setting.TextBox_PasswordChar = '\0';
 			this.txtSQL_Setting.TextBox_TabStopsLength = 8;
 			this.txtSQL_Setting.TextType = Function.form.usrInputBox.enTextType.All;
 			this.txtSQL_Setting.Value = "환 경 설 정";
@@ -95,7 +96,7 @@
 			this.label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.label1.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
 			this.label1.ForeColor = System.Drawing.Color.White;
-			this.label1.Location = new System.Drawing.Point(3, 98);
+			this.label1.Location = new System.Drawing.Point(3, 120);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(397, 23);
 			this.label1.TabIndex = 1;
@@ -109,7 +110,7 @@
 			this.panel1.Controls.Add(this.inpPLC_Add_Trigger);
 			this.panel1.Controls.Add(this.inpPLC_RsLinx_ID);
 			this.panel1.Controls.Add(this.inpPLC_Topic);
-			this.panel1.Location = new System.Drawing.Point(3, 121);
+			this.panel1.Location = new System.Drawing.Point(3, 143);
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(397, 138);
 			this.panel1.TabIndex = 2;
@@ -150,10 +151,10 @@
 			this.inpPLC_Add_Data.Orientation = System.Windows.Forms.Orientation.Vertical;
 			this.inpPLC_Add_Data.Size = new System.Drawing.Size(389, 23);
 			this.inpPLC_Add_Data.TabIndex = 5;
-			this.inpPLC_Add_Data.TEXT = "";
 			this.inpPLC_Add_Data.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.inpPLC_Add_Data.TextBox_AcceptsTab = false;
-			this.inpPLC_Add_Data.TEXTBOX_PasswordChar = '\0';
+			this.inpPLC_Add_Data.TextBox_MaxLength = 32767;
+			this.inpPLC_Add_Data.TextBox_PasswordChar = '\0';
 			this.inpPLC_Add_Data.TextBox_TabStopsLength = 8;
 			this.inpPLC_Add_Data.TextType = Function.form.usrInputBox.enTextType.All;
 			this.inpPLC_Add_Data.Value = "";
@@ -194,10 +195,10 @@
 			this.inpPLC_Add_Ack.Orientation = System.Windows.Forms.Orientation.Vertical;
 			this.inpPLC_Add_Ack.Size = new System.Drawing.Size(389, 23);
 			this.inpPLC_Add_Ack.TabIndex = 4;
-			this.inpPLC_Add_Ack.TEXT = "";
 			this.inpPLC_Add_Ack.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.inpPLC_Add_Ack.TextBox_AcceptsTab = false;
-			this.inpPLC_Add_Ack.TEXTBOX_PasswordChar = '\0';
+			this.inpPLC_Add_Ack.TextBox_MaxLength = 32767;
+			this.inpPLC_Add_Ack.TextBox_PasswordChar = '\0';
 			this.inpPLC_Add_Ack.TextBox_TabStopsLength = 8;
 			this.inpPLC_Add_Ack.TextType = Function.form.usrInputBox.enTextType.All;
 			this.inpPLC_Add_Ack.Value = "";
@@ -238,10 +239,10 @@
 			this.inpPLC_Add_Trigger.Orientation = System.Windows.Forms.Orientation.Vertical;
 			this.inpPLC_Add_Trigger.Size = new System.Drawing.Size(389, 23);
 			this.inpPLC_Add_Trigger.TabIndex = 3;
-			this.inpPLC_Add_Trigger.TEXT = "";
 			this.inpPLC_Add_Trigger.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.inpPLC_Add_Trigger.TextBox_AcceptsTab = false;
-			this.inpPLC_Add_Trigger.TEXTBOX_PasswordChar = '\0';
+			this.inpPLC_Add_Trigger.TextBox_MaxLength = 32767;
+			this.inpPLC_Add_Trigger.TextBox_PasswordChar = '\0';
 			this.inpPLC_Add_Trigger.TextBox_TabStopsLength = 8;
 			this.inpPLC_Add_Trigger.TextType = Function.form.usrInputBox.enTextType.All;
 			this.inpPLC_Add_Trigger.Value = "";
@@ -282,10 +283,10 @@
 			this.inpPLC_RsLinx_ID.Orientation = System.Windows.Forms.Orientation.Vertical;
 			this.inpPLC_RsLinx_ID.Size = new System.Drawing.Size(389, 23);
 			this.inpPLC_RsLinx_ID.TabIndex = 2;
-			this.inpPLC_RsLinx_ID.TEXT = "";
 			this.inpPLC_RsLinx_ID.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.inpPLC_RsLinx_ID.TextBox_AcceptsTab = false;
-			this.inpPLC_RsLinx_ID.TEXTBOX_PasswordChar = '\0';
+			this.inpPLC_RsLinx_ID.TextBox_MaxLength = 32767;
+			this.inpPLC_RsLinx_ID.TextBox_PasswordChar = '\0';
 			this.inpPLC_RsLinx_ID.TextBox_TabStopsLength = 8;
 			this.inpPLC_RsLinx_ID.TextType = Function.form.usrInputBox.enTextType.All;
 			this.inpPLC_RsLinx_ID.Value = "";
@@ -326,10 +327,10 @@
 			this.inpPLC_Topic.Orientation = System.Windows.Forms.Orientation.Vertical;
 			this.inpPLC_Topic.Size = new System.Drawing.Size(389, 23);
 			this.inpPLC_Topic.TabIndex = 1;
-			this.inpPLC_Topic.TEXT = "";
 			this.inpPLC_Topic.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.inpPLC_Topic.TextBox_AcceptsTab = false;
-			this.inpPLC_Topic.TEXTBOX_PasswordChar = '\0';
+			this.inpPLC_Topic.TextBox_MaxLength = 32767;
+			this.inpPLC_Topic.TextBox_PasswordChar = '\0';
 			this.inpPLC_Topic.TextBox_TabStopsLength = 8;
 			this.inpPLC_Topic.TextType = Function.form.usrInputBox.enTextType.All;
 			this.inpPLC_Topic.Value = "";
@@ -362,16 +363,16 @@
 			this.inpToolMng.Label_TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.inpToolMng.Label_Visable = true;
 			this.inpToolMng.LabelWidth = 120;
-			this.inpToolMng.Location = new System.Drawing.Point(5, 67);
+			this.inpToolMng.Location = new System.Drawing.Point(5, 89);
 			this.inpToolMng.Multiline = false;
 			this.inpToolMng.Name = "inpToolMng";
 			this.inpToolMng.Orientation = System.Windows.Forms.Orientation.Vertical;
-			this.inpToolMng.Size = new System.Drawing.Size(248, 24);
+			this.inpToolMng.Size = new System.Drawing.Size(313, 24);
 			this.inpToolMng.TabIndex = 3;
-			this.inpToolMng.TEXT = "관 리";
 			this.inpToolMng.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.inpToolMng.TextBox_AcceptsTab = false;
-			this.inpToolMng.TEXTBOX_PasswordChar = '\0';
+			this.inpToolMng.TextBox_MaxLength = 32767;
+			this.inpToolMng.TextBox_PasswordChar = '\0';
 			this.inpToolMng.TextBox_TabStopsLength = 8;
 			this.inpToolMng.TextType = Function.form.usrInputBox.enTextType.All;
 			this.inpToolMng.Value = "관 리";
@@ -381,7 +382,7 @@
 			// 
 			this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnCancel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.btnCancel.Location = new System.Drawing.Point(262, 262);
+			this.btnCancel.Location = new System.Drawing.Point(262, 299);
 			this.btnCancel.Name = "btnCancel";
 			this.btnCancel.Size = new System.Drawing.Size(64, 23);
 			this.btnCancel.TabIndex = 10;
@@ -393,7 +394,7 @@
 			// 
 			this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.btnSave.Location = new System.Drawing.Point(332, 262);
+			this.btnSave.Location = new System.Drawing.Point(332, 299);
 			this.btnSave.Name = "btnSave";
 			this.btnSave.Size = new System.Drawing.Size(64, 23);
 			this.btnSave.TabIndex = 9;
@@ -404,8 +405,9 @@
 			// 
 			// chkWinStartUp
 			// 
+			this.chkWinStartUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.chkWinStartUp.AutoSize = true;
-			this.chkWinStartUp.Location = new System.Drawing.Point(3, 265);
+			this.chkWinStartUp.Location = new System.Drawing.Point(3, 303);
 			this.chkWinStartUp.Name = "chkWinStartUp";
 			this.chkWinStartUp.Size = new System.Drawing.Size(212, 16);
 			this.chkWinStartUp.TabIndex = 11;
@@ -415,7 +417,7 @@
 			// inpOpMode
 			// 
 			this.inpOpMode.BackColor = System.Drawing.SystemColors.Control;
-			this.inpOpMode.ChangeMark_Visable = false;
+			this.inpOpMode.ChangeMark_Visable = true;
 			this.inpOpMode.ComboBoxDataSource = null;
 			this.inpOpMode.ComboBoxDisplayMember = "";
 			this.inpOpMode.ComboBoxDropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -443,25 +445,70 @@
 			this.inpOpMode.Label_TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.inpOpMode.Label_Visable = true;
 			this.inpOpMode.LabelWidth = 120;
-			this.inpOpMode.Location = new System.Drawing.Point(5, 7);
+			this.inpOpMode.Location = new System.Drawing.Point(5, 29);
 			this.inpOpMode.Multiline = false;
 			this.inpOpMode.Name = "inpOpMode";
 			this.inpOpMode.Orientation = System.Windows.Forms.Orientation.Vertical;
-			this.inpOpMode.Size = new System.Drawing.Size(248, 24);
+			this.inpOpMode.Size = new System.Drawing.Size(313, 22);
 			this.inpOpMode.TabIndex = 12;
-			this.inpOpMode.TEXT = "";
 			this.inpOpMode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.inpOpMode.TextBox_AcceptsTab = false;
-			this.inpOpMode.TEXTBOX_PasswordChar = '\0';
+			this.inpOpMode.TextBox_MaxLength = 32767;
+			this.inpOpMode.TextBox_PasswordChar = '\0';
 			this.inpOpMode.TextBox_TabStopsLength = 8;
 			this.inpOpMode.TextType = Function.form.usrInputBox.enTextType.All;
 			this.inpOpMode.Value = "";
+			// 
+			// inpStationID
+			// 
+			this.inpStationID.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.inpStationID.BackColor = System.Drawing.SystemColors.Control;
+			this.inpStationID.ChangeMark_Visable = true;
+			this.inpStationID.ComboBoxDataSource = null;
+			this.inpStationID.ComboBoxDisplayMember = "";
+			this.inpStationID.ComboBoxDropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.inpStationID.ComboBoxSelectedValue = null;
+			this.inpStationID.ComboBoxSelectIndex = -1;
+			this.inpStationID.ComboBoxSelectItem = null;
+			this.inpStationID.ComboBoxValueMember = "";
+			this.inpStationID.DLabel_BackColor = System.Drawing.SystemColors.ButtonFace;
+			this.inpStationID.DLabel_Blink = Function.form.usrInputBox.enBlinkType.None;
+			this.inpStationID.DLabel_BlinkColor = System.Drawing.Color.White;
+			this.inpStationID.DLabel_BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.inpStationID.DLabel_Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+			this.inpStationID.DLabel_FontAutoSize = false;
+			this.inpStationID.DLabel_ForeColor = System.Drawing.SystemColors.ControlText;
+			this.inpStationID.DLabel_TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.inpStationID.InputType = Function.form.usrInputBox.enInputType.TEXTBOX;
+			this.inpStationID.Label_BackColor = System.Drawing.Color.Transparent;
+			this.inpStationID.Label_BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.inpStationID.Label_Font = new System.Drawing.Font("굴림", 9F);
+			this.inpStationID.Label_ForeColor = System.Drawing.SystemColors.ControlText;
+			this.inpStationID.Label_Text = "STATION ID";
+			this.inpStationID.Label_TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.inpStationID.Label_Visable = true;
+			this.inpStationID.LabelWidth = 120;
+			this.inpStationID.Location = new System.Drawing.Point(7, 3);
+			this.inpStationID.Multiline = false;
+			this.inpStationID.Name = "inpStationID";
+			this.inpStationID.Orientation = System.Windows.Forms.Orientation.Vertical;
+			this.inpStationID.Size = new System.Drawing.Size(311, 23);
+			this.inpStationID.TabIndex = 13;
+			this.inpStationID.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.inpStationID.TextBox_AcceptsTab = false;
+			this.inpStationID.TextBox_MaxLength = 32767;
+			this.inpStationID.TextBox_PasswordChar = '\0';
+			this.inpStationID.TextBox_TabStopsLength = 8;
+			this.inpStationID.TextType = Function.form.usrInputBox.enTextType.All;
+			this.inpStationID.Value = "";
 			// 
 			// popSetting
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(403, 288);
+			this.ClientSize = new System.Drawing.Size(403, 325);
+			this.Controls.Add(this.inpStationID);
 			this.Controls.Add(this.inpOpMode);
 			this.Controls.Add(this.chkWinStartUp);
 			this.Controls.Add(this.btnCancel);
@@ -475,6 +522,7 @@
 			this.Name = "popSetting";
 			this.ShowInTaskbar = false;
 			this.Text = "환경 설정";
+			this.Load += new System.EventHandler(this.popSetting_Load);
 			this.panel1.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -496,5 +544,6 @@
 		private System.Windows.Forms.Button btnSave;
 		private System.Windows.Forms.CheckBox chkWinStartUp;
 		private Function.form.usrInputBox inpOpMode;
+		private Function.form.usrInputBox inpStationID;
 	}
 }

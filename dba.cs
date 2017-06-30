@@ -46,6 +46,23 @@ namespace GM_Torqu_Tool_IF
 
 		}
 
+
+		/// <summary>
+		/// sql db연결 체크용 시간조회
+		/// </summary>
+		/// <returns></returns>
+		public static DateTime date_get()
+		{
+			MsSQL sql = new MsSQL(vari.conn);
+
+			string qry = string.Format("SELECT GETDATE()");
+
+			DataTable dt = sql.Excute_Query(qry, "").Tables[0];
+
+			return (DateTime)dt.Rows[0][0];
+		}
+
+
 		public static DataTable codedetail_get(string codename)
 		{
 			MsSQL sql = new MsSQL(vari.conn);
@@ -123,7 +140,7 @@ END;
 		}
 
 
-		public static void Data_Insert(string vin, string trimin, string pono, string cartype, string rst, string data)
+		public static void Data_Insert(string vin, string trimin, string pono, string cartype, string rst, string stationid, string data)
 		{
 			MsSQL sql = new MsSQL(vari.conn);
 
@@ -152,15 +169,15 @@ BEGIN
 	SET @dtNow = GETDATE();
 
 	INSERT INTO T_RESULT 
-		(CREATEDATE, PONO, TRIMINSEQ, VIN, CARTYPE, TOTALRESULT
+		(CREATEDATE, PONO, TRIMINSEQ, VIN, CARTYPE, TOTALRESULT, STATION_ID
 		{0}	)
 	VALUES
-		(@dtNow, '{1}', '{2}', '{3}', '{4}', '{5}'
+		(@dtNow, '{1}', '{2}', '{3}', '{4}', '{5}', '{7}'
 		{6} );
 
 END;
 
-", fld, pono, trimin, vin, cartype, rst, vals );
+", fld, pono, trimin, vin, cartype, rst, vals, stationid);
 
 			sql.Excute_Query(qry, "");
 
@@ -225,18 +242,37 @@ END;
 
 
 			string qry = string.Format(@"
-SELECT  CreateDate 작업시간, PONO, TrimInSeq, VIN, CarType, TotalResult 'FASTENING FINAL'  
+SELECT  CONVERT(nvarchar,CreateDate,120) 작업시간, PONO, TrimInSeq, VIN, CarType, TotalResult 'FASTENING FINAL'  
 	{0}
 FROM     T_Result
 WHERE 1=1
 {1}	
 ORDER BY CreateDate
-",cols, where);
+", cols, where);
 
 			return sql.Excute_Query(qry, "").Tables[0];
 
 		}
 
+
+		/// <summary>
+		/// 마지막 작업내역을 조회 한다.
+		/// </summary>
+		/// <param name="cnt"></param>
+		/// <returns></returns>
+
+		public static DataTable Data_LastWork(int cnt)
+		{
+			MsSQL sql = new MsSQL(vari.conn);
+
+			string qry = string.Format(@"
+SELECT TOP {0}  CreateDate, PONO, TrimInSeq, VIN, CarType, TotalResult 
+FROM     T_Result
+ORDER BY CreateDate DESC
+", cnt);
+
+			return sql.Excute_Query(qry, "").Tables[0];
+		}
 
 
 	}

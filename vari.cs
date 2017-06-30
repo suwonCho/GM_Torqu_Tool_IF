@@ -39,6 +39,10 @@ namespace GM_Torqu_Tool_IF
 		/// </summary>
 		public static Function.Db.MsSQL.strConnect conn;
 
+		/// <summary>
+		/// 기기 id
+		/// </summary>
+		public static string StationID;
 
 		
 
@@ -81,6 +85,11 @@ namespace GM_Torqu_Tool_IF
 		/// 결과 이름 데이터 테이블 N01~N03
 		/// </summary>
 		public static DataTable dt_rst_name;
+
+		/// <summary>
+		/// 테스트 화면요 seq
+		/// </summary>
+		public static int iTestSeq;
 
 
 		/// <summary>
@@ -126,6 +135,12 @@ namespace GM_Torqu_Tool_IF
 
 
 			Pgm_Setting = new Setting(Pgm_Setting_FileName);
+
+			Pgm_Setting.Group_Select("PGM");
+
+			//기기 id
+			StationID = Pgm_Setting.Value_Get("StationID", "DEV_01");
+			iTestSeq = Fnc.obj2int(Pgm_Setting.Value_Get("TestSeq", "0"));
 
 
 			//db 정보 로드

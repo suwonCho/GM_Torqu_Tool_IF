@@ -28,8 +28,10 @@
 		/// </summary>
 		private void InitializeComponent()
 		{			
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
 			this.btnSetting = new System.Windows.Forms.Button();
-			this.pnlStatus = new System.Windows.Forms.Panel();
+			this.picDB = new System.Windows.Forms.PictureBox();
+			this.picPLC = new System.Windows.Forms.PictureBox();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabMonitoring = new System.Windows.Forms.TabPage();
 			this.btnTest = new System.Windows.Forms.Button();
@@ -55,7 +57,8 @@
 			this.label4 = new System.Windows.Forms.Label();
 			this.dtFrom = new System.Windows.Forms.DateTimePicker();
 			this.label3 = new System.Windows.Forms.Label();
-			this.pnlStatus.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.picDB)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.picPLC)).BeginInit();
 			this.tabControl1.SuspendLayout();
 			this.tabMonitoring.SuspendLayout();
 			this.tabSearching.SuspendLayout();
@@ -69,26 +72,38 @@
 			// 
 			// btnSetting
 			// 
-			this.btnSetting.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnSetting.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnSetting.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.btnSetting.Location = new System.Drawing.Point(975, 22);
+			this.btnSetting.Location = new System.Drawing.Point(975, 1);
 			this.btnSetting.Name = "btnSetting";
-			this.btnSetting.Size = new System.Drawing.Size(84, 27);
+			this.btnSetting.Size = new System.Drawing.Size(83, 25);
 			this.btnSetting.TabIndex = 2;
 			this.btnSetting.Text = "   환경설정";
 			this.btnSetting.UseVisualStyleBackColor = true;
 			this.btnSetting.Click += new System.EventHandler(this.btnSetting_Click);
 			// 
-			// pnlStatus
+			// picDB
 			// 
-			this.pnlStatus.BackColor = System.Drawing.Color.White;
-			this.pnlStatus.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.pnlStatus.Controls.Add(this.btnSetting);
-			this.pnlStatus.Dock = System.Windows.Forms.DockStyle.Top;
-			this.pnlStatus.Location = new System.Drawing.Point(0, 54);
-			this.pnlStatus.Name = "pnlStatus";
-			this.pnlStatus.Size = new System.Drawing.Size(1064, 54);
-			this.pnlStatus.TabIndex = 3;
+			this.picDB.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.picDB.Image = global::GM_Torqu_Tool_IF.Properties.Resources.ramp_db_ng;
+			this.picDB.Location = new System.Drawing.Point(781, 16);
+			this.picDB.Name = "picDB";
+			this.picDB.Size = new System.Drawing.Size(50, 34);
+			this.picDB.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+			this.picDB.TabIndex = 4;
+			this.picDB.TabStop = false;
+			// 
+			// picPLC
+			// 
+			this.picPLC.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.picPLC.Image = global::GM_Torqu_Tool_IF.Properties.Resources.ramp_plc_ng;
+			this.picPLC.Location = new System.Drawing.Point(725, 16);
+			this.picPLC.Name = "picPLC";
+			this.picPLC.Size = new System.Drawing.Size(50, 34);
+			this.picPLC.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+			this.picPLC.TabIndex = 3;
+			this.picPLC.TabStop = false;
+			this.picPLC.DoubleClick += new System.EventHandler(this.picPLC_DoubleClick);
 			// 
 			// tabControl1
 			// 
@@ -96,10 +111,10 @@
 			this.tabControl1.Controls.Add(this.tabMonitoring);
 			this.tabControl1.Controls.Add(this.tabSearching);
 			this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tabControl1.Location = new System.Drawing.Point(0, 108);
+			this.tabControl1.Location = new System.Drawing.Point(0, 54);
 			this.tabControl1.Name = "tabControl1";
 			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(1064, 565);
+			this.tabControl1.Size = new System.Drawing.Size(1064, 619);
 			this.tabControl1.TabIndex = 4;
 			this.tabControl1.SelectedIndexChanged += new System.EventHandler(this.tabControl1_SelectedIndexChanged);
 			// 
@@ -113,14 +128,14 @@
 			this.tabMonitoring.Location = new System.Drawing.Point(4, 4);
 			this.tabMonitoring.Name = "tabMonitoring";
 			this.tabMonitoring.Padding = new System.Windows.Forms.Padding(3);
-			this.tabMonitoring.Size = new System.Drawing.Size(1056, 539);
+			this.tabMonitoring.Size = new System.Drawing.Size(1056, 593);
 			this.tabMonitoring.TabIndex = 0;
 			this.tabMonitoring.Text = "모니터링";
 			// 
 			// btnTest
 			// 
 			this.btnTest.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnTest.Location = new System.Drawing.Point(996, 516);
+			this.btnTest.Location = new System.Drawing.Point(996, 570);
 			this.btnTest.Margin = new System.Windows.Forms.Padding(2);
 			this.btnTest.Name = "btnTest";
 			this.btnTest.Size = new System.Drawing.Size(56, 18);
@@ -143,7 +158,7 @@
 			this.lstMoniLog.Margin = new System.Windows.Forms.Padding(2);
 			this.lstMoniLog.MultiSelect = false;
 			this.lstMoniLog.Name = "lstMoniLog";
-			this.lstMoniLog.Size = new System.Drawing.Size(1048, 508);
+			this.lstMoniLog.Size = new System.Drawing.Size(1048, 562);
 			this.lstMoniLog.TabIndex = 4;
 			this.lstMoniLog.UseCompatibleStateImageBehavior = false;
 			this.lstMoniLog.View = System.Windows.Forms.View.Details;
@@ -193,7 +208,7 @@
 			this.tabSearching.Location = new System.Drawing.Point(4, 4);
 			this.tabSearching.Name = "tabSearching";
 			this.tabSearching.Padding = new System.Windows.Forms.Padding(3);
-			this.tabSearching.Size = new System.Drawing.Size(1056, 539);
+			this.tabSearching.Size = new System.Drawing.Size(1056, 593);
 			this.tabSearching.TabIndex = 1;
 			this.tabSearching.Text = "조 회";
 			// 
@@ -208,7 +223,7 @@
 			this.grdSearch.ReadOnly = true;
 			this.grdSearch.RowTemplate.Height = 23;
 			this.grdSearch.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.grdSearch.Size = new System.Drawing.Size(1048, 443);
+			this.grdSearch.Size = new System.Drawing.Size(1048, 497);
 			this.grdSearch.TabIndex = 5;
 			// 
 			// pnlSearch_conditon
@@ -310,10 +325,10 @@
 			this.inpResult.Size = new System.Drawing.Size(151, 22);
 			this.inpResult.TabIndex = 8;
 			this.inpResult.Tag = "Result";
-			this.inpResult.TEXT = "";
+			this.inpResult.Text = "";
 			this.inpResult.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.inpResult.TextBox_AcceptsTab = false;
-			this.inpResult.TEXTBOX_PasswordChar = '\0';
+			this.inpResult.TextBox_PasswordChar = '\0';
 			this.inpResult.TextBox_TabStopsLength = 8;
 			this.inpResult.TextType = Function.form.usrInputBox.enTextType.All;
 			this.inpResult.Value = "";
@@ -357,10 +372,10 @@
 			this.inpVin.Size = new System.Drawing.Size(238, 23);
 			this.inpVin.TabIndex = 7;
 			this.inpVin.Tag = "Vin";
-			this.inpVin.TEXT = "";
+			this.inpVin.Text = "";
 			this.inpVin.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.inpVin.TextBox_AcceptsTab = false;
-			this.inpVin.TEXTBOX_PasswordChar = '\0';
+			this.inpVin.TextBox_PasswordChar = '\0';
 			this.inpVin.TextBox_TabStopsLength = 8;
 			this.inpVin.TextType = Function.form.usrInputBox.enTextType.All;
 			this.inpVin.Value = "";
@@ -404,10 +419,10 @@
 			this.inpTrimin.Size = new System.Drawing.Size(161, 23);
 			this.inpTrimin.TabIndex = 6;
 			this.inpTrimin.Tag = "TrimInSeq";
-			this.inpTrimin.TEXT = "";
+			this.inpTrimin.Text = "";
 			this.inpTrimin.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.inpTrimin.TextBox_AcceptsTab = false;
-			this.inpTrimin.TEXTBOX_PasswordChar = '\0';
+			this.inpTrimin.TextBox_PasswordChar = '\0';
 			this.inpTrimin.TextBox_TabStopsLength = 8;
 			this.inpTrimin.TextType = Function.form.usrInputBox.enTextType.All;
 			this.inpTrimin.Value = "";
@@ -451,10 +466,10 @@
 			this.inpPono.Size = new System.Drawing.Size(158, 23);
 			this.inpPono.TabIndex = 5;
 			this.inpPono.Tag = "PoNo";
-			this.inpPono.TEXT = "";
+			this.inpPono.Text = "";
 			this.inpPono.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.inpPono.TextBox_AcceptsTab = false;
-			this.inpPono.TEXTBOX_PasswordChar = '\0';
+			this.inpPono.TextBox_PasswordChar = '\0';
 			this.inpPono.TextBox_TabStopsLength = 8;
 			this.inpPono.TextType = Function.form.usrInputBox.enTextType.All;
 			this.inpPono.Value = "";
@@ -498,10 +513,10 @@
 			this.inpCartype.Size = new System.Drawing.Size(151, 22);
 			this.inpCartype.TabIndex = 4;
 			this.inpCartype.Tag = "CarType";
-			this.inpCartype.TEXT = "";
+			this.inpCartype.Text = "";
 			this.inpCartype.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.inpCartype.TextBox_AcceptsTab = false;
-			this.inpCartype.TEXTBOX_PasswordChar = '\0';
+			this.inpCartype.TextBox_PasswordChar = '\0';
 			this.inpCartype.TextBox_TabStopsLength = 8;
 			this.inpCartype.TextType = Function.form.usrInputBox.enTextType.All;
 			this.inpCartype.Value = "";
@@ -561,8 +576,11 @@
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1064, 695);
+			this.Controls.Add(this.picPLC);
+			this.Controls.Add(this.picDB);
+			this.Controls.Add(this.btnSetting);
 			this.Controls.Add(this.tabControl1);
-			this.Controls.Add(this.pnlStatus);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.isUseFormInit = true;
 			this.Margin = new System.Windows.Forms.Padding(4);
 			this.Name = "frmMain";
@@ -573,9 +591,12 @@
 			this.Text = "TorqueTool";
 			this.Title_Label = "Torque Tool";
 			this.SizeChanged += new System.EventHandler(this.frmMain_SizeChanged);
-			this.Controls.SetChildIndex(this.pnlStatus, 0);
 			this.Controls.SetChildIndex(this.tabControl1, 0);
-			this.pnlStatus.ResumeLayout(false);
+			this.Controls.SetChildIndex(this.btnSetting, 0);
+			this.Controls.SetChildIndex(this.picDB, 0);
+			this.Controls.SetChildIndex(this.picPLC, 0);
+			((System.ComponentModel.ISupportInitialize)(this.picDB)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.picPLC)).EndInit();
 			this.tabControl1.ResumeLayout(false);
 			this.tabMonitoring.ResumeLayout(false);
 			this.tabSearching.ResumeLayout(false);
@@ -590,7 +611,6 @@
 		#endregion
 
 		private System.Windows.Forms.Button btnSetting;
-		private System.Windows.Forms.Panel pnlStatus;
 		private System.Windows.Forms.TabControl tabControl1;
 		private System.Windows.Forms.TabPage tabMonitoring;
 		private System.Windows.Forms.TabPage tabSearching;
@@ -616,6 +636,8 @@
 		private Function.form.usrInputBox inpPono;
 		private System.Windows.Forms.Button btnCondition_reset;
 		private System.Windows.Forms.Button btnExcelSave;
+		private System.Windows.Forms.PictureBox picDB;
+		private System.Windows.Forms.PictureBox picPLC;
 	}
 }
 

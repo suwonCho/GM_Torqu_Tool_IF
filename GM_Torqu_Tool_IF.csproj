@@ -34,7 +34,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x86\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;TestPLC;Test</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
@@ -48,6 +48,9 @@
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Image\torque_icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -69,6 +72,12 @@
     <Compile Include="frmMain.Designer.cs">
       <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="popTest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="popTest.Designer.cs">
+      <DependentUpon>popTest.cs</DependentUpon>
+    </Compile>
     <Compile Include="PopUp\popToolMng.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -87,6 +96,9 @@
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="popTest.resx">
+      <DependentUpon>popTest.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="PopUp\popToolMng.resx">
       <DependentUpon>popToolMng.cs</DependentUpon>
     </EmbeddedResource>
@@ -101,6 +113,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -112,7 +125,9 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Image\ramp_db_n.png" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\_Function\NewFunction\Function\AppAuth\AppAuth.csproj">
       <Project>{78c34a59-0d62-46f6-93c1-ebb0d59af147}</Project>
@@ -130,6 +145,27 @@
       <Project>{863982ca-29cb-4ff7-b338-f770b85bc3c2}</Project>
       <Name>clsPLCModule</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Image\ramp_db_ng.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Image\ramp_db_ok.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Image\ramp_plc_n.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Image\ramp_plc_ng.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Image\ramp_plc_ok.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Image\torque_icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="torque_icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
