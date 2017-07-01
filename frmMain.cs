@@ -42,6 +42,10 @@ namespace GM_Torqu_Tool_IF
 
 		bool _db_conn = false;
 
+		System.Threading.Timer tmrWork = null;
+
+		bool isWork = false;
+
 		/// <summary>
 		/// db 연결 상태를 가져오거나 설정 한다.
 		/// </summary>
@@ -160,12 +164,12 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 			{
 				clsLog.WLog($"Data를 수신 했습니다.\r\n\t\t {data}");
 
-				string vin = Fnc.StringGet(ref data, 17);
-				string trimin = Fnc.StringGet(ref data, 4);
 				string pono = Fnc.StringGet(ref data, 6);
+				string trimin = Fnc.StringGet(ref data, 4);
+				string vin = Fnc.StringGet(ref data, 18).Trim();
 				string cartype = Fnc.StringGet(ref data, 3);
 				string rst = Fnc.StringGet(ref data, 2);
-
+				
 				string log = $"[PONO]{pono} [TrimIn]{trimin} [CarType]{cartype} [Vin]{vin} [Result]{rst}";
 
 				//db에 저장한다.
@@ -178,9 +182,14 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 			catch(Exception ex)
 			{
 				ProcException(ex, "Data_Proc");
+				throw ex;
 			}
 
 		}
+
+
+
+		private delegate void delMoniLogAdd(DateTime dtm, string gbn, string log, bool isError, Function.enStringLocation loc);
 
 		/// <summary>
 		/// 모니터링 로그를 추가한다.
@@ -189,6 +198,12 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 		/// <param name="log"></param>
 		private void MoniLogAdd(DateTime dtm, string gbn, string log, bool isError = false, Function.enStringLocation loc = enStringLocation.Front)
 		{
+			if(lstMoniLog.InvokeRequired)
+			{
+				lstMoniLog.Invoke(new delMoniLogAdd(MoniLogAdd), dtm, gbn, log, isError, loc);
+				return;
+			}
+
 			ListViewItem li = new ListViewItem(new string[] { string.Empty, Fnc.Date2String(dtm, Fnc.enDateType.DateTime), gbn, log });
 
 			if (loc == enStringLocation.Front)
@@ -276,6 +291,7 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 
 					opc.AddAddress(new string[] { vari.plc.Add_Trigger, vari.plc.Add_Ack, vari.plc.Add_Data });
 					opc.OnChConnectionStatus += Opc_OnChConnectionStatus;
+					
 					opc.Open();				
 
 				}
@@ -304,6 +320,13 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 					ProcException(ex, "DB 연결 초기화 실패", true);
 				}
 
+				//plc 체크 쓰래드
+				if(tmrWork == null)
+				{
+					tmrWork = new System.Threading.Timer(new TimerCallback(Work_Plc), null, 5000, 1000);
+
+				}
+
 
 				//조회 조건 초기화
 				Search_Conditon_Reset();
@@ -315,6 +338,37 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 				ProcException(ex, "Form_Init");
 			}
 
+		}
+
+		private void Work_Plc(object obj)
+		{
+			if (isWork) return;
+
+			try
+			{
+				isWork = true;
+
+				int trg_id = opc.GetValueInt(vari.plc.Add_Trigger);
+				int ack_id = opc.GetValueInt(vari.plc.Add_Ack);
+
+				if (trg_id == ack_id) return;
+
+				string data = opc.GetValueHex(vari.plc.Add_Data);
+
+				Data_Proc(data);
+
+				//ack_id <- trg_id
+				opc.WriteOrder(vari.plc.Add_Ack, trg_id);
+				
+			}
+			catch(Exception ex)
+			{
+				ProcException(ex, "Work_Plc", true);
+			}
+			finally
+			{
+				isWork = false;
+			}
 		}
 
 		/// <summary>
@@ -409,6 +463,9 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 			Data_Proc(strTest[iTest]);
 			iTest++;
 			*/
+
+			popTest pop = new popTest(opc);
+			pop.Show(this);
 
 		}
 

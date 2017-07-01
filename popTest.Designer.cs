@@ -30,8 +30,9 @@
 		{
 			this.inpInterval = new Function.form.usrInputBox();
 			this.inpSeq = new Function.form.usrInputBox();
-			this.usrInputBox1 = new Function.form.usrInputBox();
+			this.inpWorkCnt = new Function.form.usrInputBox();
 			this.btnRun = new System.Windows.Forms.Button();
+			this.inpID = new Function.form.usrInputBox();
 			this.SuspendLayout();
 			// 
 			// inpInterval
@@ -118,69 +119,113 @@
 			this.inpSeq.TextType = Function.form.usrInputBox.enTextType.All;
 			this.inpSeq.Value = "0";
 			// 
-			// usrInputBox1
+			// inpWorkCnt
 			// 
-			this.usrInputBox1.BackColor = System.Drawing.SystemColors.Control;
-			this.usrInputBox1.ChangeMark_Visable = false;
-			this.usrInputBox1.ComboBoxDataSource = null;
-			this.usrInputBox1.ComboBoxDisplayMember = "";
-			this.usrInputBox1.ComboBoxDropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.usrInputBox1.ComboBoxSelectedValue = null;
-			this.usrInputBox1.ComboBoxSelectIndex = -1;
-			this.usrInputBox1.ComboBoxSelectItem = null;
-			this.usrInputBox1.ComboBoxValueMember = "";
-			this.usrInputBox1.DLabel_BackColor = System.Drawing.Color.Transparent;
-			this.usrInputBox1.DLabel_Blink = Function.form.usrInputBox.enBlinkType.None;
-			this.usrInputBox1.DLabel_BlinkColor = System.Drawing.Color.White;
-			this.usrInputBox1.DLabel_BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.usrInputBox1.DLabel_Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-			this.usrInputBox1.DLabel_FontAutoSize = false;
-			this.usrInputBox1.DLabel_ForeColor = System.Drawing.SystemColors.ControlText;
-			this.usrInputBox1.DLabel_TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.usrInputBox1.InputType = Function.form.usrInputBox.enInputType.TEXTBOX;
-			this.usrInputBox1.Label_BackColor = System.Drawing.Color.Transparent;
-			this.usrInputBox1.Label_BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.usrInputBox1.Label_Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-			this.usrInputBox1.Label_ForeColor = System.Drawing.SystemColors.ControlText;
-			this.usrInputBox1.Label_Text = "테스트 횟수(0:무제한)";
-			this.usrInputBox1.Label_TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-			this.usrInputBox1.Label_Visable = true;
-			this.usrInputBox1.LabelWidth = -1;
-			this.usrInputBox1.Location = new System.Drawing.Point(3, 64);
-			this.usrInputBox1.Multiline = false;
-			this.usrInputBox1.Name = "usrInputBox1";
-			this.usrInputBox1.Orientation = System.Windows.Forms.Orientation.Vertical;
-			this.usrInputBox1.Size = new System.Drawing.Size(248, 24);
-			this.usrInputBox1.TabIndex = 2;
-			this.usrInputBox1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.usrInputBox1.TextBox_AcceptsTab = false;
-			this.usrInputBox1.TextBox_MaxLength = 32767;
-			this.usrInputBox1.TextBox_PasswordChar = '\0';
-			this.usrInputBox1.TextBox_TabStopsLength = 8;
-			this.usrInputBox1.TextType = Function.form.usrInputBox.enTextType.All;
-			this.usrInputBox1.Value = "0";
+			this.inpWorkCnt.BackColor = System.Drawing.SystemColors.Control;
+			this.inpWorkCnt.ChangeMark_Visable = false;
+			this.inpWorkCnt.ComboBoxDataSource = null;
+			this.inpWorkCnt.ComboBoxDisplayMember = "";
+			this.inpWorkCnt.ComboBoxDropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.inpWorkCnt.ComboBoxSelectedValue = null;
+			this.inpWorkCnt.ComboBoxSelectIndex = -1;
+			this.inpWorkCnt.ComboBoxSelectItem = null;
+			this.inpWorkCnt.ComboBoxValueMember = "";
+			this.inpWorkCnt.DLabel_BackColor = System.Drawing.Color.Transparent;
+			this.inpWorkCnt.DLabel_Blink = Function.form.usrInputBox.enBlinkType.None;
+			this.inpWorkCnt.DLabel_BlinkColor = System.Drawing.Color.White;
+			this.inpWorkCnt.DLabel_BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.inpWorkCnt.DLabel_Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+			this.inpWorkCnt.DLabel_FontAutoSize = false;
+			this.inpWorkCnt.DLabel_ForeColor = System.Drawing.SystemColors.ControlText;
+			this.inpWorkCnt.DLabel_TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.inpWorkCnt.InputType = Function.form.usrInputBox.enInputType.TEXTBOX;
+			this.inpWorkCnt.Label_BackColor = System.Drawing.Color.Transparent;
+			this.inpWorkCnt.Label_BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.inpWorkCnt.Label_Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+			this.inpWorkCnt.Label_ForeColor = System.Drawing.SystemColors.ControlText;
+			this.inpWorkCnt.Label_Text = "테스트 횟수(0:무제한)";
+			this.inpWorkCnt.Label_TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.inpWorkCnt.Label_Visable = true;
+			this.inpWorkCnt.LabelWidth = -1;
+			this.inpWorkCnt.Location = new System.Drawing.Point(3, 64);
+			this.inpWorkCnt.Multiline = false;
+			this.inpWorkCnt.Name = "inpWorkCnt";
+			this.inpWorkCnt.Orientation = System.Windows.Forms.Orientation.Vertical;
+			this.inpWorkCnt.Size = new System.Drawing.Size(248, 24);
+			this.inpWorkCnt.TabIndex = 2;
+			this.inpWorkCnt.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.inpWorkCnt.TextBox_AcceptsTab = false;
+			this.inpWorkCnt.TextBox_MaxLength = 32767;
+			this.inpWorkCnt.TextBox_PasswordChar = '\0';
+			this.inpWorkCnt.TextBox_TabStopsLength = 8;
+			this.inpWorkCnt.TextType = Function.form.usrInputBox.enTextType.All;
+			this.inpWorkCnt.Value = "0";
 			// 
 			// btnRun
 			// 
-			this.btnRun.Location = new System.Drawing.Point(196, 94);
+			this.btnRun.Location = new System.Drawing.Point(229, 94);
 			this.btnRun.Name = "btnRun";
-			this.btnRun.Size = new System.Drawing.Size(75, 23);
+			this.btnRun.Size = new System.Drawing.Size(42, 23);
 			this.btnRun.TabIndex = 3;
 			this.btnRun.Text = "수 행";
 			this.btnRun.UseVisualStyleBackColor = true;
 			this.btnRun.Click += new System.EventHandler(this.btnRun_Click);
+			// 
+			// inpID
+			// 
+			this.inpID.BackColor = System.Drawing.SystemColors.Control;
+			this.inpID.ChangeMark_Visable = false;
+			this.inpID.ComboBoxDataSource = null;
+			this.inpID.ComboBoxDisplayMember = "";
+			this.inpID.ComboBoxDropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.inpID.ComboBoxSelectedValue = null;
+			this.inpID.ComboBoxSelectIndex = -1;
+			this.inpID.ComboBoxSelectItem = null;
+			this.inpID.ComboBoxValueMember = "";
+			this.inpID.DLabel_BackColor = System.Drawing.Color.Transparent;
+			this.inpID.DLabel_Blink = Function.form.usrInputBox.enBlinkType.None;
+			this.inpID.DLabel_BlinkColor = System.Drawing.Color.White;
+			this.inpID.DLabel_BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.inpID.DLabel_Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+			this.inpID.DLabel_FontAutoSize = false;
+			this.inpID.DLabel_ForeColor = System.Drawing.SystemColors.ControlText;
+			this.inpID.DLabel_TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.inpID.InputType = Function.form.usrInputBox.enInputType.LABEL;
+			this.inpID.Label_BackColor = System.Drawing.Color.Transparent;
+			this.inpID.Label_BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.inpID.Label_Font = new System.Drawing.Font("굴림", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+			this.inpID.Label_ForeColor = System.Drawing.SystemColors.ControlText;
+			this.inpID.Label_Text = "Trigger / Ack ID";
+			this.inpID.Label_TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.inpID.Label_Visable = true;
+			this.inpID.LabelWidth = -1;
+			this.inpID.Location = new System.Drawing.Point(3, 93);
+			this.inpID.Multiline = false;
+			this.inpID.Name = "inpID";
+			this.inpID.Orientation = System.Windows.Forms.Orientation.Vertical;
+			this.inpID.Size = new System.Drawing.Size(220, 23);
+			this.inpID.TabIndex = 4;
+			this.inpID.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.inpID.TextBox_AcceptsTab = false;
+			this.inpID.TextBox_MaxLength = 4;
+			this.inpID.TextBox_PasswordChar = '\0';
+			this.inpID.TextBox_TabStopsLength = 8;
+			this.inpID.TextType = Function.form.usrInputBox.enTextType.All;
+			this.inpID.Value = "0 / 0";
 			// 
 			// popTest
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(274, 123);
+			this.Controls.Add(this.inpID);
 			this.Controls.Add(this.btnRun);
-			this.Controls.Add(this.usrInputBox1);
+			this.Controls.Add(this.inpWorkCnt);
 			this.Controls.Add(this.inpSeq);
 			this.Controls.Add(this.inpInterval);
 			this.Name = "popTest";
 			this.Text = "Torque Test";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.popTest_FormClosing);
 			this.Load += new System.EventHandler(this.popTest_Load);
 			this.ResumeLayout(false);
 
@@ -190,7 +235,8 @@
 
 		private Function.form.usrInputBox inpInterval;
 		private Function.form.usrInputBox inpSeq;
-		private Function.form.usrInputBox usrInputBox1;
+		private Function.form.usrInputBox inpWorkCnt;
 		private System.Windows.Forms.Button btnRun;
+		private Function.form.usrInputBox inpID;
 	}
 }
