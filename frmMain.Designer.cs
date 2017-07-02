@@ -325,9 +325,9 @@
 			this.inpResult.Size = new System.Drawing.Size(151, 22);
 			this.inpResult.TabIndex = 8;
 			this.inpResult.Tag = "Result";
-			this.inpResult.Text = "";
 			this.inpResult.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.inpResult.TextBox_AcceptsTab = false;
+			this.inpResult.TextBox_MaxLength = 32767;
 			this.inpResult.TextBox_PasswordChar = '\0';
 			this.inpResult.TextBox_TabStopsLength = 8;
 			this.inpResult.TextType = Function.form.usrInputBox.enTextType.All;
@@ -372,9 +372,9 @@
 			this.inpVin.Size = new System.Drawing.Size(238, 23);
 			this.inpVin.TabIndex = 7;
 			this.inpVin.Tag = "Vin";
-			this.inpVin.Text = "";
 			this.inpVin.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.inpVin.TextBox_AcceptsTab = false;
+			this.inpVin.TextBox_MaxLength = 32767;
 			this.inpVin.TextBox_PasswordChar = '\0';
 			this.inpVin.TextBox_TabStopsLength = 8;
 			this.inpVin.TextType = Function.form.usrInputBox.enTextType.All;
@@ -419,9 +419,9 @@
 			this.inpTrimin.Size = new System.Drawing.Size(161, 23);
 			this.inpTrimin.TabIndex = 6;
 			this.inpTrimin.Tag = "TrimInSeq";
-			this.inpTrimin.Text = "";
 			this.inpTrimin.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.inpTrimin.TextBox_AcceptsTab = false;
+			this.inpTrimin.TextBox_MaxLength = 32767;
 			this.inpTrimin.TextBox_PasswordChar = '\0';
 			this.inpTrimin.TextBox_TabStopsLength = 8;
 			this.inpTrimin.TextType = Function.form.usrInputBox.enTextType.All;
@@ -466,9 +466,9 @@
 			this.inpPono.Size = new System.Drawing.Size(158, 23);
 			this.inpPono.TabIndex = 5;
 			this.inpPono.Tag = "PoNo";
-			this.inpPono.Text = "";
 			this.inpPono.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.inpPono.TextBox_AcceptsTab = false;
+			this.inpPono.TextBox_MaxLength = 32767;
 			this.inpPono.TextBox_PasswordChar = '\0';
 			this.inpPono.TextBox_TabStopsLength = 8;
 			this.inpPono.TextType = Function.form.usrInputBox.enTextType.All;
@@ -513,9 +513,9 @@
 			this.inpCartype.Size = new System.Drawing.Size(151, 22);
 			this.inpCartype.TabIndex = 4;
 			this.inpCartype.Tag = "CarType";
-			this.inpCartype.Text = "";
 			this.inpCartype.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.inpCartype.TextBox_AcceptsTab = false;
+			this.inpCartype.TextBox_MaxLength = 32767;
 			this.inpCartype.TextBox_PasswordChar = '\0';
 			this.inpCartype.TextBox_TabStopsLength = 8;
 			this.inpCartype.TextType = Function.form.usrInputBox.enTextType.All;
@@ -590,6 +590,7 @@
 			this.SavePosition = true;
 			this.Text = "TorqueTool";
 			this.Title_Label = "Torque Tool";
+			this.Load += new System.EventHandler(this.frmMain_Load);
 			this.SizeChanged += new System.EventHandler(this.frmMain_SizeChanged);
 			this.Controls.SetChildIndex(this.tabControl1, 0);
 			this.Controls.SetChildIndex(this.btnSetting, 0);

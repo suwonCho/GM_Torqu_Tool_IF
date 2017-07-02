@@ -261,7 +261,7 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 
 				base.Form_Init();
 
-				Text = $"TorqueTool [{vari.StationID}]";
+				Text = $"TorqueTool [{vari.StationID}] v.{Application.ProductVersion}";
 				Title_Label = $"TorqueTool [{vari.StationID}]";
 
 				//운영모드 확인
@@ -598,6 +598,11 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 		private void picPLC_DoubleClick(object sender, EventArgs e)
 		{
 			opc.MonitorFormOpen();
+		}
+
+		private void frmMain_Load(object sender, EventArgs e)
+		{
+
 		}
 	}
 }
