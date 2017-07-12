@@ -130,6 +130,10 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 ).Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
 
 
+			
+
+
+
 		}
 
 
@@ -260,9 +264,19 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 			{
 
 				base.Form_Init();
-
+				
 				Text = $"TorqueTool [{vari.StationID}] v.{Application.ProductVersion}";
 				Title_Label = $"TorqueTool [{vari.StationID}]";
+
+				//중복 실행 방지
+				if (!Function.form.control.ProgramRunCheck("GM_Torqu_Tool_IF"))
+				{
+					Function.clsFunction.ShowMsg(this, "중복실행", "이미 프로그램이 수행 중입니다.", frmMessage.enMessageType.OK, 3);
+					DialogResult = System.Windows.Forms.DialogResult.Ignore;
+					this.Close();
+					return;
+				}
+
 
 				//운영모드 확인
 				if (vari.OpMode == vari.enOpMode.Monitoring)
