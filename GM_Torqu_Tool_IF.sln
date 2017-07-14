@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "clsPLCModule", "..\..\_Func
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppAuth", "..\..\_Function\NewFunction\Function\AppAuth\AppAuth.csproj", "{78C34A59-0D62-46F6-93C1-EBB0D59AF147}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLCComm", "..\..\_Function\NewFunction\PLC\PLCComm\PLCComm.csproj", "{ADD5B9B9-CB9E-4407-BBD7-DD8D885D8AC7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,18 @@ Global
 		{78C34A59-0D62-46F6-93C1-EBB0D59AF147}.Release|x64.Build.0 = Release|Any CPU
 		{78C34A59-0D62-46F6-93C1-EBB0D59AF147}.Release|x86.ActiveCfg = Release|x86
 		{78C34A59-0D62-46F6-93C1-EBB0D59AF147}.Release|x86.Build.0 = Release|x86
+		{ADD5B9B9-CB9E-4407-BBD7-DD8D885D8AC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADD5B9B9-CB9E-4407-BBD7-DD8D885D8AC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADD5B9B9-CB9E-4407-BBD7-DD8D885D8AC7}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{ADD5B9B9-CB9E-4407-BBD7-DD8D885D8AC7}.Debug|x64.Build.0 = Debug|Any CPU
+		{ADD5B9B9-CB9E-4407-BBD7-DD8D885D8AC7}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{ADD5B9B9-CB9E-4407-BBD7-DD8D885D8AC7}.Debug|x86.Build.0 = Debug|Any CPU
+		{ADD5B9B9-CB9E-4407-BBD7-DD8D885D8AC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADD5B9B9-CB9E-4407-BBD7-DD8D885D8AC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADD5B9B9-CB9E-4407-BBD7-DD8D885D8AC7}.Release|x64.ActiveCfg = Release|Any CPU
+		{ADD5B9B9-CB9E-4407-BBD7-DD8D885D8AC7}.Release|x64.Build.0 = Release|Any CPU
+		{ADD5B9B9-CB9E-4407-BBD7-DD8D885D8AC7}.Release|x86.ActiveCfg = Release|Any CPU
+		{ADD5B9B9-CB9E-4407-BBD7-DD8D885D8AC7}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

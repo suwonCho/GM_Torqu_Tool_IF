@@ -18,7 +18,7 @@ namespace GM_Torqu_Tool_IF
 		/// <summary>
 		/// plc 통신 모듈
 		/// </summary>
-		PLCComm.PLCComm opc = null;
+		PLCModule.clsPLCModule opc = null;
 
 		/// <summary>
 		/// 테스트 값
@@ -288,24 +288,16 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 					Application.DoEvents();
 
 #if (TestPLC)
-					opc = new PLCComm.PLCComm(PLCComm.enPlcType.TEST, "127.0.0.1", 6001, "", "PLC_LOG");
-					//new PLCModule.clsPLCModule(PLCModule.enPlcType.TEST, "", 0, "", "PLC_LOG");
+					opc = new PLCModule.clsPLCModule(PLCModule.enPlcType.TEST, "", 0, "", "PLC_LOG");
 #else
-					//opc = new PLCModule.clsPLCModule(PLCModule.enPlcType.AB, vari.plc.RSLINX_ID, vari.plc.RSLINX_ID, "Torque", "Torque", 1000, "Torque_PLC");							
-					opc = new PLCComm.PLCComm(PLCComm.enPlcType.AB, "", "RSLinx OPC Server", "", "Torque", 1000, "Torque_PLC");
+					opc = new PLCModule.clsPLCModule(PLCModule.enPlcType.AB, vari.plc.RSLINX_ID, vari.plc.RSLINX_ID, "Torque", "Torque", 1000, "Torque_PLC");							
 #endif
-					opc.Open();
 
-					opc.AddAddress(vari.plc.Add_Trigger, PLCComm.enPLCValueType.INT);
-					opc.AddAddress(vari.plc.Add_Ack, PLCComm.enPLCValueType.INT);
-					opc.AddAddress(vari.plc.Add_Data, PLCComm.enPLCValueType.STRING);
 
+					opc.AddAddress(new string[] { vari.plc.Add_Trigger, vari.plc.Add_Ack, vari.plc.Add_Data });
 					opc.OnChConnectionStatus += Opc_OnChConnectionStatus;
-					PLCComm.delChAddressValue dChAddress = new PLCComm.delChAddressValue(OnChAddress);
-					opc.ChangeEvtAddress_Add(vari.plc.Add_Trigger, dChAddress);
-
 					
-						
+					opc.Open();				
 
 				}
 				catch(Exception ex)
@@ -353,28 +345,6 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 
 		}
 
-		private void OnChAddress(string address, PLCComm.enPLCValueType type , object oValue, object nValue)
-		{
-			Console.WriteLine($"[ADD]{address} [Value]{oValue} -> {nValue}");
-		}
-
-
-		/// <summary>
-		/// plc상태 변경
-		/// </summary>
-		/// <param name="status"></param>
-		private void Opc_OnChConnectionStatus(enStatus status)
-		{
-			try
-			{
-				Function.form.control.Invoke_Control_SetProperty(picPLC, "Image", status == enStatus.OK ? Properties.Resources.ramp_plc_ok : Properties.Resources.ramp_plc_ng);
-			}
-			catch (Exception ex)
-			{
-				ProcException(ex, "Opc_OnChConnectionStatus", false);
-			}
-		}
-
 		private void Work_Plc(object obj)
 		{
 			if (isWork) return;
@@ -388,9 +358,7 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 
 				if (trg_id == ack_id) return;
 
-				Console.WriteLine($"[Work_Plc] 체크 [Trg]{trg_id} [Ack]{ack_id}");
-
-				string data = opc.GetValueString(vari.plc.Add_Data);
+				string data = opc.GetValueHex(vari.plc.Add_Data);
 
 				Data_Proc(data);
 
@@ -433,6 +401,23 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 
 
 
+		/// <summary>
+		/// plc상태 변경
+		/// </summary>
+		/// <param name="bolSocketStats"></param>
+		private void Opc_OnChConnectionStatus(bool bolSocketStats)
+		{
+			try
+			{
+				Function.form.control.Invoke_Control_SetProperty(picPLC, "Image", bolSocketStats ? Properties.Resources.ramp_plc_ok : Properties.Resources.ramp_plc_ng);
+			}
+			catch(Exception ex)
+			{
+				ProcException(ex, "Opc_OnChConnectionStatus", false);
+			}
+
+		}
+		
 
 		/// <summary>
 		/// 조회 조건 초기화
