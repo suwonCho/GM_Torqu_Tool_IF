@@ -42,6 +42,8 @@
 			this.chkWinStartUp = new System.Windows.Forms.CheckBox();
 			this.inpOpMode = new Function.form.usrInputBox();
 			this.inpStationID = new Function.form.usrInputBox();
+			this.inpPLC_Add_Confirm = new Function.form.usrInputBox();
+			this.inpPLC_Add_Info = new Function.form.usrInputBox();
 			this.panel1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -105,6 +107,8 @@
 			// panel1
 			// 
 			this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.panel1.Controls.Add(this.inpPLC_Add_Info);
+			this.panel1.Controls.Add(this.inpPLC_Add_Confirm);
 			this.panel1.Controls.Add(this.inpPLC_Add_Data);
 			this.panel1.Controls.Add(this.inpPLC_Add_Ack);
 			this.panel1.Controls.Add(this.inpPLC_Add_Trigger);
@@ -112,7 +116,7 @@
 			this.panel1.Controls.Add(this.inpPLC_Topic);
 			this.panel1.Location = new System.Drawing.Point(3, 143);
 			this.panel1.Name = "panel1";
-			this.panel1.Size = new System.Drawing.Size(397, 138);
+			this.panel1.Size = new System.Drawing.Size(397, 183);
 			this.panel1.TabIndex = 2;
 			// 
 			// inpPLC_Add_Data
@@ -145,7 +149,7 @@
 			this.inpPLC_Add_Data.Label_TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.inpPLC_Add_Data.Label_Visable = true;
 			this.inpPLC_Add_Data.LabelWidth = 75;
-			this.inpPLC_Add_Data.Location = new System.Drawing.Point(3, 108);
+			this.inpPLC_Add_Data.Location = new System.Drawing.Point(3, 155);
 			this.inpPLC_Add_Data.Multiline = false;
 			this.inpPLC_Add_Data.Name = "inpPLC_Add_Data";
 			this.inpPLC_Add_Data.Orientation = System.Windows.Forms.Orientation.Vertical;
@@ -382,7 +386,7 @@
 			// 
 			this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnCancel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.btnCancel.Location = new System.Drawing.Point(262, 299);
+			this.btnCancel.Location = new System.Drawing.Point(262, 350);
 			this.btnCancel.Name = "btnCancel";
 			this.btnCancel.Size = new System.Drawing.Size(64, 23);
 			this.btnCancel.TabIndex = 10;
@@ -394,7 +398,7 @@
 			// 
 			this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.btnSave.Location = new System.Drawing.Point(332, 299);
+			this.btnSave.Location = new System.Drawing.Point(332, 350);
 			this.btnSave.Name = "btnSave";
 			this.btnSave.Size = new System.Drawing.Size(64, 23);
 			this.btnSave.TabIndex = 9;
@@ -407,7 +411,7 @@
 			// 
 			this.chkWinStartUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.chkWinStartUp.AutoSize = true;
-			this.chkWinStartUp.Location = new System.Drawing.Point(3, 303);
+			this.chkWinStartUp.Location = new System.Drawing.Point(3, 354);
 			this.chkWinStartUp.Name = "chkWinStartUp";
 			this.chkWinStartUp.Size = new System.Drawing.Size(212, 16);
 			this.chkWinStartUp.TabIndex = 11;
@@ -503,11 +507,99 @@
 			this.inpStationID.TextType = Function.form.usrInputBox.enTextType.All;
 			this.inpStationID.Value = "";
 			// 
+			// inpPLC_Add_Confirm
+			// 
+			this.inpPLC_Add_Confirm.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.inpPLC_Add_Confirm.BackColor = System.Drawing.SystemColors.Control;
+			this.inpPLC_Add_Confirm.ChangeMark_Visable = true;
+			this.inpPLC_Add_Confirm.ComboBoxDataSource = null;
+			this.inpPLC_Add_Confirm.ComboBoxDisplayMember = "";
+			this.inpPLC_Add_Confirm.ComboBoxDropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.inpPLC_Add_Confirm.ComboBoxSelectedValue = null;
+			this.inpPLC_Add_Confirm.ComboBoxSelectIndex = -1;
+			this.inpPLC_Add_Confirm.ComboBoxSelectItem = null;
+			this.inpPLC_Add_Confirm.ComboBoxValueMember = "";
+			this.inpPLC_Add_Confirm.DLabel_BackColor = System.Drawing.SystemColors.ButtonFace;
+			this.inpPLC_Add_Confirm.DLabel_Blink = Function.form.usrInputBox.enBlinkType.None;
+			this.inpPLC_Add_Confirm.DLabel_BlinkColor = System.Drawing.Color.White;
+			this.inpPLC_Add_Confirm.DLabel_BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.inpPLC_Add_Confirm.DLabel_Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+			this.inpPLC_Add_Confirm.DLabel_FontAutoSize = false;
+			this.inpPLC_Add_Confirm.DLabel_ForeColor = System.Drawing.SystemColors.ControlText;
+			this.inpPLC_Add_Confirm.DLabel_TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.inpPLC_Add_Confirm.InputType = Function.form.usrInputBox.enInputType.TEXTBOX;
+			this.inpPLC_Add_Confirm.Label_BackColor = System.Drawing.Color.Transparent;
+			this.inpPLC_Add_Confirm.Label_BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.inpPLC_Add_Confirm.Label_Font = new System.Drawing.Font("굴림", 9F);
+			this.inpPLC_Add_Confirm.Label_ForeColor = System.Drawing.SystemColors.ControlText;
+			this.inpPLC_Add_Confirm.Label_Text = "Confirm주소";
+			this.inpPLC_Add_Confirm.Label_TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.inpPLC_Add_Confirm.Label_Visable = true;
+			this.inpPLC_Add_Confirm.LabelWidth = 75;
+			this.inpPLC_Add_Confirm.Location = new System.Drawing.Point(3, 107);
+			this.inpPLC_Add_Confirm.Multiline = false;
+			this.inpPLC_Add_Confirm.Name = "inpPLC_Add_Confirm";
+			this.inpPLC_Add_Confirm.Orientation = System.Windows.Forms.Orientation.Vertical;
+			this.inpPLC_Add_Confirm.Size = new System.Drawing.Size(389, 23);
+			this.inpPLC_Add_Confirm.TabIndex = 6;
+			this.inpPLC_Add_Confirm.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.inpPLC_Add_Confirm.TextBox_AcceptsTab = false;
+			this.inpPLC_Add_Confirm.TextBox_MaxLength = 32767;
+			this.inpPLC_Add_Confirm.TextBox_PasswordChar = '\0';
+			this.inpPLC_Add_Confirm.TextBox_TabStopsLength = 8;
+			this.inpPLC_Add_Confirm.TextType = Function.form.usrInputBox.enTextType.All;
+			this.inpPLC_Add_Confirm.Value = "";
+			// 
+			// inpPLC_Add_Info
+			// 
+			this.inpPLC_Add_Info.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.inpPLC_Add_Info.BackColor = System.Drawing.SystemColors.Control;
+			this.inpPLC_Add_Info.ChangeMark_Visable = true;
+			this.inpPLC_Add_Info.ComboBoxDataSource = null;
+			this.inpPLC_Add_Info.ComboBoxDisplayMember = "";
+			this.inpPLC_Add_Info.ComboBoxDropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.inpPLC_Add_Info.ComboBoxSelectedValue = null;
+			this.inpPLC_Add_Info.ComboBoxSelectIndex = -1;
+			this.inpPLC_Add_Info.ComboBoxSelectItem = null;
+			this.inpPLC_Add_Info.ComboBoxValueMember = "";
+			this.inpPLC_Add_Info.DLabel_BackColor = System.Drawing.SystemColors.ButtonFace;
+			this.inpPLC_Add_Info.DLabel_Blink = Function.form.usrInputBox.enBlinkType.None;
+			this.inpPLC_Add_Info.DLabel_BlinkColor = System.Drawing.Color.White;
+			this.inpPLC_Add_Info.DLabel_BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.inpPLC_Add_Info.DLabel_Font = new System.Drawing.Font("굴림", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+			this.inpPLC_Add_Info.DLabel_FontAutoSize = false;
+			this.inpPLC_Add_Info.DLabel_ForeColor = System.Drawing.SystemColors.ControlText;
+			this.inpPLC_Add_Info.DLabel_TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.inpPLC_Add_Info.InputType = Function.form.usrInputBox.enInputType.TEXTBOX;
+			this.inpPLC_Add_Info.Label_BackColor = System.Drawing.Color.Transparent;
+			this.inpPLC_Add_Info.Label_BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.inpPLC_Add_Info.Label_Font = new System.Drawing.Font("굴림", 9F);
+			this.inpPLC_Add_Info.Label_ForeColor = System.Drawing.SystemColors.ControlText;
+			this.inpPLC_Add_Info.Label_Text = "Info 주소";
+			this.inpPLC_Add_Info.Label_TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.inpPLC_Add_Info.Label_Visable = true;
+			this.inpPLC_Add_Info.LabelWidth = 75;
+			this.inpPLC_Add_Info.Location = new System.Drawing.Point(3, 131);
+			this.inpPLC_Add_Info.Multiline = false;
+			this.inpPLC_Add_Info.Name = "inpPLC_Add_Info";
+			this.inpPLC_Add_Info.Orientation = System.Windows.Forms.Orientation.Vertical;
+			this.inpPLC_Add_Info.Size = new System.Drawing.Size(389, 23);
+			this.inpPLC_Add_Info.TabIndex = 7;
+			this.inpPLC_Add_Info.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.inpPLC_Add_Info.TextBox_AcceptsTab = false;
+			this.inpPLC_Add_Info.TextBox_MaxLength = 32767;
+			this.inpPLC_Add_Info.TextBox_PasswordChar = '\0';
+			this.inpPLC_Add_Info.TextBox_TabStopsLength = 8;
+			this.inpPLC_Add_Info.TextType = Function.form.usrInputBox.enTextType.All;
+			this.inpPLC_Add_Info.Value = "";
+			// 
 			// popSetting
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(403, 325);
+			this.ClientSize = new System.Drawing.Size(403, 376);
 			this.Controls.Add(this.inpStationID);
 			this.Controls.Add(this.inpOpMode);
 			this.Controls.Add(this.chkWinStartUp);
@@ -545,5 +637,7 @@
 		private System.Windows.Forms.CheckBox chkWinStartUp;
 		private Function.form.usrInputBox inpOpMode;
 		private Function.form.usrInputBox inpStationID;
+		private Function.form.usrInputBox inpPLC_Add_Confirm;
+		private Function.form.usrInputBox inpPLC_Add_Info;
 	}
 }

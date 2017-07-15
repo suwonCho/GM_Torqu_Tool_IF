@@ -161,20 +161,22 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 		/// <summary>
 		/// 수신된 데이터 처리 부
 		/// </summary>
-		/// <param name="data"></param>
-		void Data_Proc(string data)
+		/// <param name="info"></param>
+		void Data_Proc(string info, string data)
 		{
 			try
 			{
-				clsLog.WLog($"Data를 수신 했습니다.\r\n\t\t {data}");
+				clsLog.WLog($"Data를 수신 했습니다.\r\n\t\t {info}");
 
-				string pono = Fnc.StringGet(ref data, 6);
-				string trimin = Fnc.StringGet(ref data, 4);
-				string vin = Fnc.StringGet(ref data, 18).Trim();
-				string cartype = Fnc.StringGet(ref data, 3);
-				string rst = Fnc.StringGet(ref data, 2);
+				info = info.Replace("\0", " ");
+
+				string pono = Fnc.StringGet(ref info, 6);
+				string trimin = Fnc.StringGet(ref info, 4);
+				string vin = Fnc.StringGet(ref info, 18).Trim();
+				string cartype = Fnc.StringGet(ref info, 3);
+				string rst = string.Empty; //result는 없음 Fnc.StringGet(ref info, 2);
 				
-				string log = $"[PONO]{pono} [TrimIn]{trimin} [CarType]{cartype} [Vin]{vin} [Result]{rst}";
+				string log = $"[PONO]{pono} [TrimIn]{trimin} [CarType]{cartype} [Vin]{vin}";
 
 				//db에 저장한다.
 				dba.Data_Insert(vin, trimin, pono, cartype, rst, vari.StationID, data);
@@ -292,16 +294,20 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 					//new PLCModule.clsPLCModule(PLCModule.enPlcType.TEST, "", 0, "", "PLC_LOG");
 #else
 					//opc = new PLCModule.clsPLCModule(PLCModule.enPlcType.AB, vari.plc.RSLINX_ID, vari.plc.RSLINX_ID, "Torque", "Torque", 1000, "Torque_PLC");							
-					opc = new PLCComm.PLCComm(PLCComm.enPlcType.AB, "", "RSLinx OPC Server", "", "Torque", 1000, "Torque_PLC");
+					opc = new PLCComm.PLCComm(PLCComm.enPlcType.AB, "", vari.plc.RSLINX_ID, "Torque", "Torque", 1000, "Torque_PLC");
 #endif
+					opc.OnChConnectionStatus += Opc_OnChConnectionStatus;
+					PLCComm.delChAddressValue dChAddress = new PLCComm.delChAddressValue(OnChAddress);
+
 					opc.Open();
 
 					opc.AddAddress(vari.plc.Add_Trigger, PLCComm.enPLCValueType.INT);
 					opc.AddAddress(vari.plc.Add_Ack, PLCComm.enPLCValueType.INT);
-					opc.AddAddress(vari.plc.Add_Data, PLCComm.enPLCValueType.STRING);
+					opc.AddAddress(vari.plc.Add_Confirm, PLCComm.enPLCValueType.INT);
+					opc.AddAddress(vari.plc.Add_Info, PLCComm.enPLCValueType.STRING);
+					opc.AddAddress(vari.plc.Add_Data, PLCComm.enPLCValueType.HEX);
 
-					opc.OnChConnectionStatus += Opc_OnChConnectionStatus;
-					PLCComm.delChAddressValue dChAddress = new PLCComm.delChAddressValue(OnChAddress);
+					
 					opc.ChangeEvtAddress_Add(vari.plc.Add_Trigger, dChAddress);
 
 					
@@ -336,7 +342,7 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 				//plc 체크 쓰래드
 				if(tmrWork == null)
 				{
-					tmrWork = new System.Threading.Timer(new TimerCallback(Work_Plc), null, 5000, 1000);
+					tmrWork = new System.Threading.Timer(new TimerCallback(Work_Plc), null, 5000, 10000);
 
 				}
 
@@ -377,30 +383,70 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 
 		private void Work_Plc(object obj)
 		{
+			
+
+			if (vari.OpMode != vari.enOpMode.Monitoring) return;
+
 			if (isWork) return;
 
 			try
 			{
 				isWork = true;
-
+				
 				int trg_id = opc.GetValueInt(vari.plc.Add_Trigger);
 				int ack_id = opc.GetValueInt(vari.plc.Add_Ack);
+				int confirm_id = opc.GetValueInt(vari.plc.Add_Confirm);
 
-				if (trg_id == ack_id) return;
+				if (trg_id == ack_id && ack_id == confirm_id) return;
 
-				Console.WriteLine($"[Work_Plc] 체크 [Trg]{trg_id} [Ack]{ack_id}");
+				Console.WriteLine($"[Work_Plc] 체크 [Trg]{trg_id} [Ack]{ack_id} [Confirm]{confirm_id}" );
 
-				string data = opc.GetValueString(vari.plc.Add_Data);
-
-				Data_Proc(data);
-
-				//ack_id <- trg_id
+				//트리거 id 변경
 				opc.WriteOrder(vari.plc.Add_Ack, trg_id);
+
+				string info = opc.GetValueString(vari.plc.Add_Info);
+
+				string data = opc.GetValueHex(vari.plc.Add_Data);
+				string dd = string.Empty;
+				string tmp;
+				for(int i = 0; i < 4;i++ )
+				{
+					tmp = Fnc.StringGet(ref data, 4);
+				}
+
+				while(data.Length > 11)
+				{
+					//torque
+					tmp = Fnc.StringGet(ref data, 4);
+					dd += tmp;
+
+					//angle
+					tmp = Fnc.StringGet(ref data, 4);
+					dd += tmp;
+
+					//result
+					tmp = Fnc.StringGet(ref data, 4);
+					if (tmp.Equals("0001"))
+						dd += "NG";
+					else
+						dd += "OK";
+				}
+
 				
+
+
+				Data_Proc(info, dd);
+
+				//컨펌 id 변경
+				opc.WriteOrder(vari.plc.Add_Confirm, trg_id);
+
+
+				Console.WriteLine($"[Work_Plc] 체크완료");
+
 			}
 			catch(Exception ex)
 			{
-				ProcException(ex, "Work_Plc", true);
+				ProcException(ex, "Work_Plc", false);
 			}
 			finally
 			{
@@ -422,7 +468,7 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 
 			foreach (DataRow r in dt.Rows)
 			{
-				log = $"[PONO]{r["pono"]} [TrimIn]{r["triminSeq"]} [CarType]{r["cartype"]} [Vin]{r["vin"]} [Result]{r["TotalResult"]}";
+				log = $"[PONO]{r["pono"]} [TrimIn]{r["triminSeq"]} [CarType]{r["cartype"]} [Vin]{r["vin"]}";
 
 				//db에 저장한다.				
 				MoniLogAdd((DateTime)r["CreateDate"], "Data처리", log, false, enStringLocation.End);

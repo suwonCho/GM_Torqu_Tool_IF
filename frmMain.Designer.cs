@@ -332,6 +332,7 @@
 			this.inpResult.TextBox_TabStopsLength = 8;
 			this.inpResult.TextType = Function.form.usrInputBox.enTextType.All;
 			this.inpResult.Value = "";
+			this.inpResult.Visible = false;
 			// 
 			// inpVin
 			// 

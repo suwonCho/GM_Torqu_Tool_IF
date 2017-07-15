@@ -242,7 +242,7 @@ END;
 
 
 			string qry = string.Format(@"
-SELECT  CONVERT(nvarchar,CreateDate,120) 작업시간, PONO, TrimInSeq, VIN, CarType, TotalResult 'FASTENING FINAL'  
+SELECT  CONVERT(nvarchar,CreateDate,120) 작업시간, PONO, TrimInSeq, VIN, CarType--, TotalResult 'FASTENING FINAL'  
 	{0}
 FROM     T_Result
 WHERE 1=1

@@ -32,6 +32,8 @@ namespace GM_Torqu_Tool_IF
 			inpPLC_Add_Trigger.Value = vari.plc.Add_Trigger;
 			inpPLC_Add_Ack.Value = vari.plc.Add_Ack;
 			inpPLC_Add_Data.Value = vari.plc.Add_Data;
+			inpPLC_Add_Confirm.Value = vari.plc.Add_Confirm;
+			inpPLC_Add_Info.Value = vari.plc.Add_Info;
 
 
 			chkWinStartUp.Checked = Function.clsFunction.StartUpPgm_isReg(vari.Pgm_Name, Application.ExecutablePath);
@@ -114,6 +116,8 @@ namespace GM_Torqu_Tool_IF
 			vari.plc.Add_Trigger = inpPLC_Add_Trigger.Text.Trim();
 			vari.plc.Add_Ack = inpPLC_Add_Ack.Text.Trim();
 			vari.plc.Add_Data = inpPLC_Add_Data.Text.Trim();
+			vari.plc.Add_Confirm = inpPLC_Add_Confirm.Text.Trim();
+			vari.plc.Add_Info = inpPLC_Add_Info.Text.Trim();
 
 			vari.OpMode = (vari.enOpMode)inpOpMode.ComboBoxSelectIndex;
 

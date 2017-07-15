@@ -53,6 +53,8 @@ namespace GM_Torqu_Tool_IF
 			public string Topic_Name;
 			public string Add_Trigger;
 			public string Add_Ack;
+			public string Add_Confirm;
+			public string Add_Info;
 			public string Add_Data;
 		}
 
@@ -154,9 +156,11 @@ namespace GM_Torqu_Tool_IF
 			//plc 기초 값 로드  N7:0,L2
 			plc_default.RSLINX_ID = "opcda://localhost/RSLinx OPC Server";
 			plc_default.Topic_Name = "Torque";
-			plc_default.Add_Trigger = "[Torque]R7000:0,L2";
-			plc_default.Add_Ack = "[Torque]R7001:0,L2";
-			plc_default.Add_Data = "[Torque]R7002:0,L200";
+			plc_default.Add_Trigger = "[Torque]R7001:0,L2";
+			plc_default.Add_Ack = "[Torque]R7002:0,L2";
+			plc_default.Add_Confirm = "[Torque]R7003:0,L2";
+			plc_default.Add_Info = "[Torque]R7004:0,L16";
+			plc_default.Add_Data = "[Torque]R7000:0,L200";
 
 			Pgm_Setting.Group_Select("PLC");
 
@@ -167,6 +171,8 @@ namespace GM_Torqu_Tool_IF
 				plc.Topic_Name = vari.Pgm_Setting.Value_Get("TOPIC_NAME");
 				plc.Add_Trigger = vari.Pgm_Setting.Value_Get("ADD_TRIGGER");
 				plc.Add_Ack = vari.Pgm_Setting.Value_Get("ADD_ACK");
+				plc.Add_Confirm = vari.Pgm_Setting.Value_Get("ADD_CONFIRM");
+				plc.Add_Info = vari.Pgm_Setting.Value_Get("ADD_INFO");
 				plc.Add_Data = vari.Pgm_Setting.Value_Get("ADD_DATA");
 			}
 			else
@@ -189,7 +195,9 @@ namespace GM_Torqu_Tool_IF
 			vari.Pgm_Setting.Value_Set("RSLINX_ID", plc.RSLINX_ID);
 			vari.Pgm_Setting.Value_Set("TOPIC_NAME", plc.Topic_Name);
 			vari.Pgm_Setting.Value_Set("ADD_TRIGGER", plc.Add_Trigger);
+			vari.Pgm_Setting.Value_Set("ADD_CONFIRM", plc.Add_Confirm);
 			vari.Pgm_Setting.Value_Set("ADD_ACK", plc.Add_Ack);
+			vari.Pgm_Setting.Value_Set("ADD_INFO", plc.Add_Info);
 			vari.Pgm_Setting.Value_Set("ADD_DATA", plc.Add_Data);
 
 
