@@ -13,12 +13,19 @@ namespace GM_Torqu_Tool_IF
 {
 	public partial class popSetting : Function.form.subBaseForm
 	{
+
+		DateTime dtF9 = DateTime.Now;
+
+		Function.form.usrInputBox[] inpSetting;
+
 		public popSetting()
 		{
 			InitializeComponent();
 
 			btnSave.Image = Function.resIcon16.saveas_alt;
 			btnCancel.Image = Function.resIcon16.delete_alt;
+
+			inpSetting = new Function.form.usrInputBox[] { txtSQL_Setting, inpToolMng, inpDBInit };
 		}
 
 		protected override void Form_Init()
@@ -26,6 +33,7 @@ namespace GM_Torqu_Tool_IF
 			base.Form_Init();
 
 			inpStationID.Value = vari.StationID;
+			inpImagePath.Value = vari.TorqueImagePath;
 
 			inpPLC_RsLinx_ID.Value = vari.plc.RSLINX_ID;
 			inpPLC_Topic.Value = vari.plc.Topic_Name;
@@ -39,6 +47,8 @@ namespace GM_Torqu_Tool_IF
 			chkWinStartUp.Checked = Function.clsFunction.StartUpPgm_isReg(vari.Pgm_Name, Application.ExecutablePath);
 
 			inpOpMode.ComboBoxSelectIndex = (int)vari.OpMode;
+
+
 
 		}
 
@@ -107,7 +117,8 @@ namespace GM_Torqu_Tool_IF
 			if (Function.clsFunction.ShowMsg("저장 확인", "변경된 내용을 저장 하시겠습니까?", Function.form.frmMessage.enMessageType.YesNo) != DialogResult.Yes) return;
 
 			vari.StationID = inpStationID.Text;
-
+			vari.TorqueImagePath = inpImagePath.Text;
+			
 			//윈도우 시작 시 시작			
 			Function.clsFunction.StartUpPgm_Reg(chkWinStartUp.Checked, vari.Pgm_Name, Application.ExecutablePath);
 
@@ -139,6 +150,67 @@ namespace GM_Torqu_Tool_IF
 		private void popSetting_Load(object sender, EventArgs e)
 		{
 
+		}
+		
+		private void popSetting_KeyDown(object sender, KeyEventArgs e)
+		{
+			if(e.KeyCode == Keys.F9)
+			{
+				lock (this)
+				{
+					TimeSpan sp = DateTime.Now - dtF9;
+
+					if (sp.TotalSeconds >= 0 && sp.TotalSeconds <= 0.3) return;
+
+					bool vis = false;
+
+					if (!txtSQL_Setting.Visible)					
+					{
+						if (!clsFunction.CheckPasswords("설정암호를 입력 하여 주세요.", "PISS")) return;
+
+						vis = true;						
+					}
+
+					//Console.WriteLine("keydown {0} {1}", txtSQL_Setting.Visible, sp.TotalSeconds);
+
+					foreach(Function.form.usrInputBox i in inpSetting)
+					{
+						i.Visible = vis;
+					}
+					
+
+					dtF9 = DateTime.Now;
+				}
+
+			}
+		}
+
+		private void inpDBInit_Click(object sender, Function.form.usrEventArgs e)
+		{
+			try
+			{
+				popDBInit frm = new popDBInit();
+				frm.ShowDialog();
+
+				//inpStationID.Text
+			}
+			catch (Exception ex)
+			{
+				ProcException(ex, "inpDBInit_Click", true);
+			}
+		}
+
+		private void btnImagePath_Click(object sender, EventArgs e)
+		{
+			OpenFileDialog f = new OpenFileDialog();
+			f.Multiselect = false;
+			//f.InitialDirectory = vari.TorqueImagePath;
+			f.FileName = vari.TorqueImagePath;
+			f.Filter = "이미지파일|*.bmp;*jpg;*png|모든파일|*.*";
+
+			if (f.ShowDialog(this) != DialogResult.OK) return;
+
+			inpImagePath.Text = f.FileName;
 		}
 	}
 }

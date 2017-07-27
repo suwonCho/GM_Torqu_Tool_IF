@@ -44,7 +44,15 @@ namespace GM_Torqu_Tool_IF
 		/// </summary>
 		public static string StationID;
 
-		
+		/// <summary>
+		/// 조회 시 최대 조회 로우 수
+		/// </summary>
+		public static readonly int Search_Max_Row = 2000;
+
+		/// <summary>
+		/// Torque 이미지 경로
+		/// </summary>
+		public static string TorqueImagePath = "";
 
 
 		public struct stPLC
@@ -143,7 +151,7 @@ namespace GM_Torqu_Tool_IF
 			//기기 id
 			StationID = Pgm_Setting.Value_Get("StationID", "DEV_01");
 			iTestSeq = Fnc.obj2int(Pgm_Setting.Value_Get("TestSeq", "0"));
-
+			TorqueImagePath = Pgm_Setting.Value_Get("TorqueImagePath", "");
 
 			//db 정보 로드
 			Pgm_Setting.Group_Select("MsSql");
@@ -206,6 +214,8 @@ namespace GM_Torqu_Tool_IF
 
 			vari.Pgm_Setting.Value_Set("TestSeq", iTestSeq.ToString());
 			vari.Pgm_Setting.Value_Set("OPMODE", ((int)OpMode).ToString());
+			vari.Pgm_Setting.Value_Set("TorqueImagePath", vari.TorqueImagePath);
+
 
 			Pgm_Setting.Setting_Save();
 		}

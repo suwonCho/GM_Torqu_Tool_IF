@@ -1,0 +1,123 @@
+<?xml version="1.0" standalone="yes"?>
+<NewDataSet>
+  <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="FORM_SAVE">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="Name" type="xs:string" minOccurs="0" />
+                <xs:element name="Value" type="xs:string" minOccurs="0" />
+                <xs:element name="info1" type="xs:string" minOccurs="0" />
+                <xs:element name="info2" type="xs:string" minOccurs="0" />
+                <xs:element name="info3" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="MSSQL">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="Name" type="xs:string" minOccurs="0" />
+                <xs:element name="Value" type="xs:string" minOccurs="0" />
+                <xs:element name="info1" type="xs:string" minOccurs="0" />
+                <xs:element name="info2" type="xs:string" minOccurs="0" />
+                <xs:element name="info3" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="PLC">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="Name" type="xs:string" minOccurs="0" />
+                <xs:element name="Value" type="xs:string" minOccurs="0" />
+                <xs:element name="info1" type="xs:string" minOccurs="0" />
+                <xs:element name="info2" type="xs:string" minOccurs="0" />
+                <xs:element name="info3" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="PGM">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="Name" type="xs:string" minOccurs="0" />
+                <xs:element name="Value" type="xs:string" minOccurs="0" />
+                <xs:element name="info1" type="xs:string" minOccurs="0" />
+                <xs:element name="info2" type="xs:string" minOccurs="0" />
+                <xs:element name="info3" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <FORM_SAVE>
+    <Name>BF_FORMPOSITION</Name>
+    <Value>/*FRMMAIN:299:588:1233:853:0*/</Value>
+  </FORM_SAVE>
+  <FORM_SAVE>
+    <Name>DEVPROPERTIES</Name>
+    <Value>/*FRMMAIN:*/</Value>
+  </FORM_SAVE>
+  <MSSQL>
+    <Name>IP</Name>
+    <Value>127.0.0.1,1521</Value>
+  </MSSQL>
+  <MSSQL>
+    <Name>DATABASE</Name>
+    <Value>TorqueTool</Value>
+  </MSSQL>
+  <MSSQL>
+    <Name>ID</Name>
+    <Value>sa</Value>
+  </MSSQL>
+  <MSSQL>
+    <Name>PASSWORDS</Name>
+    <Value></Value>
+  </MSSQL>
+  <PLC>
+    <Name>RSLINX_ID</Name>
+    <Value>opcda://localhost/RSLinx OPC Server</Value>
+  </PLC>
+  <PLC>
+    <Name>TOPIC_NAME</Name>
+    <Value>TORQUE</Value>
+  </PLC>
+  <PLC>
+    <Name>ADD_TRIGGER</Name>
+    <Value>[TORQUE]R7001[0]</Value>
+  </PLC>
+  <PLC>
+    <Name>ADD_ACK</Name>
+    <Value>[TORQUE]R7002[0]</Value>
+  </PLC>
+  <PLC>
+    <Name>ADD_DATA</Name>
+    <Value>[TORQUE]R7000,L100,C1</Value>
+  </PLC>
+  <PLC>
+    <Name>ADD_CONFIRM</Name>
+    <Value>[TORQUE]R7003[0]</Value>
+  </PLC>
+  <PLC>
+    <Name>ADD_INFO</Name>
+    <Value>[TORQUE]R7004,L20,C1</Value>
+  </PLC>
+  <PGM>
+    <Name>OPMODE</Name>
+    <Value>1</Value>
+  </PGM>
+  <PGM>
+    <Name>STATIONID</Name>
+    <Value>DEV_01</Value>
+  </PGM>
+  <PGM>
+    <Name>TESTSEQ</Name>
+    <Value>77</Value>
+  </PGM>
+  <PGM>
+    <Name>TORQUEIMAGEPATH</Name>
+    <Value></Value>
+  </PGM>
+</NewDataSet>

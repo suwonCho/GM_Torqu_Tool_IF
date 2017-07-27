@@ -44,6 +44,7 @@
 			this.tabSearching = new System.Windows.Forms.TabPage();
 			this.grdSearch = new System.Windows.Forms.DataGridView();
 			this.pnlSearch_conditon = new System.Windows.Forms.Panel();
+			this.inpStationID = new Function.form.usrInputBox();
 			this.btnExcelSave = new System.Windows.Forms.Button();
 			this.btnCondition_reset = new System.Windows.Forms.Button();
 			this.btnSearch = new System.Windows.Forms.Button();
@@ -57,6 +58,10 @@
 			this.label4 = new System.Windows.Forms.Label();
 			this.dtFrom = new System.Windows.Forms.DateTimePicker();
 			this.label3 = new System.Windows.Forms.Label();
+			this.tabImage = new System.Windows.Forms.TabPage();
+			this.pnlImage = new System.Windows.Forms.Panel();
+			this.inpPicSizeMode = new Function.form.usrInputBox();
+			this.btnPicPopUp = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.picDB)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.picPLC)).BeginInit();
 			this.tabControl1.SuspendLayout();
@@ -64,11 +69,9 @@
 			this.tabSearching.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.grdSearch)).BeginInit();
 			this.pnlSearch_conditon.SuspendLayout();
+			this.tabImage.SuspendLayout();
+			this.pnlImage.SuspendLayout();
 			this.SuspendLayout();
-			// 
-			// Notifyicon
-			// 
-			this.Notifyicon.Visible = true;
 			// 
 			// btnSetting
 			// 
@@ -110,6 +113,7 @@
 			this.tabControl1.Alignment = System.Windows.Forms.TabAlignment.Bottom;
 			this.tabControl1.Controls.Add(this.tabMonitoring);
 			this.tabControl1.Controls.Add(this.tabSearching);
+			this.tabControl1.Controls.Add(this.tabImage);
 			this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tabControl1.Location = new System.Drawing.Point(0, 54);
 			this.tabControl1.Name = "tabControl1";
@@ -229,6 +233,7 @@
 			// pnlSearch_conditon
 			// 
 			this.pnlSearch_conditon.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.pnlSearch_conditon.Controls.Add(this.inpStationID);
 			this.pnlSearch_conditon.Controls.Add(this.btnExcelSave);
 			this.pnlSearch_conditon.Controls.Add(this.btnCondition_reset);
 			this.pnlSearch_conditon.Controls.Add(this.btnSearch);
@@ -246,6 +251,53 @@
 			this.pnlSearch_conditon.Name = "pnlSearch_conditon";
 			this.pnlSearch_conditon.Size = new System.Drawing.Size(1048, 61);
 			this.pnlSearch_conditon.TabIndex = 6;
+			// 
+			// inpStationID
+			// 
+			this.inpStationID.BackColor = System.Drawing.SystemColors.Control;
+			this.inpStationID.ChangeMark_Visable = false;
+			this.inpStationID.ComboBoxDataSource = null;
+			this.inpStationID.ComboBoxDisplayMember = "";
+			this.inpStationID.ComboBoxDropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.inpStationID.ComboBoxItems.AddRange(new object[] {
+            "전체",
+            "DEV_01",
+            "DEV_02"});
+			this.inpStationID.ComboBoxSelectedValue = null;
+			this.inpStationID.ComboBoxSelectIndex = -1;
+			this.inpStationID.ComboBoxSelectItem = null;
+			this.inpStationID.ComboBoxValueMember = "";
+			this.inpStationID.DLabel_BackColor = System.Drawing.Color.Transparent;
+			this.inpStationID.DLabel_Blink = Function.form.usrInputBox.enBlinkType.None;
+			this.inpStationID.DLabel_BlinkColor = System.Drawing.Color.White;
+			this.inpStationID.DLabel_BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.inpStationID.DLabel_Font = new System.Drawing.Font("굴림체", 9F);
+			this.inpStationID.DLabel_FontAutoSize = false;
+			this.inpStationID.DLabel_ForeColor = System.Drawing.SystemColors.ControlText;
+			this.inpStationID.DLabel_TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.inpStationID.InputType = Function.form.usrInputBox.enInputType.COMBO;
+			this.inpStationID.Label_BackColor = System.Drawing.Color.Transparent;
+			this.inpStationID.Label_BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.inpStationID.Label_Font = new System.Drawing.Font("굴림체", 9F);
+			this.inpStationID.Label_ForeColor = System.Drawing.SystemColors.ControlText;
+			this.inpStationID.Label_Text = "수집장비";
+			this.inpStationID.Label_TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.inpStationID.Label_Visable = true;
+			this.inpStationID.LabelWidth = -1;
+			this.inpStationID.Location = new System.Drawing.Point(414, 30);
+			this.inpStationID.Multiline = false;
+			this.inpStationID.Name = "inpStationID";
+			this.inpStationID.Orientation = System.Windows.Forms.Orientation.Vertical;
+			this.inpStationID.Size = new System.Drawing.Size(181, 22);
+			this.inpStationID.TabIndex = 12;
+			this.inpStationID.Tag = "StationID";
+			this.inpStationID.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.inpStationID.TextBox_AcceptsTab = false;
+			this.inpStationID.TextBox_MaxLength = 32767;
+			this.inpStationID.TextBox_PasswordChar = '\0';
+			this.inpStationID.TextBox_TabStopsLength = 8;
+			this.inpStationID.TextType = Function.form.usrInputBox.enTextType.All;
+			this.inpStationID.Value = "";
 			// 
 			// btnExcelSave
 			// 
@@ -318,7 +370,7 @@
 			this.inpResult.Label_TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
 			this.inpResult.Label_Visable = true;
 			this.inpResult.LabelWidth = -1;
-			this.inpResult.Location = new System.Drawing.Point(414, 31);
+			this.inpResult.Location = new System.Drawing.Point(892, 30);
 			this.inpResult.Multiline = false;
 			this.inpResult.Name = "inpResult";
 			this.inpResult.Orientation = System.Windows.Forms.Orientation.Vertical;
@@ -572,11 +624,86 @@
 			this.label3.TabIndex = 4;
 			this.label3.Text = "Torque 조회";
 			// 
+			// tabImage
+			// 
+			this.tabImage.Controls.Add(this.pnlImage);
+			this.tabImage.Location = new System.Drawing.Point(4, 4);
+			this.tabImage.Name = "tabImage";
+			this.tabImage.Size = new System.Drawing.Size(1056, 593);
+			this.tabImage.TabIndex = 2;
+			this.tabImage.Text = "Torque사진";
+			this.tabImage.UseVisualStyleBackColor = true;
+			// 
+			// pnlImage
+			// 
+			this.pnlImage.Controls.Add(this.inpPicSizeMode);
+			this.pnlImage.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pnlImage.Location = new System.Drawing.Point(0, 0);
+			this.pnlImage.Name = "pnlImage";
+			this.pnlImage.Size = new System.Drawing.Size(1056, 593);
+			this.pnlImage.TabIndex = 0;
+			// 
+			// inpPicSizeMode
+			// 
+			this.inpPicSizeMode.BackColor = System.Drawing.Color.Transparent;
+			this.inpPicSizeMode.ChangeMark_Visable = false;
+			this.inpPicSizeMode.ComboBoxDataSource = null;
+			this.inpPicSizeMode.ComboBoxDisplayMember = "";
+			this.inpPicSizeMode.ComboBoxDropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.inpPicSizeMode.ComboBoxSelectedValue = null;
+			this.inpPicSizeMode.ComboBoxSelectIndex = -1;
+			this.inpPicSizeMode.ComboBoxSelectItem = null;
+			this.inpPicSizeMode.ComboBoxValueMember = "";
+			this.inpPicSizeMode.DLabel_BackColor = System.Drawing.Color.Transparent;
+			this.inpPicSizeMode.DLabel_Blink = Function.form.usrInputBox.enBlinkType.None;
+			this.inpPicSizeMode.DLabel_BlinkColor = System.Drawing.Color.White;
+			this.inpPicSizeMode.DLabel_BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.inpPicSizeMode.DLabel_Font = new System.Drawing.Font("굴림체", 9F);
+			this.inpPicSizeMode.DLabel_FontAutoSize = false;
+			this.inpPicSizeMode.DLabel_ForeColor = System.Drawing.SystemColors.ControlText;
+			this.inpPicSizeMode.DLabel_TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.inpPicSizeMode.InputType = Function.form.usrInputBox.enInputType.COMBO;
+			this.inpPicSizeMode.Label_BackColor = System.Drawing.Color.Transparent;
+			this.inpPicSizeMode.Label_BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.inpPicSizeMode.Label_Font = new System.Drawing.Font("굴림체", 9F);
+			this.inpPicSizeMode.Label_ForeColor = System.Drawing.SystemColors.ControlText;
+			this.inpPicSizeMode.Label_Text = "SizeMode";
+			this.inpPicSizeMode.Label_TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+			this.inpPicSizeMode.Label_Visable = true;
+			this.inpPicSizeMode.LabelWidth = 60;
+			this.inpPicSizeMode.Location = new System.Drawing.Point(3, 3);
+			this.inpPicSizeMode.Multiline = false;
+			this.inpPicSizeMode.Name = "inpPicSizeMode";
+			this.inpPicSizeMode.Orientation = System.Windows.Forms.Orientation.Vertical;
+			this.inpPicSizeMode.Size = new System.Drawing.Size(215, 22);
+			this.inpPicSizeMode.TabIndex = 1;
+			this.inpPicSizeMode.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.inpPicSizeMode.TextBox_AcceptsTab = false;
+			this.inpPicSizeMode.TextBox_MaxLength = 32767;
+			this.inpPicSizeMode.TextBox_PasswordChar = '\0';
+			this.inpPicSizeMode.TextBox_TabStopsLength = 8;
+			this.inpPicSizeMode.TextType = Function.form.usrInputBox.enTextType.All;
+			this.inpPicSizeMode.Value = "";
+			this.inpPicSizeMode.Text_Changed += new Function.form.usrEventHander(this.inpPicSizeMode_Text_Changed);
+			// 
+			// btnPicPopUp
+			// 
+			this.btnPicPopUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnPicPopUp.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.btnPicPopUp.Location = new System.Drawing.Point(886, 1);
+			this.btnPicPopUp.Name = "btnPicPopUp";
+			this.btnPicPopUp.Size = new System.Drawing.Size(83, 25);
+			this.btnPicPopUp.TabIndex = 5;
+			this.btnPicPopUp.Text = "   사진팝업";
+			this.btnPicPopUp.UseVisualStyleBackColor = true;
+			this.btnPicPopUp.Click += new System.EventHandler(this.btnPicPopUp_Click);
+			// 
 			// frmMain
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1064, 695);
+			this.Controls.Add(this.btnPicPopUp);
 			this.Controls.Add(this.picPLC);
 			this.Controls.Add(this.picDB);
 			this.Controls.Add(this.btnSetting);
@@ -585,7 +712,6 @@
 			this.isUseFormInit = true;
 			this.Margin = new System.Windows.Forms.Padding(4);
 			this.Name = "frmMain";
-			this.Notifyicon_Visible = true;
 			this.PromptQuitPgm = true;
 			this.SaveConfigFileType = Function.form.enConfigFileType.ConfigXml;
 			this.SavePosition = true;
@@ -597,6 +723,7 @@
 			this.Controls.SetChildIndex(this.btnSetting, 0);
 			this.Controls.SetChildIndex(this.picDB, 0);
 			this.Controls.SetChildIndex(this.picPLC, 0);
+			this.Controls.SetChildIndex(this.btnPicPopUp, 0);
 			((System.ComponentModel.ISupportInitialize)(this.picDB)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.picPLC)).EndInit();
 			this.tabControl1.ResumeLayout(false);
@@ -605,6 +732,8 @@
 			((System.ComponentModel.ISupportInitialize)(this.grdSearch)).EndInit();
 			this.pnlSearch_conditon.ResumeLayout(false);
 			this.pnlSearch_conditon.PerformLayout();
+			this.tabImage.ResumeLayout(false);
+			this.pnlImage.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -640,6 +769,11 @@
 		private System.Windows.Forms.Button btnExcelSave;
 		private System.Windows.Forms.PictureBox picDB;
 		private System.Windows.Forms.PictureBox picPLC;
+		private Function.form.usrInputBox inpStationID;
+		private System.Windows.Forms.TabPage tabImage;
+		private System.Windows.Forms.Panel pnlImage;
+		private Function.form.usrInputBox inpPicSizeMode;
+		private System.Windows.Forms.Button btnPicPopUp;
 	}
 }
 

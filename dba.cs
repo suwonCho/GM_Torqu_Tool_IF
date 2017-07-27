@@ -184,7 +184,7 @@ END;
 		}
 
 
-		public static DataTable Data_Search(DateTime dtFrom, DateTime dtTo, string cartype, string pono, string vin, string trimin, string rst)
+		public static DataTable Data_Search(DateTime dtFrom, DateTime dtTo, string cartype, string pono, string vin, string trimin, string rst, string stationid)
 		{
 			MsSQL sql = new MsSQL(vari.conn);
 
@@ -236,19 +236,17 @@ END;
 			if (!vin.Equals(string.Empty)) where += $"\r\n\t AND VIN = '{vin}' ";
 			if (!trimin.Equals(string.Empty)) where += $"\r\n\t AND TRIMINSEQ = '{trimin}' ";
 			if (!rst.Equals(string.Empty)) where += $"\r\n\t AND TOTALRESULT = '{cartype}' ";
-
-
-
-
+			if (!stationid.Equals(string.Empty)) where += $"\r\n\t AND STATION_ID = '{stationid}' ";
+			
 
 			string qry = string.Format(@"
-SELECT  CONVERT(nvarchar,CreateDate,120) 작업시간, PONO, TrimInSeq, VIN, CarType--, TotalResult 'FASTENING FINAL'  
+SELECT TOP {2}  CONVERT(nvarchar,CreateDate,120) 작업시간, PONO, TrimInSeq, VIN, CarType--, TotalResult 'FASTENING FINAL'  
 	{0}
 FROM     T_Result
 WHERE 1=1
 {1}	
 ORDER BY CreateDate
-", cols, where);
+", cols, where, vari.Search_Max_Row);
 
 			return sql.Excute_Query(qry, "").Tables[0];
 
@@ -261,15 +259,16 @@ ORDER BY CreateDate
 		/// <param name="cnt"></param>
 		/// <returns></returns>
 
-		public static DataTable Data_LastWork(int cnt)
+		public static DataTable Data_LastWork(int cnt, string dev)
 		{
 			MsSQL sql = new MsSQL(vari.conn);
 
 			string qry = string.Format(@"
 SELECT TOP {0}  CreateDate, PONO, TrimInSeq, VIN, CarType, TotalResult 
 FROM     T_Result
+WHERE STATION_ID = '{1}'
 ORDER BY CreateDate DESC
-", cnt);
+", cnt, dev);
 
 			return sql.Excute_Query(qry, "").Tables[0];
 		}

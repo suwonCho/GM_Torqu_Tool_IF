@@ -40,6 +40,12 @@ namespace GM_Torqu_Tool_IF
 		/// </summary>
 		string[] cond_result = new string[] { "", "OK", "NG" };
 
+		/// <summary>
+		/// station id 결과 배열
+		/// </summary>
+		string[] cond_stationid = new string[] { "", "DEV_01", "DEV_02" };
+
+
 		bool _db_conn = false;
 
 		System.Threading.Timer tmrWork = null;
@@ -70,7 +76,10 @@ namespace GM_Torqu_Tool_IF
 		/// </summary>
 		System.Threading.Timer tmrDB_Chk = null;
 
-		
+		/// <summary>
+		/// Torque Image PopUp 창
+		/// </summary>
+		popTorqueImage popImage = null;
 
 
 		public frmMain()
@@ -83,15 +92,18 @@ namespace GM_Torqu_Tool_IF
 			btnSetting.Image = Function.resIcon16.save;
 			btnSearch.Image = Function.resIcon16.search_file;
 			btnCondition_reset.Image = Function.resIcon16.redo;
+			btnPicPopUp.Image = Function.resIcon16.module;
 
 			btnExcelSave.Image = Function.resIcon16.Excel;
 
 			vari.ImgList.Images.Add(Function.resIcon16.server);
 			vari.ImgList.Images.Add(Function.resIcon16.search_web);
+			vari.ImgList.Images.Add(Function.resIcon16.module);
 
 			tabControl1.ImageList = vari.ImgList;
 			tabMonitoring.ImageIndex = 0;
 			tabSearching.ImageIndex = 1;
+			tabImage.ImageIndex = 2;
 
 
 			clsLog = new Function.Util.Log(vari.Pgm_Path + "\\log", "log", 0, true);
@@ -130,9 +142,9 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 ).Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
 
 
-			
-
-
+			pnlImage.BackgroundImageLayout = ImageLayout.Zoom;
+			inpPicSizeMode.ComboBoxItems.AddRange(Fnc.EnumItems2Strings(new ImageLayout()));
+			inpPicSizeMode.Value = pnlImage.BackgroundImageLayout.ToString();
 
 		}
 
@@ -250,6 +262,10 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 				case "Result":
 					cond = cond_result;
 					break;
+
+				case "StationID":
+					cond = cond_stationid;
+					break;
 			}
 
 			if (cond == null) return string.Empty;
@@ -281,6 +297,23 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 					tabControl1.TabPages.Remove(tabMonitoring);					
 				}
 
+				//이미지
+				if (System.IO.File.Exists(vari.TorqueImagePath))
+				{
+					try
+					{
+						pnlImage.BackgroundImage = new Bitmap(vari.TorqueImagePath);
+					}
+					catch(Exception ex)
+					{
+						pnlImage.BackgroundImage = null;
+						ProcException(ex, "Image 로드 실패", true);
+					}
+				}
+				else
+					pnlImage.BackgroundImage = null;
+
+
 
 				try
 				{
@@ -292,6 +325,9 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 #if (TestPLC)
 					opc = new PLCComm.PLCComm(PLCComm.enPlcType.TEST, "127.0.0.1", 6001, "", "PLC_LOG");
 					//new PLCModule.clsPLCModule(PLCModule.enPlcType.TEST, "", 0, "", "PLC_LOG");
+
+					Text += " - PLC Test Mode";
+
 #else
 					//opc = new PLCModule.clsPLCModule(PLCModule.enPlcType.AB, vari.plc.RSLINX_ID, vari.plc.RSLINX_ID, "Torque", "Torque", 1000, "Torque_PLC");							
 					opc = new PLCComm.PLCComm(PLCComm.enPlcType.AB, "", vari.plc.RSLINX_ID, "Torque", "Torque", 1000, "Torque_PLC");
@@ -309,8 +345,7 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 
 					
 					opc.ChangeEvtAddress_Add(vari.plc.Add_Trigger, dChAddress);
-
-					
+									
 						
 
 				}
@@ -401,6 +436,10 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 
 				Console.WriteLine($"[Work_Plc] 체크 [Trg]{trg_id} [Ack]{ack_id} [Confirm]{confirm_id}" );
 
+				clsLog.WLog($"[Work_Plc] 체크 [Trg]{trg_id} [Ack]{ack_id} [Confirm]{confirm_id}");
+
+
+
 				//트리거 id 변경
 				opc.WriteOrder(vari.plc.Add_Ack, trg_id);
 
@@ -462,7 +501,7 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 			//최초에만 조회를 한다.
 			if (lstMoniLog.Items.Count > 0) return;
 
-			DataTable dt = dba.Data_LastWork(50);
+			DataTable dt = dba.Data_LastWork(50, vari.StationID);
 			string log;
 
 
@@ -495,6 +534,7 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 			inpTrimin.Value = string.Empty;
 			inpVin.Value = string.Empty;
 			inpResult.ComboBoxSelectIndex = 0;
+			inpStationID.ComboBoxSelectIndex = 0;
 
 		}
 
@@ -513,7 +553,11 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 		{
 			popSetting frm = new popSetting();
 			if (frm.ShowDialog(this) == DialogResult.OK)
+			{
 				Form_Init();
+
+				if (popImage != null) popImage.Image_Load();
+			}
 		}
 
 		/// <summary>
@@ -585,7 +629,7 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 			{
 				DateTime dtF;
 				DateTime dtT;
-				string cartype, pono, trimin, vin, rst;
+				string cartype, pono, trimin, vin, rst, stationid;
 
 
 				if(dtFrom.Value < dtTo.Value)
@@ -604,8 +648,9 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 				trimin = inpTrimin.Text.Trim();
 				vin = inpVin.Text.Trim();
 				rst = Cond_Value_Get(inpResult);
+				stationid = Cond_Value_Get(inpStationID);
 
-				DataTable dt = dba.Data_Search(dtF, dtT, cartype, pono, vin, trimin, rst);
+				DataTable dt = dba.Data_Search(dtF, dtT, cartype, pono, vin, trimin, rst, stationid);
 
 				grdSearch.DataSource = dt;
 
@@ -613,9 +658,14 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 				{
 					c.AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
 				}
-				
+							
 
 				SetMessage(false, $"{dt.Rows.Count}건이 조회 되었습니다.", false);			
+
+				if(dt.Rows.Count >= vari.Search_Max_Row)
+				{
+					Function.clsFunction.ShowMsg("조회 확인", $"결과가 {vari.Search_Max_Row} 건 이상입니다.(최대 {vari.Search_Max_Row}건 까지 조회 됩니다.).", Function.form.frmMessage.enMessageType.OK);
+				}
 
 
 			}
@@ -676,6 +726,30 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 				this.Close();
 				return;
 			}
+		}
+
+		private void inpPicSizeMode_Text_Changed(object sender, usrEventArgs e)
+		{
+			pnlImage.BackgroundImageLayout = (ImageLayout)Fnc.enumItem2Object(new ImageLayout(), inpPicSizeMode.Text);
+		}
+
+		private void btnPicPopUp_Click(object sender, EventArgs e)
+		{
+			if(popImage == null || popImage.IsDisposed)
+			{
+				popImage = new popTorqueImage();
+
+				popImage.Size = this.Size;
+				popImage.Location = this.Location;
+
+				popImage.Show(this);
+			}
+
+			popImage.TopMost = true;
+			popImage.BringToFront();
+			Application.DoEvents();
+
+			popImage.TopMost = false;
 		}
 	}
 }
