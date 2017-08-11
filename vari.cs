@@ -44,7 +44,15 @@ namespace GM_Torqu_Tool_IF
 		/// </summary>
 		public static string StationID;
 
-		
+		/// <summary>
+		/// 조회 시 최대 조회 로우 수
+		/// </summary>
+		public static readonly int Search_Max_Row = 2000;
+
+		/// <summary>
+		/// Torque 이미지 경로
+		/// </summary>
+		public static string TorqueImagePath = "";
 
 
 		public struct stPLC
@@ -53,6 +61,8 @@ namespace GM_Torqu_Tool_IF
 			public string Topic_Name;
 			public string Add_Trigger;
 			public string Add_Ack;
+			public string Add_Confirm;
+			public string Add_Info;
 			public string Add_Data;
 		}
 
@@ -124,6 +134,11 @@ namespace GM_Torqu_Tool_IF
 		/// </summary>
 		public static int iLogMaxCnt = 100;
 
+		/// <summary>
+		/// DB I/F 처리 여부
+		/// </summary>
+		public static bool bIF_Chk = false;
+
 
 		/// <summary>
 		/// 변수 초기화
@@ -132,7 +147,7 @@ namespace GM_Torqu_Tool_IF
 		{
 			Pgm_Path = System.Windows.Forms.Application.StartupPath;
 			Pgm_Setting_FileName = $"{Pgm_Path}\\{Pgm_Setting_FileName}";
-
+			bool rb = false;
 
 			Pgm_Setting = new Setting(Pgm_Setting_FileName);
 
@@ -141,7 +156,9 @@ namespace GM_Torqu_Tool_IF
 			//기기 id
 			StationID = Pgm_Setting.Value_Get("StationID", "DEV_01");
 			iTestSeq = Fnc.obj2int(Pgm_Setting.Value_Get("TestSeq", "0"));
-
+			TorqueImagePath = Pgm_Setting.Value_Get("TorqueImagePath", "");
+			bIF_Chk = Fnc.obj2Bool(Pgm_Setting.Value_Get("IF_Check", "False"));
+			
 
 			//db 정보 로드
 			Pgm_Setting.Group_Select("MsSql");
@@ -154,9 +171,11 @@ namespace GM_Torqu_Tool_IF
 			//plc 기초 값 로드  N7:0,L2
 			plc_default.RSLINX_ID = "opcda://localhost/RSLinx OPC Server";
 			plc_default.Topic_Name = "Torque";
-			plc_default.Add_Trigger = "[Torque]R7000:0,L2";
-			plc_default.Add_Ack = "[Torque]R7001:0,L2";
-			plc_default.Add_Data = "[Torque]R7002:0,L200";
+			plc_default.Add_Trigger = "[Torque]R7001:0,L2";
+			plc_default.Add_Ack = "[Torque]R7002:0,L2";
+			plc_default.Add_Confirm = "[Torque]R7003:0,L2";
+			plc_default.Add_Info = "[Torque]R7004:0,L16";
+			plc_default.Add_Data = "[Torque]R7000:0,L200";
 
 			Pgm_Setting.Group_Select("PLC");
 
@@ -167,6 +186,8 @@ namespace GM_Torqu_Tool_IF
 				plc.Topic_Name = vari.Pgm_Setting.Value_Get("TOPIC_NAME");
 				plc.Add_Trigger = vari.Pgm_Setting.Value_Get("ADD_TRIGGER");
 				plc.Add_Ack = vari.Pgm_Setting.Value_Get("ADD_ACK");
+				plc.Add_Confirm = vari.Pgm_Setting.Value_Get("ADD_CONFIRM");
+				plc.Add_Info = vari.Pgm_Setting.Value_Get("ADD_INFO");
 				plc.Add_Data = vari.Pgm_Setting.Value_Get("ADD_DATA");
 			}
 			else
@@ -189,7 +210,9 @@ namespace GM_Torqu_Tool_IF
 			vari.Pgm_Setting.Value_Set("RSLINX_ID", plc.RSLINX_ID);
 			vari.Pgm_Setting.Value_Set("TOPIC_NAME", plc.Topic_Name);
 			vari.Pgm_Setting.Value_Set("ADD_TRIGGER", plc.Add_Trigger);
+			vari.Pgm_Setting.Value_Set("ADD_CONFIRM", plc.Add_Confirm);
 			vari.Pgm_Setting.Value_Set("ADD_ACK", plc.Add_Ack);
+			vari.Pgm_Setting.Value_Set("ADD_INFO", plc.Add_Info);
 			vari.Pgm_Setting.Value_Set("ADD_DATA", plc.Add_Data);
 
 
@@ -198,6 +221,9 @@ namespace GM_Torqu_Tool_IF
 
 			vari.Pgm_Setting.Value_Set("TestSeq", iTestSeq.ToString());
 			vari.Pgm_Setting.Value_Set("OPMODE", ((int)OpMode).ToString());
+			vari.Pgm_Setting.Value_Set("TorqueImagePath", vari.TorqueImagePath);
+			vari.Pgm_Setting.Value_Set("IF_Check", vari.bIF_Chk.ToString());
+			
 
 			Pgm_Setting.Setting_Save();
 		}

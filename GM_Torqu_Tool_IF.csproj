@@ -54,7 +54,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Activities" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Activities" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -66,11 +70,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="dba.cs" />
+    <Compile Include="dba_init.cs" />
     <Compile Include="frmMain.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmMain.Designer.cs">
       <DependentUpon>frmMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PopUp\popTorqueImage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PopUp\popTorqueImage.Designer.cs">
+      <DependentUpon>popTorqueImage.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PopUp\popDBInit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PopUp\popDBInit.Designer.cs">
+      <DependentUpon>popDBInit.cs</DependentUpon>
     </Compile>
     <Compile Include="popTest.cs">
       <SubType>Form</SubType>
@@ -95,9 +112,16 @@
     <Compile Include="vari.cs" />
     <EmbeddedResource Include="frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="popTest.resx">
       <DependentUpon>popTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PopUp\popTorqueImage.resx">
+      <DependentUpon>popTorqueImage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PopUp\popDBInit.resx">
+      <DependentUpon>popDBInit.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PopUp\popToolMng.resx">
       <DependentUpon>popToolMng.cs</DependentUpon>
@@ -145,6 +169,10 @@
       <Project>{863982ca-29cb-4ff7-b338-f770b85bc3c2}</Project>
       <Name>clsPLCModule</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\_Function\NewFunction\PLC\PLCComm\PLCComm.csproj">
+      <Project>{add5b9b9-cb9e-4407-bbd7-dd8d885d8ac7}</Project>
+      <Name>PLCComm</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="Image\ramp_db_ng.png" />
@@ -166,6 +194,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="torque_icon.ico" />
+    <Content Include="_할일.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

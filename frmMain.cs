@@ -18,7 +18,7 @@ namespace GM_Torqu_Tool_IF
 		/// <summary>
 		/// plc 통신 모듈
 		/// </summary>
-		PLCModule.clsPLCModule opc = null;
+		PLCComm.PLCComm opc = null;
 
 		/// <summary>
 		/// 테스트 값
@@ -40,11 +40,22 @@ namespace GM_Torqu_Tool_IF
 		/// </summary>
 		string[] cond_result = new string[] { "", "OK", "NG" };
 
+		/// <summary>
+		/// station id 결과 배열
+		/// </summary>
+		string[] cond_stationid = new string[] { "", "DEV_01", "DEV_02" };
+
+
 		bool _db_conn = false;
 
 		System.Threading.Timer tmrWork = null;
 
 		bool isWork = false;
+
+		/// <summary>
+		/// if 작업 여부
+		/// </summary>
+		bool isIF_Db = false;
 
 		/// <summary>
 		/// db 연결 상태를 가져오거나 설정 한다.
@@ -70,7 +81,15 @@ namespace GM_Torqu_Tool_IF
 		/// </summary>
 		System.Threading.Timer tmrDB_Chk = null;
 
-		
+		/// <summary>
+		/// IF 체크 타이머
+		/// </summary>
+		System.Threading.Timer tmrIF_Chk = null;
+
+		/// <summary>
+		/// Torque Image PopUp 창
+		/// </summary>
+		popTorqueImage popImage = null;
 
 
 		public frmMain()
@@ -83,15 +102,18 @@ namespace GM_Torqu_Tool_IF
 			btnSetting.Image = Function.resIcon16.save;
 			btnSearch.Image = Function.resIcon16.search_file;
 			btnCondition_reset.Image = Function.resIcon16.redo;
+			btnPicPopUp.Image = Function.resIcon16.module;
 
 			btnExcelSave.Image = Function.resIcon16.Excel;
 
 			vari.ImgList.Images.Add(Function.resIcon16.server);
 			vari.ImgList.Images.Add(Function.resIcon16.search_web);
+			vari.ImgList.Images.Add(Function.resIcon16.module);
 
 			tabControl1.ImageList = vari.ImgList;
 			tabMonitoring.ImageIndex = 0;
 			tabSearching.ImageIndex = 1;
+			tabImage.ImageIndex = 2;
 
 
 			clsLog = new Function.Util.Log(vari.Pgm_Path + "\\log", "log", 0, true);
@@ -130,6 +152,10 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 ).Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
 
 
+			pnlImage.BackgroundImageLayout = ImageLayout.Zoom;
+			inpPicSizeMode.ComboBoxItems.AddRange(Fnc.EnumItems2Strings(new ImageLayout()));
+			inpPicSizeMode.Value = pnlImage.BackgroundImageLayout.ToString();
+
 		}
 
 
@@ -157,20 +183,22 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 		/// <summary>
 		/// 수신된 데이터 처리 부
 		/// </summary>
-		/// <param name="data"></param>
-		void Data_Proc(string data)
+		/// <param name="info"></param>
+		void Data_Proc(string info, string data)
 		{
 			try
 			{
-				clsLog.WLog($"Data를 수신 했습니다.\r\n\t\t {data}");
+				clsLog.WLog($"Data를 수신 했습니다.\r\n\t\t {info}");
 
-				string pono = Fnc.StringGet(ref data, 6);
-				string trimin = Fnc.StringGet(ref data, 4);
-				string vin = Fnc.StringGet(ref data, 18).Trim();
-				string cartype = Fnc.StringGet(ref data, 3);
-				string rst = Fnc.StringGet(ref data, 2);
+				info = info.Replace("\0", " ");
+
+				string pono = Fnc.StringGet(ref info, 6);
+				string trimin = Fnc.StringGet(ref info, 4);
+				string vin = Fnc.StringGet(ref info, 18).Trim();
+				string cartype = Fnc.StringGet(ref info, 3);
+				string rst = string.Empty; //result는 없음 Fnc.StringGet(ref info, 2);
 				
-				string log = $"[PONO]{pono} [TrimIn]{trimin} [CarType]{cartype} [Vin]{vin} [Result]{rst}";
+				string log = $"[PONO]{pono} [TrimIn]{trimin} [CarType]{cartype} [Vin]{vin}";
 
 				//db에 저장한다.
 				dba.Data_Insert(vin, trimin, pono, cartype, rst, vari.StationID, data);
@@ -189,32 +217,32 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 
 
 
-		private delegate void delMoniLogAdd(DateTime dtm, string gbn, string log, bool isError, Function.enStringLocation loc);
+		private delegate void delLvLogAdd(ListView lv, DateTime dtm, string gbn, string log, bool isError, Function.enStringLocation loc);
 
 		/// <summary>
-		/// 모니터링 로그를 추가한다.
+		/// 리스트 뷰 로그를 추가한다.
 		/// </summary>
 		/// <param name="gbn"></param>
 		/// <param name="log"></param>
-		private void MoniLogAdd(DateTime dtm, string gbn, string log, bool isError = false, Function.enStringLocation loc = enStringLocation.Front)
+		private void LvLogAdd(ListView lv, DateTime dtm, string gbn, string log, bool isError = false, Function.enStringLocation loc = enStringLocation.Front)
 		{
-			if(lstMoniLog.InvokeRequired)
+			if(lv.InvokeRequired)
 			{
-				lstMoniLog.Invoke(new delMoniLogAdd(MoniLogAdd), dtm, gbn, log, isError, loc);
+				lv.Invoke(new delLvLogAdd(LvLogAdd), lv, dtm, gbn, log, isError, loc);
 				return;
 			}
 
 			ListViewItem li = new ListViewItem(new string[] { string.Empty, Fnc.Date2String(dtm, Fnc.enDateType.DateTime), gbn, log });
 
 			if (loc == enStringLocation.Front)
-				lstMoniLog.Items.Insert(0, li);
+				lv.Items.Insert(0, li);
 			else
-				lstMoniLog.Items.Add(li);
+				lv.Items.Add(li);
 
 			//최대 로그 수를 유지한다.
-			while(lstMoniLog.Items.Count > vari.iLogMaxCnt)
+			while(lv.Items.Count > vari.iLogMaxCnt)
 			{
-				lstMoniLog.Items.RemoveAt(lstMoniLog.Items.Count - 1);
+				lv.Items.RemoveAt(lv.Items.Count - 1);
 			}
 
 		}
@@ -222,7 +250,7 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 
 		private void MoniLogAdd(string gbn, string log, bool isError = false)
 		{
-			MoniLogAdd(DateTime.Now, gbn, log, isError);
+			LvLogAdd(lstMoniLog, DateTime.Now, gbn, log, isError);
 		}
 
 
@@ -244,6 +272,10 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 				case "Result":
 					cond = cond_result;
 					break;
+
+				case "StationID":
+					cond = cond_stationid;
+					break;
 			}
 
 			if (cond == null) return string.Empty;
@@ -260,9 +292,10 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 			{
 
 				base.Form_Init();
-
+				
 				Text = $"TorqueTool [{vari.StationID}] v.{Application.ProductVersion}";
 				Title_Label = $"TorqueTool [{vari.StationID}]";
+				
 
 				//운영모드 확인
 				if (vari.OpMode == vari.enOpMode.Monitoring)
@@ -274,6 +307,33 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 					tabControl1.TabPages.Remove(tabMonitoring);					
 				}
 
+				//이미지
+				if (System.IO.File.Exists(vari.TorqueImagePath))
+				{
+					try
+					{
+						pnlImage.BackgroundImage = new Bitmap(vari.TorqueImagePath);
+					}
+					catch(Exception ex)
+					{
+						pnlImage.BackgroundImage = null;
+						ProcException(ex, "Image 로드 실패", true);
+					}
+				}
+				else
+					pnlImage.BackgroundImage = null;
+
+				//db if
+				if(vari.bIF_Chk)
+				{
+					lblIF_Status.Text = "";
+
+				}
+				else
+				{
+					lblIF_Status.Text = "중지 중...";
+				}
+
 
 				try
 				{
@@ -283,16 +343,30 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 					Application.DoEvents();
 
 #if (TestPLC)
-					opc = new PLCModule.clsPLCModule(PLCModule.enPlcType.TEST, "", 0, "", "PLC_LOG");
+					opc = new PLCComm.PLCComm(PLCComm.enPlcType.TEST, "127.0.0.1", 6001, "", "PLC_LOG");
+					//new PLCModule.clsPLCModule(PLCModule.enPlcType.TEST, "", 0, "", "PLC_LOG");
+
+					Text += " - PLC Test Mode";
+
 #else
-					opc = new PLCModule.clsPLCModule(PLCModule.enPlcType.AB, vari.plc.RSLINX_ID, vari.plc.RSLINX_ID, "Torque", "Torque", 1000, "Torque_PLC");							
+					//opc = new PLCModule.clsPLCModule(PLCModule.enPlcType.AB, vari.plc.RSLINX_ID, vari.plc.RSLINX_ID, "Torque", "Torque", 1000, "Torque_PLC");							
+					opc = new PLCComm.PLCComm(PLCComm.enPlcType.AB, "", vari.plc.RSLINX_ID, "Torque", "Torque", 1000, "Torque_PLC");
 #endif
-
-
-					opc.AddAddress(new string[] { vari.plc.Add_Trigger, vari.plc.Add_Ack, vari.plc.Add_Data });
 					opc.OnChConnectionStatus += Opc_OnChConnectionStatus;
+					PLCComm.delChAddressValue dChAddress = new PLCComm.delChAddressValue(OnChAddress);
+
+					opc.Open();
+
+					opc.AddAddress(vari.plc.Add_Trigger, PLCComm.enPLCValueType.INT);
+					opc.AddAddress(vari.plc.Add_Ack, PLCComm.enPLCValueType.INT);
+					opc.AddAddress(vari.plc.Add_Confirm, PLCComm.enPLCValueType.INT);
+					opc.AddAddress(vari.plc.Add_Info, PLCComm.enPLCValueType.STRING);
+					opc.AddAddress(vari.plc.Add_Data, PLCComm.enPLCValueType.HEX);
+
 					
-					opc.Open();				
+					opc.ChangeEvtAddress_Add(vari.plc.Add_Trigger, dChAddress);
+									
+						
 
 				}
 				catch(Exception ex)
@@ -323,7 +397,7 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 				//plc 체크 쓰래드
 				if(tmrWork == null)
 				{
-					tmrWork = new System.Threading.Timer(new TimerCallback(Work_Plc), null, 5000, 1000);
+					tmrWork = new System.Threading.Timer(new TimerCallback(Work_Plc), null, 5000, 10000);
 
 				}
 
@@ -340,30 +414,98 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 
 		}
 
+		private void OnChAddress(string address, PLCComm.enPLCValueType type , object oValue, object nValue)
+		{
+			Console.WriteLine($"[ADD]{address} [Value]{oValue} -> {nValue}");
+		}
+
+
+		/// <summary>
+		/// plc상태 변경
+		/// </summary>
+		/// <param name="status"></param>
+		private void Opc_OnChConnectionStatus(enStatus status)
+		{
+			try
+			{
+				Function.form.control.Invoke_Control_SetProperty(picPLC, "Image", status == enStatus.OK ? Properties.Resources.ramp_plc_ok : Properties.Resources.ramp_plc_ng);
+			}
+			catch (Exception ex)
+			{
+				ProcException(ex, "Opc_OnChConnectionStatus", false);
+			}
+		}
+
 		private void Work_Plc(object obj)
 		{
+			
+
+			if (vari.OpMode != vari.enOpMode.Monitoring) return;
+
 			if (isWork) return;
 
 			try
 			{
 				isWork = true;
-
+				
 				int trg_id = opc.GetValueInt(vari.plc.Add_Trigger);
 				int ack_id = opc.GetValueInt(vari.plc.Add_Ack);
+				int confirm_id = opc.GetValueInt(vari.plc.Add_Confirm);
 
-				if (trg_id == ack_id) return;
+				if (trg_id == ack_id && ack_id == confirm_id) return;
+
+				Console.WriteLine($"[Work_Plc] 체크 [Trg]{trg_id} [Ack]{ack_id} [Confirm]{confirm_id}" );
+
+				clsLog.WLog($"[Work_Plc] 체크 [Trg]{trg_id} [Ack]{ack_id} [Confirm]{confirm_id}");
+
+
+
+				//트리거 id 변경
+				opc.WriteOrder(vari.plc.Add_Ack, trg_id);
+
+				string info = opc.GetValueString(vari.plc.Add_Info);
 
 				string data = opc.GetValueHex(vari.plc.Add_Data);
+				string dd = string.Empty;
+				string tmp;
+				for(int i = 0; i < 4;i++ )
+				{
+					tmp = Fnc.StringGet(ref data, 4);
+				}
 
-				Data_Proc(data);
+				while(data.Length > 11)
+				{
+					//torque
+					tmp = Fnc.StringGet(ref data, 4);
+					dd += tmp;
 
-				//ack_id <- trg_id
-				opc.WriteOrder(vari.plc.Add_Ack, trg_id);
+					//angle
+					tmp = Fnc.StringGet(ref data, 4);
+					dd += tmp;
+
+					//result
+					tmp = Fnc.StringGet(ref data, 4);
+					if (tmp.Equals("0001"))
+						dd += "NG";
+					else
+						dd += "OK";
+				}
+
 				
+
+
+				Data_Proc(info, dd);
+
+				//컨펌 id 변경
+				opc.WriteOrder(vari.plc.Add_Confirm, trg_id);
+
+
+				Console.WriteLine($"[Work_Plc] 체크완료");
+
 			}
 			catch(Exception ex)
 			{
-				ProcException(ex, "Work_Plc", true);
+				ProcException(ex, "Work_Plc", false);
 			}
 			finally
 			{
@@ -379,16 +521,16 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 			//최초에만 조회를 한다.
 			if (lstMoniLog.Items.Count > 0) return;
 
-			DataTable dt = dba.Data_LastWork(50);
+			DataTable dt = dba.Data_LastWork(50, vari.StationID);
 			string log;
 
 
 			foreach (DataRow r in dt.Rows)
 			{
-				log = $"[PONO]{r["pono"]} [TrimIn]{r["triminSeq"]} [CarType]{r["cartype"]} [Vin]{r["vin"]} [Result]{r["TotalResult"]}";
+				log = $"[PONO]{r["pono"]} [TrimIn]{r["triminSeq"]} [CarType]{r["cartype"]} [Vin]{r["vin"]}";
 
 				//db에 저장한다.				
-				MoniLogAdd((DateTime)r["CreateDate"], "Data처리", log, false, enStringLocation.End);
+				LvLogAdd(lstMoniLog, (DateTime)r["CreateDate"], "Data처리", log, false, enStringLocation.End);
 				
 			}
 		}
@@ -396,23 +538,6 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 
 
 
-		/// <summary>
-		/// plc상태 변경
-		/// </summary>
-		/// <param name="bolSocketStats"></param>
-		private void Opc_OnChConnectionStatus(bool bolSocketStats)
-		{
-			try
-			{
-				Function.form.control.Invoke_Control_SetProperty(picPLC, "Image", bolSocketStats ? Properties.Resources.ramp_plc_ok : Properties.Resources.ramp_plc_ng);
-			}
-			catch(Exception ex)
-			{
-				ProcException(ex, "Opc_OnChConnectionStatus", false);
-			}
-
-		}
-		
 
 		/// <summary>
 		/// 조회 조건 초기화
@@ -429,10 +554,33 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 			inpTrimin.Value = string.Empty;
 			inpVin.Value = string.Empty;
 			inpResult.ComboBoxSelectIndex = 0;
+			inpStationID.ComboBoxSelectIndex = 0;
 
 		}
 
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="o"></param>
+		private void IF_Db(object o)
+		{
+			if (isIF_Db) return;
+
+			try
+			{
+				isIF_Db = true;
+				
+			}
+			catch(Exception ex)
+			{
+				LvLogAdd(lstIFLog, DateTime.Now, "IF오류", ex.Message, false, enStringLocation.End);
+			}
+			finally
+			{
+				isIF_Db = false;
+			}
+		}
 
 
 
@@ -447,7 +595,11 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 		{
 			popSetting frm = new popSetting();
 			if (frm.ShowDialog(this) == DialogResult.OK)
+			{
 				Form_Init();
+
+				if (popImage != null) popImage.Image_Load();
+			}
 		}
 
 		/// <summary>
@@ -519,7 +671,7 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 			{
 				DateTime dtF;
 				DateTime dtT;
-				string cartype, pono, trimin, vin, rst;
+				string cartype, pono, trimin, vin, rst, stationid;
 
 
 				if(dtFrom.Value < dtTo.Value)
@@ -538,8 +690,9 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 				trimin = inpTrimin.Text.Trim();
 				vin = inpVin.Text.Trim();
 				rst = Cond_Value_Get(inpResult);
+				stationid = Cond_Value_Get(inpStationID);
 
-				DataTable dt = dba.Data_Search(dtF, dtT, cartype, pono, vin, trimin, rst);
+				DataTable dt = dba.Data_Search(dtF, dtT, cartype, pono, vin, trimin, rst, stationid);
 
 				grdSearch.DataSource = dt;
 
@@ -547,9 +700,14 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 				{
 					c.AutoSizeMode = DataGridViewAutoSizeColumnMode.DisplayedCells;
 				}
-				
+							
 
 				SetMessage(false, $"{dt.Rows.Count}건이 조회 되었습니다.", false);			
+
+				if(dt.Rows.Count >= vari.Search_Max_Row)
+				{
+					Function.clsFunction.ShowMsg("조회 확인", $"결과가 {vari.Search_Max_Row} 건 이상입니다.(최대 {vari.Search_Max_Row}건 까지 조회 됩니다.).", Function.form.frmMessage.enMessageType.OK);
+				}
 
 
 			}
@@ -602,7 +760,38 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 
 		private void frmMain_Load(object sender, EventArgs e)
 		{
+			//중복 실행 방지
+			if (!Function.form.control.ProgramRunCheck("GM_Torqu_Tool_IF"))
+			{
+				Function.clsFunction.ShowMsg(this, "중복실행", "이미 프로그램이 수행 중입니다.", frmMessage.enMessageType.OK, 3);
+				DialogResult = System.Windows.Forms.DialogResult.Ignore;
+				this.Close();
+				return;
+			}
+		}
 
+		private void inpPicSizeMode_Text_Changed(object sender, usrEventArgs e)
+		{
+			pnlImage.BackgroundImageLayout = (ImageLayout)Fnc.enumItem2Object(new ImageLayout(), inpPicSizeMode.Text);
+		}
+
+		private void btnPicPopUp_Click(object sender, EventArgs e)
+		{
+			if(popImage == null || popImage.IsDisposed)
+			{
+				popImage = new popTorqueImage();
+
+				popImage.Size = this.Size;
+				popImage.Location = this.Location;
+
+				popImage.Show(this);
+			}
+
+			popImage.TopMost = true;
+			popImage.BringToFront();
+			Application.DoEvents();
+
+			popImage.TopMost = false;
 		}
 	}
 }

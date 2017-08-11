@@ -1,0 +1,14 @@
+﻿
+[TORQUE]R7001[0]
+[TORQUE]R7002[0]
+[TORQUE]R7003[0]
+[TORQUE]R7004,L20,C1
+[TORQUE]R7000,L100,C1
+
+
+
+
+sp_testlinkedserver 'LNK_TORQUE'
+
+
+sp_linkedservers

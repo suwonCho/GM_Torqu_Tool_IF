@@ -34,11 +34,11 @@ namespace GM_Torqu_Tool_IF
 		int iWorkCnt = 0;
 		bool bWorkCancel = false;
 
-		PLCModule.clsPLCModule _opc;
+		PLCComm.PLCComm _opc;
 
 		
 		
-		public popTest(PLCModule.clsPLCModule opc)
+		public popTest(PLCComm.PLCComm opc)
 		{
 			InitializeComponent();
 
