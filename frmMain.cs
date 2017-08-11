@@ -53,6 +53,11 @@ namespace GM_Torqu_Tool_IF
 		bool isWork = false;
 
 		/// <summary>
+		/// if 작업 여부
+		/// </summary>
+		bool isIF_Db = false;
+
+		/// <summary>
 		/// db 연결 상태를 가져오거나 설정 한다.
 		/// </summary>
 		bool DB_Conn
@@ -75,6 +80,11 @@ namespace GM_Torqu_Tool_IF
 		/// db 상태 체크 타이머
 		/// </summary>
 		System.Threading.Timer tmrDB_Chk = null;
+
+		/// <summary>
+		/// IF 체크 타이머
+		/// </summary>
+		System.Threading.Timer tmrIF_Chk = null;
 
 		/// <summary>
 		/// Torque Image PopUp 창
@@ -207,32 +217,32 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 
 
 
-		private delegate void delMoniLogAdd(DateTime dtm, string gbn, string log, bool isError, Function.enStringLocation loc);
+		private delegate void delLvLogAdd(ListView lv, DateTime dtm, string gbn, string log, bool isError, Function.enStringLocation loc);
 
 		/// <summary>
-		/// 모니터링 로그를 추가한다.
+		/// 리스트 뷰 로그를 추가한다.
 		/// </summary>
 		/// <param name="gbn"></param>
 		/// <param name="log"></param>
-		private void MoniLogAdd(DateTime dtm, string gbn, string log, bool isError = false, Function.enStringLocation loc = enStringLocation.Front)
+		private void LvLogAdd(ListView lv, DateTime dtm, string gbn, string log, bool isError = false, Function.enStringLocation loc = enStringLocation.Front)
 		{
-			if(lstMoniLog.InvokeRequired)
+			if(lv.InvokeRequired)
 			{
-				lstMoniLog.Invoke(new delMoniLogAdd(MoniLogAdd), dtm, gbn, log, isError, loc);
+				lv.Invoke(new delLvLogAdd(LvLogAdd), lv, dtm, gbn, log, isError, loc);
 				return;
 			}
 
 			ListViewItem li = new ListViewItem(new string[] { string.Empty, Fnc.Date2String(dtm, Fnc.enDateType.DateTime), gbn, log });
 
 			if (loc == enStringLocation.Front)
-				lstMoniLog.Items.Insert(0, li);
+				lv.Items.Insert(0, li);
 			else
-				lstMoniLog.Items.Add(li);
+				lv.Items.Add(li);
 
 			//최대 로그 수를 유지한다.
-			while(lstMoniLog.Items.Count > vari.iLogMaxCnt)
+			while(lv.Items.Count > vari.iLogMaxCnt)
 			{
-				lstMoniLog.Items.RemoveAt(lstMoniLog.Items.Count - 1);
+				lv.Items.RemoveAt(lv.Items.Count - 1);
 			}
 
 		}
@@ -240,7 +250,7 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 
 		private void MoniLogAdd(string gbn, string log, bool isError = false)
 		{
-			MoniLogAdd(DateTime.Now, gbn, log, isError);
+			LvLogAdd(lstMoniLog, DateTime.Now, gbn, log, isError);
 		}
 
 
@@ -313,6 +323,16 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 				else
 					pnlImage.BackgroundImage = null;
 
+				//db if
+				if(vari.bIF_Chk)
+				{
+					lblIF_Status.Text = "";
+
+				}
+				else
+				{
+					lblIF_Status.Text = "중지 중...";
+				}
 
 
 				try
@@ -510,7 +530,7 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 				log = $"[PONO]{r["pono"]} [TrimIn]{r["triminSeq"]} [CarType]{r["cartype"]} [Vin]{r["vin"]}";
 
 				//db에 저장한다.				
-				MoniLogAdd((DateTime)r["CreateDate"], "Data처리", log, false, enStringLocation.End);
+				LvLogAdd(lstMoniLog, (DateTime)r["CreateDate"], "Data처리", log, false, enStringLocation.End);
 				
 			}
 		}
@@ -539,6 +559,28 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 		}
 
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="o"></param>
+		private void IF_Db(object o)
+		{
+			if (isIF_Db) return;
+
+			try
+			{
+				isIF_Db = true;
+				
+			}
+			catch(Exception ex)
+			{
+				LvLogAdd(lstIFLog, DateTime.Now, "IF오류", ex.Message, false, enStringLocation.End);
+			}
+			finally
+			{
+				isIF_Db = false;
+			}
+		}
 
 
 

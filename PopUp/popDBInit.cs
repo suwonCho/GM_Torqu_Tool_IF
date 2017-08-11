@@ -9,6 +9,7 @@ using System.Windows.Forms;
 
 using Function;
 using Function.Db;
+using System.Threading;
 
 namespace GM_Torqu_Tool_IF
 {
@@ -102,7 +103,7 @@ namespace GM_Torqu_Tool_IF
 
 				lblMsg.Text = "데이터 베이스 생성을 완료 했습니다.";
 
-				if (clsFunction.ShowMsg(this, "DB 생성 완료", "데이터 베이스를 생성이 완료 되었습니다.\r\n 데이터 베이스 설정을 현재 생성된 DB로 변경 하시겠습니까?", Function.form.frmMessage.enMessageType.YesNo) == DialogResult.Yes)
+				if (clsFunction.ShowMsg(this, "DB 생성 완료", "데이터베이스를 생성이 완료 되었습니다.\r\n 데이터베이스 설정을 현재 생성된 DB로 변경 하시겠습니까?", Function.form.frmMessage.enMessageType.YesNo) == DialogResult.Yes)
 				{
 					vari.conn.strDataBase = conn.strDataBase;
 					vari.DB_Setting_Save();
@@ -110,6 +111,49 @@ namespace GM_Torqu_Tool_IF
 				
 			}
 			catch(Exception ex)
+			{
+				Function.form.control.Invoke_Control_Text(lblMsg, ex.InnerException.Message);
+			}
+		}
+
+
+		/// <summary>
+		/// DB Link 및 프로시져 생성을 한다.
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void btnIF_Click(object sender, EventArgs e)
+		{
+			try
+			{
+
+				lblMsg.Text = "";
+
+				Application.DoEvents();
+
+				string lnk_Name = "LNK_TORQUE";
+				string proc_Name = "P_RESULT_IF";
+				
+				if(vari.conn.strDataBase.Equals(string.Empty))
+				{
+					clsFunction.ShowMsg(this, "DB 설정 확인", "데이터베이스 이름이 설정되어 있지 안습니다.\r\nMS Sql 환경설정에서 데이터베이스 설정 후 작업 하여 주십시요.", Function.form.frmMessage.enMessageType.OK);
+					return;
+				}
+
+				lblMsg.Text = "DB Link 및 프로시져 생성을 시작합니다.";
+				Application.DoEvents();
+
+				dba_init.db_link_create(vari.conn, inpIF_DB.Value.Trim(), inpIF_ID.Value.Trim(), inpIF_Pass.Value.Trim());
+
+				dba_init.if_proc_create(vari.conn);
+
+				Thread.Sleep(3000);
+				
+				lblMsg.Text = "DB Link 및 프로시져 생성을 완료 했습니다.";
+
+
+			}
+			catch (Exception ex)
 			{
 				Function.form.control.Invoke_Control_Text(lblMsg, ex.InnerException.Message);
 			}

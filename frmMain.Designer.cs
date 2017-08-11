@@ -40,7 +40,6 @@
 			this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-			this.label1 = new System.Windows.Forms.Label();
 			this.tabSearching = new System.Windows.Forms.TabPage();
 			this.grdSearch = new System.Windows.Forms.DataGridView();
 			this.pnlSearch_conditon = new System.Windows.Forms.Panel();
@@ -61,7 +60,18 @@
 			this.tabImage = new System.Windows.Forms.TabPage();
 			this.pnlImage = new System.Windows.Forms.Panel();
 			this.inpPicSizeMode = new Function.form.usrInputBox();
+			this.tabIFLog = new System.Windows.Forms.TabPage();
+			this.lstIFLog = new System.Windows.Forms.ListView();
+			this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.columnHeader7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+			this.columnHeader8 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
 			this.btnPicPopUp = new System.Windows.Forms.Button();
+			this.panel1 = new System.Windows.Forms.Panel();
+			this.label1 = new System.Windows.Forms.Label();
+			this.panel2 = new System.Windows.Forms.Panel();
+			this.label6 = new System.Windows.Forms.Label();
+			this.lblIF_Status = new System.Windows.Forms.Label();
 			((System.ComponentModel.ISupportInitialize)(this.picDB)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.picPLC)).BeginInit();
 			this.tabControl1.SuspendLayout();
@@ -71,6 +81,9 @@
 			this.pnlSearch_conditon.SuspendLayout();
 			this.tabImage.SuspendLayout();
 			this.pnlImage.SuspendLayout();
+			this.tabIFLog.SuspendLayout();
+			this.panel1.SuspendLayout();
+			this.panel2.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// btnSetting
@@ -114,6 +127,7 @@
 			this.tabControl1.Controls.Add(this.tabMonitoring);
 			this.tabControl1.Controls.Add(this.tabSearching);
 			this.tabControl1.Controls.Add(this.tabImage);
+			this.tabControl1.Controls.Add(this.tabIFLog);
 			this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tabControl1.Location = new System.Drawing.Point(0, 54);
 			this.tabControl1.Name = "tabControl1";
@@ -126,9 +140,9 @@
 			// 
 			this.tabMonitoring.BackColor = System.Drawing.SystemColors.Control;
 			this.tabMonitoring.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.tabMonitoring.Controls.Add(this.btnTest);
 			this.tabMonitoring.Controls.Add(this.lstMoniLog);
-			this.tabMonitoring.Controls.Add(this.label1);
+			this.tabMonitoring.Controls.Add(this.panel1);
+			this.tabMonitoring.Controls.Add(this.btnTest);
 			this.tabMonitoring.Location = new System.Drawing.Point(4, 4);
 			this.tabMonitoring.Name = "tabMonitoring";
 			this.tabMonitoring.Padding = new System.Windows.Forms.Padding(3);
@@ -158,11 +172,11 @@
 			this.lstMoniLog.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.lstMoniLog.FullRowSelect = true;
 			this.lstMoniLog.GridLines = true;
-			this.lstMoniLog.Location = new System.Drawing.Point(3, 26);
+			this.lstMoniLog.Location = new System.Drawing.Point(3, 30);
 			this.lstMoniLog.Margin = new System.Windows.Forms.Padding(2);
 			this.lstMoniLog.MultiSelect = false;
 			this.lstMoniLog.Name = "lstMoniLog";
-			this.lstMoniLog.Size = new System.Drawing.Size(1048, 562);
+			this.lstMoniLog.Size = new System.Drawing.Size(1048, 558);
 			this.lstMoniLog.TabIndex = 4;
 			this.lstMoniLog.UseCompatibleStateImageBehavior = false;
 			this.lstMoniLog.View = System.Windows.Forms.View.Details;
@@ -187,20 +201,6 @@
 			// 
 			this.columnHeader3.Text = "내 용";
 			this.columnHeader3.Width = 1235;
-			// 
-			// label1
-			// 
-			this.label1.BackColor = System.Drawing.Color.DarkGray;
-			this.label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.label1.Dock = System.Windows.Forms.DockStyle.Top;
-			this.label1.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-			this.label1.ForeColor = System.Drawing.Color.White;
-			this.label1.Location = new System.Drawing.Point(3, 3);
-			this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(1048, 23);
-			this.label1.TabIndex = 3;
-			this.label1.Text = "Torque 모니터링";
 			// 
 			// tabSearching
 			// 
@@ -686,6 +686,57 @@
 			this.inpPicSizeMode.Value = "";
 			this.inpPicSizeMode.Text_Changed += new Function.form.usrEventHander(this.inpPicSizeMode_Text_Changed);
 			// 
+			// tabIFLog
+			// 
+			this.tabIFLog.Controls.Add(this.lstIFLog);
+			this.tabIFLog.Controls.Add(this.panel2);
+			this.tabIFLog.Location = new System.Drawing.Point(4, 4);
+			this.tabIFLog.Name = "tabIFLog";
+			this.tabIFLog.Size = new System.Drawing.Size(1056, 593);
+			this.tabIFLog.TabIndex = 3;
+			this.tabIFLog.Text = "I/F 로그";
+			this.tabIFLog.UseVisualStyleBackColor = true;
+			// 
+			// lstIFLog
+			// 
+			this.lstIFLog.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader5,
+            this.columnHeader6,
+            this.columnHeader7,
+            this.columnHeader8});
+			this.lstIFLog.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.lstIFLog.FullRowSelect = true;
+			this.lstIFLog.GridLines = true;
+			this.lstIFLog.Location = new System.Drawing.Point(0, 27);
+			this.lstIFLog.Margin = new System.Windows.Forms.Padding(2);
+			this.lstIFLog.MultiSelect = false;
+			this.lstIFLog.Name = "lstIFLog";
+			this.lstIFLog.Size = new System.Drawing.Size(1056, 566);
+			this.lstIFLog.TabIndex = 5;
+			this.lstIFLog.UseCompatibleStateImageBehavior = false;
+			this.lstIFLog.View = System.Windows.Forms.View.Details;
+			// 
+			// columnHeader5
+			// 
+			this.columnHeader5.Width = 0;
+			// 
+			// columnHeader6
+			// 
+			this.columnHeader6.Text = "처리 시간";
+			this.columnHeader6.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.columnHeader6.Width = 131;
+			// 
+			// columnHeader7
+			// 
+			this.columnHeader7.Text = "처리구분";
+			this.columnHeader7.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+			this.columnHeader7.Width = 81;
+			// 
+			// columnHeader8
+			// 
+			this.columnHeader8.Text = "내 용";
+			this.columnHeader8.Width = 1235;
+			// 
 			// btnPicPopUp
 			// 
 			this.btnPicPopUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -697,6 +748,69 @@
 			this.btnPicPopUp.Text = "   사진팝업";
 			this.btnPicPopUp.UseVisualStyleBackColor = true;
 			this.btnPicPopUp.Click += new System.EventHandler(this.btnPicPopUp_Click);
+			// 
+			// panel1
+			// 
+			this.panel1.BackColor = System.Drawing.SystemColors.ButtonShadow;
+			this.panel1.Controls.Add(this.label1);
+			this.panel1.Dock = System.Windows.Forms.DockStyle.Top;
+			this.panel1.Location = new System.Drawing.Point(3, 3);
+			this.panel1.Name = "panel1";
+			this.panel1.Size = new System.Drawing.Size(1048, 27);
+			this.panel1.TabIndex = 6;
+			// 
+			// label1
+			// 
+			this.label1.BackColor = System.Drawing.Color.Transparent;
+			this.label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.label1.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+			this.label1.ForeColor = System.Drawing.Color.White;
+			this.label1.Location = new System.Drawing.Point(0, 0);
+			this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(1048, 27);
+			this.label1.TabIndex = 4;
+			this.label1.Text = "Torque 모니터링";
+			// 
+			// panel2
+			// 
+			this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.panel2.Controls.Add(this.label6);
+			this.panel2.Controls.Add(this.lblIF_Status);
+			this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
+			this.panel2.Location = new System.Drawing.Point(0, 0);
+			this.panel2.Name = "panel2";
+			this.panel2.Size = new System.Drawing.Size(1056, 27);
+			this.panel2.TabIndex = 6;
+			// 
+			// label6
+			// 
+			this.label6.BackColor = System.Drawing.Color.DarkGray;
+			this.label6.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.label6.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+			this.label6.ForeColor = System.Drawing.Color.White;
+			this.label6.Location = new System.Drawing.Point(0, 0);
+			this.label6.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+			this.label6.Name = "label6";
+			this.label6.Size = new System.Drawing.Size(864, 25);
+			this.label6.TabIndex = 5;
+			this.label6.Text = "I/F 로그";
+			this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			// 
+			// lblIF_Status
+			// 
+			this.lblIF_Status.BackColor = System.Drawing.Color.DarkGray;
+			this.lblIF_Status.Dock = System.Windows.Forms.DockStyle.Right;
+			this.lblIF_Status.Font = new System.Drawing.Font("맑은 고딕", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+			this.lblIF_Status.ForeColor = System.Drawing.Color.White;
+			this.lblIF_Status.Location = new System.Drawing.Point(864, 0);
+			this.lblIF_Status.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+			this.lblIF_Status.Name = "lblIF_Status";
+			this.lblIF_Status.Size = new System.Drawing.Size(190, 25);
+			this.lblIF_Status.TabIndex = 6;
+			this.lblIF_Status.Text = "상태";
+			this.lblIF_Status.TextAlign = System.Drawing.ContentAlignment.BottomRight;
 			// 
 			// frmMain
 			// 
@@ -734,6 +848,9 @@
 			this.pnlSearch_conditon.PerformLayout();
 			this.tabImage.ResumeLayout(false);
 			this.pnlImage.ResumeLayout(false);
+			this.tabIFLog.ResumeLayout(false);
+			this.panel1.ResumeLayout(false);
+			this.panel2.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -749,7 +866,6 @@
 		private System.Windows.Forms.ColumnHeader columnHeader1;
 		private System.Windows.Forms.ColumnHeader columnHeader2;
 		private System.Windows.Forms.ColumnHeader columnHeader3;
-		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.ColumnHeader columnHeader4;
 		public System.Windows.Forms.ListView lstMoniLog;
 		private System.Windows.Forms.Panel pnlSearch_conditon;
@@ -774,6 +890,17 @@
 		private System.Windows.Forms.Panel pnlImage;
 		private Function.form.usrInputBox inpPicSizeMode;
 		private System.Windows.Forms.Button btnPicPopUp;
+		private System.Windows.Forms.TabPage tabIFLog;
+		public System.Windows.Forms.ListView lstIFLog;
+		private System.Windows.Forms.ColumnHeader columnHeader5;
+		private System.Windows.Forms.ColumnHeader columnHeader6;
+		private System.Windows.Forms.ColumnHeader columnHeader7;
+		private System.Windows.Forms.ColumnHeader columnHeader8;
+		private System.Windows.Forms.Panel panel1;
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.Panel panel2;
+		private System.Windows.Forms.Label label6;
+		private System.Windows.Forms.Label lblIF_Status;
 	}
 }
 

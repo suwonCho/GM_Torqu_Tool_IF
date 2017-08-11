@@ -346,5 +346,265 @@ Insert into T_CODEDETAIL ([COMPANY_ID], [PROG_ID], [CODE], [CODEVALUE], [CODEVAL
 		}
 
 
+		/// <summary>
+		/// 상대 db 링크를 만들어 낸다.
+		/// </summary>
+		/// <param name="conn"></param>
+		/// <param name="ip"></param>
+		/// <param name="id"></param>
+		/// <param name="pass"></param>
+		public static void db_link_create(MsSQL.strConnect conn, string ip, string id, string pass)
+		{
+			MsSQL sql = new MsSQL(conn);
+
+			string qry = string.Format(@"
+EXEC master.dbo.sp_addlinkedserver @server = N'LNK_TORQUE', @srvproduct=N'torque_lnk', @provider=N'SQLNCLI', @datasrc=N'{0}'
+
+EXEC master.dbo.sp_addlinkedsrvlogin @rmtsrvname=N'LNK_TORQUE',@useself=N'False',@locallogin=NULL,@rmtuser=N'{1}',@rmtpassword='{2}'
+
+EXEC master.dbo.sp_serveroption @server=N'LNK_TORQUE', @optname=N'collation compatible', @optvalue=N'false'
+
+EXEC master.dbo.sp_serveroption @server=N'LNK_TORQUE', @optname=N'data access', @optvalue=N'true'
+
+EXEC master.dbo.sp_serveroption @server=N'LNK_TORQUE', @optname=N'dist', @optvalue=N'false'
+
+EXEC master.dbo.sp_serveroption @server=N'LNK_TORQUE', @optname=N'pub', @optvalue=N'false'
+
+EXEC master.dbo.sp_serveroption @server=N'LNK_TORQUE', @optname=N'rpc', @optvalue=N'false'
+
+EXEC master.dbo.sp_serveroption @server=N'LNK_TORQUE', @optname=N'rpc out', @optvalue=N'false'
+
+EXEC master.dbo.sp_serveroption @server=N'LNK_TORQUE', @optname=N'sub', @optvalue=N'false'
+
+EXEC master.dbo.sp_serveroption @server=N'LNK_TORQUE', @optname=N'connect timeout', @optvalue=N'0'
+
+EXEC master.dbo.sp_serveroption @server=N'LNK_TORQUE', @optname=N'collation name', @optvalue=null
+
+EXEC master.dbo.sp_serveroption @server=N'LNK_TORQUE', @optname=N'lazy schema validation', @optvalue=N'false'
+
+EXEC master.dbo.sp_serveroption @server=N'LNK_TORQUE', @optname=N'query timeout', @optvalue=N'0'
+
+EXEC master.dbo.sp_serveroption @server=N'LNK_TORQUE', @optname=N'use remote collation', @optvalue=N'true'
+
+EXEC master.dbo.sp_serveroption @server=N'LNK_TORQUE', @optname=N'remote proc transaction promotion', @optvalue=N'true'"
+, ip, id, pass);
+
+			sql.Excute_Query(qry, "");
+		}
+
+		/// <summary>
+		/// if 처리 프로시져를 만들어 준다.
+		/// </summary>
+		/// <param name="conn"></param>
+		public static void if_proc_create(MsSQL.strConnect conn)
+		{
+			MsSQL sql = new MsSQL(conn);
+
+			string qry = @"
+-- =============================================
+-- Author:		CSW
+-- Create date: 2017.07.28
+-- Description:	V0.1
+-- =============================================
+Create PROCEDURE [dbo].[P_RESULT_IF]	
+AS
+DECLARE @DT1	AS DATETIME,
+	@DT2	AS DATETIME,
+	@CreateDate datetime ,
+	@PONO nvarchar(6) ,
+	@TrimInSeq nvarchar(4) ,
+	@VIN nvarchar(17) ,
+	@CarType nvarchar(3) ,
+	@TotalResult nvarchar(2),
+	@STATION_ID nchar(10) ,
+	@T01_N01 nvarchar(4),
+	@T01_N02 nvarchar(4),
+	@T01_N03 nvarchar(2),
+	@T02_N01 nvarchar(4),
+	@T02_N02 nvarchar(4),
+	@T02_N03 nvarchar(2),
+	@T03_N01 nvarchar(4),
+	@T03_N02 nvarchar(4),
+	@T03_N03 nvarchar(2),
+	@T04_N01 nvarchar(4),
+	@T04_N02 nvarchar(4),
+	@T04_N03 nvarchar(2),
+	@T05_N01 nvarchar(4),
+	@T05_N02 nvarchar(4),
+	@T05_N03 nvarchar(2),
+	@T06_N01 nvarchar(4),
+	@T06_N02 nvarchar(4),
+	@T06_N03 nvarchar(2),
+	@T07_N01 nvarchar(4),
+	@T07_N02 nvarchar(4),
+	@T07_N03 nvarchar(2),
+	@T08_N01 nvarchar(4),
+	@T08_N02 nvarchar(4),
+	@T08_N03 nvarchar(2),
+	@T09_N01 nvarchar(4),
+	@T09_N02 nvarchar(4),
+	@T09_N03 nvarchar(2),
+	@T10_N01 nvarchar(4),
+	@T10_N02 nvarchar(4),
+	@T10_N03 nvarchar(2),
+	@T11_N01 nvarchar(4),
+	@T11_N02 nvarchar(4),
+	@T11_N03 nvarchar(2),
+	@T12_N01 nvarchar(4),
+	@T12_N02 nvarchar(4),
+	@T12_N03 nvarchar(2),
+	@T13_N01 nvarchar(4),
+	@T13_N02 nvarchar(4),
+	@T13_N03 nvarchar(2),
+	@T14_N01 nvarchar(4),
+	@T14_N02 nvarchar(4),
+	@T14_N03 nvarchar(2),
+	@T15_N01 nvarchar(4),
+	@T15_N02 nvarchar(4),
+	@T15_N03 nvarchar(2),
+	@T16_N01 nvarchar(4),
+	@T16_N02 nvarchar(4),
+	@T16_N03 nvarchar(2),
+	@T17_N01 nvarchar(4),
+	@T17_N02 nvarchar(4),
+	@T17_N03 nvarchar(2),
+	@T18_N01 nvarchar(4),
+	@T18_N02 nvarchar(4),
+	@T18_N03 nvarchar(2),
+	@T19_N01 nvarchar(4),
+	@T19_N02 nvarchar(4),
+	@T19_N03 nvarchar(2),
+	@T20_N01 nvarchar(4),
+	@T20_N02 nvarchar(4),
+	@T20_N03 nvarchar(2),
+	@T21_N01 nvarchar(4),
+	@T21_N02 nvarchar(4),
+	@T21_N03 nvarchar(2),
+	@T22_N01 nvarchar(4),
+	@T22_N02 nvarchar(4),
+	@T22_N03 nvarchar(2),
+	@T23_N01 nvarchar(4),
+	@T23_N02 nvarchar(4),
+	@T23_N03 nvarchar(2),
+	@T24_N01 nvarchar(4),
+	@T24_N02 nvarchar(4),
+	@T24_N03 nvarchar(2),
+	@T25_N01 nvarchar(4),
+	@T25_N02 nvarchar(4),
+	@T25_N03 nvarchar(2),
+	@cnt int,
+	@TCnt int
+BEGIN	
+	
+	SET @DT1 = GETDATE()
+	set @cnt = 0
+
+	PRINT '작업 시작' + CONVERT(VARCHAR(20), @DT1,120)
+
+	--전체 대상 조회
+	SELECT @TCnt = COUNT(*)
+	FROM [LNK_TORQUE].[TorqueTool].[dbo].[T_Result] R
+	WHERE IFFLAG = 'N'
+	AND STATION_ID IN
+	(
+		SELECT CODEVALUE FROM T_CODEDETAIL WHERE COMPANY_ID = 'GM' AND CODE = 'DEV_NAME' AND PROG_ID = 'TORQUE' AND INFO1 = 'N'
+	)
+	AND NOT EXISTS (SELECT CreateDate, STATION_ID FROM T_RESULT T WHERE T.CreateDate = R.CreateDate AND T.STATION_ID = R.STATION_ID)
+
+
+	--돌면서작업할커서확인..
+	declare CusorInterface CURSOR  
+	LOCAL  
+	FORWARD_ONLY  
+	STATIC --static:이후에반영되는데이터를감지못함/key set:키의삭제수정에대해서는감지insert에대해서는감지못함/dynamic:모두감지
+	READ_ONLY  
+	FOR  
+	SELECT TOP 100 CreateDate, PONO, TrimInSeq, VIN, CarType, TotalResult, STATION_ID, T01_N01, T01_N02, T01_N03, T02_N01, T02_N02, T02_N03, T03_N01, T03_N02, T03_N03, T04_N01, 
+               T04_N02, T04_N03, T05_N01, T05_N02, T05_N03, T06_N01, T06_N02, T06_N03, T07_N01, T07_N02, T07_N03, T08_N01, T08_N02, T08_N03, T09_N01, T09_N02, T09_N03, T10_N01, 
+               T10_N02, T10_N03, T11_N01, T11_N02, T11_N03, T12_N01, T12_N02, T12_N03, T13_N01, T13_N02, T13_N03, T14_N01, T14_N02, T14_N03, T15_N01, T15_N02, T15_N03, T16_N01, 
+               T16_N02, T16_N03, T17_N01, T17_N02, T17_N03, T18_N01, T18_N02, T18_N03, T19_N01, T19_N02, T19_N03, T20_N01, T20_N02, T20_N03, T21_N01, T21_N02, T21_N03, T22_N01, 
+               T22_N02, T22_N03, T23_N01, T23_N02, T23_N03, T24_N01, T24_N02, T24_N03, T25_N01, T25_N02, T25_N03
+	FROM [LNK_TORQUE].[TorqueTool].[dbo].[T_Result] R
+	WHERE IFFLAG = 'N'
+	AND STATION_ID IN
+	(
+		SELECT CODEVALUE FROM T_CODEDETAIL WHERE COMPANY_ID = 'GM' AND CODE = 'DEV_NAME' AND PROG_ID = 'TORQUE' AND INFO1 = 'N'
+	)
+	AND NOT EXISTS (SELECT CreateDate, STATION_ID FROM T_RESULT T WHERE T.CreateDate = R.CreateDate AND T.STATION_ID = R.STATION_ID)
+
+
+	--2.인터페이별로작업을처리한다.
+	OPEN CusorInterface  
+	Fetch next from CusorInterface into 
+		@CreateDate, @PONO, @TrimInSeq, @VIN, @CarType, @TotalResult, @STATION_ID, @T01_N01, @T01_N02, @T01_N03, @T02_N01, @T02_N02, @T02_N03, @T03_N01, @T03_N02, @T03_N03, @T04_N01, 
+		@T04_N02, @T04_N03, @T05_N01, @T05_N02, @T05_N03, @T06_N01, @T06_N02, @T06_N03, @T07_N01, @T07_N02, @T07_N03, @T08_N01, @T08_N02, @T08_N03, @T09_N01, @T09_N02, @T09_N03, @T10_N01, 
+		@T10_N02, @T10_N03, @T11_N01, @T11_N02, @T11_N03, @T12_N01, @T12_N02, @T12_N03, @T13_N01, @T13_N02, @T13_N03, @T14_N01, @T14_N02, @T14_N03, @T15_N01, @T15_N02, @T15_N03, @T16_N01, 
+		@T16_N02, @T16_N03, @T17_N01, @T17_N02, @T17_N03, @T18_N01, @T18_N02, @T18_N03, @T19_N01, @T19_N02, @T19_N03, @T20_N01, @T20_N02, @T20_N03, @T21_N01, @T21_N02, @T21_N03, @T22_N01, 
+		@T22_N02, @T22_N03, @T23_N01, @T23_N02, @T23_N03, @T24_N01, @T24_N02, @T24_N03, @T25_N01, @T25_N02, @T25_N03
+	WHILE @@FETCH_STATUS=0  
+	begin 
+
+		--데이터 인서트
+		INSERT INTO T_RESULT
+		(
+			CreateDate, PONO, TrimInSeq, VIN, CarType, TotalResult, STATION_ID, T01_N01, T01_N02, T01_N03, T02_N01, T02_N02, T02_N03, T03_N01, T03_N02, T03_N03, T04_N01, 
+			T04_N02, T04_N03, T05_N01, T05_N02, T05_N03, T06_N01, T06_N02, T06_N03, T07_N01, T07_N02, T07_N03, T08_N01, T08_N02, T08_N03, T09_N01, T09_N02, T09_N03, T10_N01, 
+			T10_N02, T10_N03, T11_N01, T11_N02, T11_N03, T12_N01, T12_N02, T12_N03, T13_N01, T13_N02, T13_N03, T14_N01, T14_N02, T14_N03, T15_N01, T15_N02, T15_N03, T16_N01, 
+			T16_N02, T16_N03, T17_N01, T17_N02, T17_N03, T18_N01, T18_N02, T18_N03, T19_N01, T19_N02, T19_N03, T20_N01, T20_N02, T20_N03, T21_N01, T21_N02, T21_N03, T22_N01, 
+			T22_N02, T22_N03, T23_N01, T23_N02, T23_N03, T24_N01, T24_N02, T24_N03, T25_N01, T25_N02, T25_N03, 
+			IFFLAG, IFDATE
+		)
+		VALUES
+		(
+			@CreateDate, @PONO, @TrimInSeq, @VIN, @CarType, @TotalResult, @STATION_ID, @T01_N01, @T01_N02, @T01_N03, @T02_N01, @T02_N02, @T02_N03, @T03_N01, @T03_N02, @T03_N03, @T04_N01, 
+			@T04_N02, @T04_N03, @T05_N01, @T05_N02, @T05_N03, @T06_N01, @T06_N02, @T06_N03, @T07_N01, @T07_N02, @T07_N03, @T08_N01, @T08_N02, @T08_N03, @T09_N01, @T09_N02, @T09_N03, @T10_N01, 
+			@T10_N02, @T10_N03, @T11_N01, @T11_N02, @T11_N03, @T12_N01, @T12_N02, @T12_N03, @T13_N01, @T13_N02, @T13_N03, @T14_N01, @T14_N02, @T14_N03, @T15_N01, @T15_N02, @T15_N03, @T16_N01, 
+			@T16_N02, @T16_N03, @T17_N01, @T17_N02, @T17_N03, @T18_N01, @T18_N02, @T18_N03, @T19_N01, @T19_N02, @T19_N03, @T20_N01, @T20_N02, @T20_N03, @T21_N01, @T21_N02, @T21_N03, @T22_N01, 
+			@T22_N02, @T22_N03, @T23_N01, @T23_N02, @T23_N03, @T24_N01, @T24_N02, @T24_N03, @T25_N01, @T25_N02, @T25_N03,
+			'T', GETDATE()
+		)
+
+		--ifflag update
+		UPDATE [LNK_TORQUE].[TorqueTool].[dbo].[T_Result]
+		SET IFFLAG = 'Y',
+			IFDATE = GETDATE()
+		WHERE CreateDate = @CreateDate
+			AND STATION_ID = @STATION_ID
+
+		set @cnt = @CNT + 1
+		SET @DT2 = GETDATE()
+
+		--PRINT '임시 테이블 데이트 입력 완료' + CONVERT(VARCHAR(20), @DT1,120) + ' / ' + CONVERT(VARCHAR(20), @DT2 - @DT1,120)
+
+		SET @DT1 = GETDATE()
+
+
+
+	Fetch next from CusorInterface into 
+		@CreateDate, @PONO, @TrimInSeq, @VIN, @CarType, @TotalResult, @STATION_ID, @T01_N01, @T01_N02, @T01_N03, @T02_N01, @T02_N02, @T02_N03, @T03_N01, @T03_N02, @T03_N03, @T04_N01, 
+		@T04_N02, @T04_N03, @T05_N01, @T05_N02, @T05_N03, @T06_N01, @T06_N02, @T06_N03, @T07_N01, @T07_N02, @T07_N03, @T08_N01, @T08_N02, @T08_N03, @T09_N01, @T09_N02, @T09_N03, @T10_N01, 
+		@T10_N02, @T10_N03, @T11_N01, @T11_N02, @T11_N03, @T12_N01, @T12_N02, @T12_N03, @T13_N01, @T13_N02, @T13_N03, @T14_N01, @T14_N02, @T14_N03, @T15_N01, @T15_N02, @T15_N03, @T16_N01, 
+		@T16_N02, @T16_N03, @T17_N01, @T17_N02, @T17_N03, @T18_N01, @T18_N02, @T18_N03, @T19_N01, @T19_N02, @T19_N03, @T20_N01, @T20_N02, @T20_N03, @T21_N01, @T21_N02, @T21_N03, @T22_N01, 
+		@T22_N02, @T22_N03, @T23_N01, @T23_N02, @T23_N03, @T24_N01, @T24_N02, @T24_N03, @T25_N01, @T25_N02, @T25_N03
+	end  
+	close CusorInterface
+
+	deallocate CusorInterface
+
+	
+	
+	PRINT '데이터 인서트 완료' + CONVERT(VARCHAR(20), @DT1,120) + ' / ' + CONVERT(VARCHAR(20), @DT2 - @DT1,120)
+	
+	SELECT @TCnt TotalCount, @cnt WorkCount, @TCnt-@cnt RemainQty
+	
+
+END
+";
+
+			sql.Excute_Query(qry, "");
+			
+		}
+
+
 	}
 }

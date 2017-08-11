@@ -42,7 +42,7 @@ namespace GM_Torqu_Tool_IF
 			inpPLC_Add_Data.Value = vari.plc.Add_Data;
 			inpPLC_Add_Confirm.Value = vari.plc.Add_Confirm;
 			inpPLC_Add_Info.Value = vari.plc.Add_Info;
-
+			chkIF_Check.Checked = vari.bIF_Chk;
 
 			chkWinStartUp.Checked = Function.clsFunction.StartUpPgm_isReg(vari.Pgm_Name, Application.ExecutablePath);
 
@@ -118,7 +118,8 @@ namespace GM_Torqu_Tool_IF
 
 			vari.StationID = inpStationID.Text;
 			vari.TorqueImagePath = inpImagePath.Text;
-			
+			vari.bIF_Chk = chkIF_Check.Checked;
+
 			//윈도우 시작 시 시작			
 			Function.clsFunction.StartUpPgm_Reg(chkWinStartUp.Checked, vari.Pgm_Name, Application.ExecutablePath);
 

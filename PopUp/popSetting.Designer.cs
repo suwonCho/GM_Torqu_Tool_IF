@@ -47,6 +47,7 @@
 			this.inpDBInit = new Function.form.usrInputBox();
 			this.inpImagePath = new Function.form.usrInputBox();
 			this.btnImagePath = new System.Windows.Forms.Button();
+			this.chkIF_Check = new System.Windows.Forms.CheckBox();
 			this.panel1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -78,7 +79,7 @@
 			this.txtSQL_Setting.Label_TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.txtSQL_Setting.Label_Visable = true;
 			this.txtSQL_Setting.LabelWidth = 120;
-			this.txtSQL_Setting.Location = new System.Drawing.Point(5, 81);
+			this.txtSQL_Setting.Location = new System.Drawing.Point(5, 107);
 			this.txtSQL_Setting.Multiline = false;
 			this.txtSQL_Setting.Name = "txtSQL_Setting";
 			this.txtSQL_Setting.Orientation = System.Windows.Forms.Orientation.Vertical;
@@ -102,7 +103,7 @@
 			this.label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
 			this.label1.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
 			this.label1.ForeColor = System.Drawing.Color.White;
-			this.label1.Location = new System.Drawing.Point(3, 162);
+			this.label1.Location = new System.Drawing.Point(3, 187);
 			this.label1.Name = "label1";
 			this.label1.Size = new System.Drawing.Size(397, 23);
 			this.label1.TabIndex = 1;
@@ -120,7 +121,7 @@
 			this.panel1.Controls.Add(this.inpPLC_Add_Trigger);
 			this.panel1.Controls.Add(this.inpPLC_RsLinx_ID);
 			this.panel1.Controls.Add(this.inpPLC_Topic);
-			this.panel1.Location = new System.Drawing.Point(3, 185);
+			this.panel1.Location = new System.Drawing.Point(3, 210);
 			this.panel1.Name = "panel1";
 			this.panel1.Size = new System.Drawing.Size(397, 183);
 			this.panel1.TabIndex = 2;
@@ -461,7 +462,7 @@
 			this.inpToolMng.Label_TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.inpToolMng.Label_Visable = true;
 			this.inpToolMng.LabelWidth = 120;
-			this.inpToolMng.Location = new System.Drawing.Point(5, 134);
+			this.inpToolMng.Location = new System.Drawing.Point(5, 160);
 			this.inpToolMng.Multiline = false;
 			this.inpToolMng.Name = "inpToolMng";
 			this.inpToolMng.Orientation = System.Windows.Forms.Orientation.Vertical;
@@ -481,7 +482,7 @@
 			// 
 			this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnCancel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.btnCancel.Location = new System.Drawing.Point(262, 371);
+			this.btnCancel.Location = new System.Drawing.Point(262, 396);
 			this.btnCancel.Name = "btnCancel";
 			this.btnCancel.Size = new System.Drawing.Size(64, 23);
 			this.btnCancel.TabIndex = 10;
@@ -493,7 +494,7 @@
 			// 
 			this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnSave.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.btnSave.Location = new System.Drawing.Point(332, 371);
+			this.btnSave.Location = new System.Drawing.Point(332, 396);
 			this.btnSave.Name = "btnSave";
 			this.btnSave.Size = new System.Drawing.Size(64, 23);
 			this.btnSave.TabIndex = 9;
@@ -506,7 +507,7 @@
 			// 
 			this.chkWinStartUp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.chkWinStartUp.AutoSize = true;
-			this.chkWinStartUp.Location = new System.Drawing.Point(3, 375);
+			this.chkWinStartUp.Location = new System.Drawing.Point(3, 400);
 			this.chkWinStartUp.Name = "chkWinStartUp";
 			this.chkWinStartUp.Size = new System.Drawing.Size(212, 16);
 			this.chkWinStartUp.TabIndex = 11;
@@ -633,7 +634,7 @@
 			this.inpDBInit.Label_TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
 			this.inpDBInit.Label_Visable = true;
 			this.inpDBInit.LabelWidth = 120;
-			this.inpDBInit.Location = new System.Drawing.Point(5, 107);
+			this.inpDBInit.Location = new System.Drawing.Point(5, 133);
 			this.inpDBInit.Multiline = false;
 			this.inpDBInit.Name = "inpDBInit";
 			this.inpDBInit.Orientation = System.Windows.Forms.Orientation.Vertical;
@@ -701,11 +702,23 @@
 			this.btnImagePath.UseVisualStyleBackColor = true;
 			this.btnImagePath.Click += new System.EventHandler(this.btnImagePath_Click);
 			// 
+			// chkIF_Check
+			// 
+			this.chkIF_Check.AutoSize = true;
+			this.chkIF_Check.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+			this.chkIF_Check.Location = new System.Drawing.Point(7, 83);
+			this.chkIF_Check.Name = "chkIF_Check";
+			this.chkIF_Check.Size = new System.Drawing.Size(96, 16);
+			this.chkIF_Check.TabIndex = 17;
+			this.chkIF_Check.Text = "I/F 사용 여부";
+			this.chkIF_Check.UseVisualStyleBackColor = true;
+			// 
 			// popSetting
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 12F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(403, 397);
+			this.ClientSize = new System.Drawing.Size(403, 422);
+			this.Controls.Add(this.chkIF_Check);
 			this.Controls.Add(this.btnImagePath);
 			this.Controls.Add(this.inpImagePath);
 			this.Controls.Add(this.inpDBInit);
@@ -753,5 +766,6 @@
 		private Function.form.usrInputBox inpDBInit;
 		private Function.form.usrInputBox inpImagePath;
 		private System.Windows.Forms.Button btnImagePath;
+		private System.Windows.Forms.CheckBox chkIF_Check;
 	}
 }

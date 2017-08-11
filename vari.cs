@@ -134,6 +134,11 @@ namespace GM_Torqu_Tool_IF
 		/// </summary>
 		public static int iLogMaxCnt = 100;
 
+		/// <summary>
+		/// DB I/F 처리 여부
+		/// </summary>
+		public static bool bIF_Chk = false;
+
 
 		/// <summary>
 		/// 변수 초기화
@@ -142,7 +147,7 @@ namespace GM_Torqu_Tool_IF
 		{
 			Pgm_Path = System.Windows.Forms.Application.StartupPath;
 			Pgm_Setting_FileName = $"{Pgm_Path}\\{Pgm_Setting_FileName}";
-
+			bool rb = false;
 
 			Pgm_Setting = new Setting(Pgm_Setting_FileName);
 
@@ -152,6 +157,8 @@ namespace GM_Torqu_Tool_IF
 			StationID = Pgm_Setting.Value_Get("StationID", "DEV_01");
 			iTestSeq = Fnc.obj2int(Pgm_Setting.Value_Get("TestSeq", "0"));
 			TorqueImagePath = Pgm_Setting.Value_Get("TorqueImagePath", "");
+			bIF_Chk = Fnc.obj2Bool(Pgm_Setting.Value_Get("IF_Check", "False"));
+			
 
 			//db 정보 로드
 			Pgm_Setting.Group_Select("MsSql");
@@ -215,7 +222,8 @@ namespace GM_Torqu_Tool_IF
 			vari.Pgm_Setting.Value_Set("TestSeq", iTestSeq.ToString());
 			vari.Pgm_Setting.Value_Set("OPMODE", ((int)OpMode).ToString());
 			vari.Pgm_Setting.Value_Set("TorqueImagePath", vari.TorqueImagePath);
-
+			vari.Pgm_Setting.Value_Set("IF_Check", vari.bIF_Chk.ToString());
+			
 
 			Pgm_Setting.Setting_Save();
 		}
