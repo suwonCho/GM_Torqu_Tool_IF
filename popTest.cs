@@ -84,9 +84,7 @@ namespace GM_Torqu_Tool_IF
 				thWork = new Thread(new ThreadStart(Work));
 				thWork.IsBackground = true;
 				thWork.Start();
-
-
-
+                
 				btnRun.Text = "취소";
 				isRun = true;
 
