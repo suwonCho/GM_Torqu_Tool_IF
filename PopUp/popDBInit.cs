@@ -143,7 +143,13 @@ namespace GM_Torqu_Tool_IF
 				lblMsg.Text = "DB Link 및 프로시져 생성을 시작합니다.";
 				Application.DoEvents();
 
-				dba_init.db_link_create(vari.conn, inpIF_DB.Value.Trim(), inpIF_ID.Value.Trim(), inpIF_Pass.Value.Trim());
+                //프로시져를 삭제 한다.
+                Function.Db.MsSQL.fnc_Procedure_Drop(vari.conn, proc_Name);
+
+                //연결된 서버를 삭제 한다.
+                Function.Db.MsSQL.fnc_LinkedServer_Drop(vari.conn, lnk_Name);
+                
+				dba_init.db_link_create(vari.conn, inpIF_DB.Text.Trim(), inpIF_ID.Text.Trim(), inpIF_Pass.Text.Trim());
 
 				dba_init.if_proc_create(vari.conn);
 

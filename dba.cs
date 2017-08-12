@@ -72,7 +72,21 @@ namespace GM_Torqu_Tool_IF
 			return sql.Excute_Query(qry, "").Tables[0];
 		}
 
-		public static void codedetail_save(string code, DataTable dt)
+        public static void dev_Station_set(string stationID)
+        {
+            MsSQL sql = new MsSQL(vari.conn);
+
+            string qry = string.Format(@"
+UPDATE T_CODEDETAIL
+    SET INFO1 = (case when codevalue = '{0}' then 'Y' ELSE 'N' END)
+WHERE COMPANY_ID = 'GM' AND PROG_ID = 'TORQUE' AND CODE = 'DEV_NAME'"
+, stationID);
+
+            sql.Excute_Query(qry, "");
+        }
+
+
+        public static void codedetail_save(string code, DataTable dt)
 		{
 			MsSQL sql = new MsSQL(vari.conn);
 
@@ -272,6 +286,19 @@ ORDER BY CreateDate DESC
 
 			return sql.Excute_Query(qry, "").Tables[0];
 		}
+
+        /// <summary>
+        /// 데이터 if 처리를 한다. 프로시져 수행
+        /// </summary>
+        /// <returns></returns>
+        public static DataTable IF_Result()
+        {
+            MsSQL sql = new MsSQL(vari.conn);
+
+            string qry = "P_RESULT_IF";
+
+            return sql.Excute_StoredProcedure(qry, null, "", false).Tables[0];
+        }
 
 
 	}

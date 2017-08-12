@@ -34,7 +34,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x86\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;TestPLC;Test</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;TestPLC1;Test1</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x86</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
@@ -164,10 +164,6 @@
     <ProjectReference Include="..\..\_Function\NewFunction\Function\Function\Function.csproj">
       <Project>{5843ebc1-ffab-4d2d-a61b-e53cdcf1d625}</Project>
       <Name>Function</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\_Function\NewFunction\PLC\clsPLCModule\clsPLCModule\clsPLCModule.csproj">
-      <Project>{863982ca-29cb-4ff7-b338-f770b85bc3c2}</Project>
-      <Name>clsPLCModule</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\_Function\NewFunction\PLC\PLCComm\PLCComm.csproj">
       <Project>{add5b9b9-cb9e-4407-bbd7-dd8d885d8ac7}</Project>

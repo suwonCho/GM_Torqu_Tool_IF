@@ -56,6 +56,12 @@ namespace GM_Torqu_Tool_IF
 		/// if 작업 여부
 		/// </summary>
 		bool isIF_Db = false;
+        /// <summary>
+        /// if 작업 텀 60초
+        /// </summary>
+        int iIF_Span = 30;
+
+        Function.Util.Log ifLog = null;
 
 		/// <summary>
 		/// db 연결 상태를 가져오거나 설정 한다.
@@ -116,19 +122,23 @@ namespace GM_Torqu_Tool_IF
 			tabImage.ImageIndex = 2;
 
 
-			clsLog = new Function.Util.Log(vari.Pgm_Path + "\\log", "log", 0, true);
+			clsLog = new Function.Util.Log(vari.Pgm_Path + "\\log", "log", 365 * 3, true);
+            ifLog = new Function.Util.Log(vari.Pgm_Path + "\\log_if", "log_if", 90, true);
 
 
-			//plc auth
-			AppAuth.Auth.Add("cQjVhgrEPBEfab5nTuCa5mcmhvAK5kp1bzUkY5jfYJ0=");
+            //plc auth
+            AppAuth.Auth.Add("cQjVhgrEPBEfab5nTuCa5mcmhvAK5kp1bzUkY5jfYJ0=");
 
 #if (!Test)
 			btnTest.Visible = false;
+            btnIF_Test.Visible = false;
 #endif
 
 
-			//테스트용 데이터
-			strTest = (@"W0LJC7E8XHB2432045777F06970G30OK10017093OK10027093OK10037093OK10048001OK10047093OK10057093OK10067007OK10077093OK10081011OK10127093OK112B7093OK10137093OK10147093OK114B7093OK10157705OK115A7093OK115B7093OK1016116BOK70937099OK10177093OK10187093OK118B7093OK
+
+
+            //테스트용 데이터
+            strTest = (@"W0LJC7E8XHB2432045777F06970G30OK10017093OK10027093OK10037093OK10048001OK10047093OK10057093OK10067007OK10077093OK10081011OK10127093OK112B7093OK10137093OK10147093OK114B7093OK10157705OK115A7093OK115B7093OK1016116BOK70937099OK10177093OK10187093OK118B7093OK
 W0LJC7E8XHB2432055778F06971G31OK10017093OK10027093OK10037093OK10048001OK10047093OK10057093OK10067007OK10077093OK10081011OK10127093OK112B7093OK10137093OK10147093OK114B7093OK10157705OK115A7093OK115B7093OK1016116BOK70937099OK10177093OK10187093OK118B7093OK
 W0LJC7E8XHB2432065779F06972G32OK10017093OK10027093OK10037093OK10048001OK10047093OK10057093OK10067007OK10077093OK10081011OK10127093OK112B7093OK10137093OK10147093OK114B7093OK10157705OK115A7093OK115B7093OK1016116BOK70937099OK10177093OK10187093OK118B7093OK
 W0LJC7E8XHB2432075780F06973G33OK10017093OK10027093OK10037093OK10048001OK10047093OK10057093OK10067007OK10077093OK10081011OK10127093OK112B7093OK10137093OK10147093OK114B7093OK10157705OK115A7093OK115B7093OK1016116BOK70937099OK10177093OK10187093OK118B7093OK
@@ -191,7 +201,7 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 				clsLog.WLog($"Data를 수신 했습니다.\r\n\t\t {info}");
 
 				info = info.Replace("\0", " ");
-
+                
 				string pono = Fnc.StringGet(ref info, 6);
 				string trimin = Fnc.StringGet(ref info, 4);
 				string vin = Fnc.StringGet(ref info, 18).Trim();
@@ -233,6 +243,8 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 			}
 
 			ListViewItem li = new ListViewItem(new string[] { string.Empty, Fnc.Date2String(dtm, Fnc.enDateType.DateTime), gbn, log });
+
+            if (isError) li.BackColor = Color.LightPink;
 
 			if (loc == enStringLocation.Front)
 				lv.Items.Insert(0, li);
@@ -327,12 +339,13 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 				if(vari.bIF_Chk)
 				{
 					lblIF_Status.Text = "";
-
-				}
+                    ifLog.WLog("FormInit I/F 활성 화 중..");
+                }
 				else
 				{
 					lblIF_Status.Text = "중지 중...";
-				}
+                    ifLog.WLog("FormInit I/F 중지 상태");
+                }
 
 
 				try
@@ -383,6 +396,15 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 						tmrDB_Chk = new System.Threading.Timer(new TimerCallback(Sql_Connection_Chk), null, 0, 10000);
 					else
 						Sql_Connection_Chk(null);
+
+                    //
+                    if(tmrIF_Chk == null)
+                        tmrIF_Chk = new System.Threading.Timer(new TimerCallback(IF_Db), null, 0, iIF_Span * 1000);
+                    else
+                        IF_Db(null);
+
+                    //코드 테이블의 info 정보 변경
+                    dba.dev_Station_set(vari.StationID);
 
 					//코드 정보 로드
 					vari.DB_CodeDetail_Load();
@@ -565,17 +587,35 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 		/// <param name="o"></param>
 		private void IF_Db(object o)
 		{
-			if (isIF_Db) return;
+            if (!vari.bIF_Chk) return;
+
+            if (isIF_Db) return;
 
 			try
 			{
 				isIF_Db = true;
-				
-			}
+                string msg;
+                DateTime tmS = DateTime.Now;
+                Function.form.control.Invoke_Control_Text(lblIF_Status, $"[{tmS.ToString("HH:mm:ss")}] IF작업 시작...");
+
+                DataTable dt = dba.IF_Result();
+
+                DataRow r = dt.Rows[0];
+
+                TimeSpan ts = DateTime.Now - tmS;
+
+                msg = string.Format("[처리시간]{0:F2}초 [대상]{1}건 [처리]{2}건 [잔여]{3}건", ts.TotalSeconds, r["TotalCount"], r["WorkCount"], r["RemainQty"]);
+                LvLogAdd(lstIFLog, DateTime.Now, "IF성공", msg, false, enStringLocation.Front);
+                ifLog.WLog(msg);
+
+                Function.form.control.Invoke_Control_Text(lblIF_Status, $"IF작업 대기 다음작업[{tmS.AddSeconds(iIF_Span).ToString("HH:mm:ss")}]");
+
+            }
 			catch(Exception ex)
 			{
-				LvLogAdd(lstIFLog, DateTime.Now, "IF오류", ex.Message, false, enStringLocation.End);
-			}
+				LvLogAdd(lstIFLog, DateTime.Now, "IF오류", ex.Message, true, enStringLocation.Front);
+                ifLog.WLog_Exception("IF_Db", ex);
+            }
 			finally
 			{
 				isIF_Db = false;
@@ -793,5 +833,16 @@ W0LJC7E8XHB2432245797F06990G50OK10017093OK10027093OK10037093OK10048001OK10047093
 
 			popImage.TopMost = false;
 		}
-	}
+
+        /// <summary>
+        /// if 테스트
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnIF_Test_Click(object sender, EventArgs e)
+        {
+            IF_Db(null);
+        }
+
+    }
 }

@@ -217,9 +217,10 @@ namespace GM_Torqu_Tool_IF
 
 
 			//프로그램 설정
-			Pgm_Setting.Group_Select("PGM");		
-
-			vari.Pgm_Setting.Value_Set("TestSeq", iTestSeq.ToString());
+			Pgm_Setting.Group_Select("PGM");
+            
+            vari.Pgm_Setting.Value_Set("StationID", StationID);
+            vari.Pgm_Setting.Value_Set("TestSeq", iTestSeq.ToString());
 			vari.Pgm_Setting.Value_Set("OPMODE", ((int)OpMode).ToString());
 			vari.Pgm_Setting.Value_Set("TorqueImagePath", vari.TorqueImagePath);
 			vari.Pgm_Setting.Value_Set("IF_Check", vari.bIF_Chk.ToString());
